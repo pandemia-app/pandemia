@@ -34,6 +34,17 @@ class VisitedPlacesCard extends CustomCard {
                   target: _center,
                   zoom: 13.75,
                 ),
+                myLocationButtonEnabled: false,
+                buildingsEnabled: false,
+                compassEnabled: false,
+                indoorViewEnabled: false,
+                mapToolbarEnabled: false,
+                myLocationEnabled: false,
+                trafficEnabled: false,
+                rotateGesturesEnabled: false,
+                scrollGesturesEnabled: false,
+                tiltGesturesEnabled: false,
+                zoomGesturesEnabled: false,
                 onMapCreated: (GoogleMapController c) {
                   c.setMapStyle(_mapStyle);
                 },

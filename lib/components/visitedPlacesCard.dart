@@ -19,6 +19,10 @@ class VisitedPlacesCard extends CustomCard {
     return Stack(
       children: <Widget>[
         Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: CustomPalette.palette[400]),
+            borderRadius: new BorderRadius.all(const Radius.circular(5.0))
+          ),
           child: new ClipRRect(
             borderRadius: new BorderRadius.all(const Radius.circular(5.0)),
             child: Align(

@@ -20,7 +20,7 @@ class VisitedPlacesCard extends CustomCard {
       children: <Widget>[
         Container(
           decoration: BoxDecoration(
-            border: Border.all(color: CustomPalette.palette[400]),
+            border: Border.all(color: CustomPalette.background[900]),
             borderRadius: new BorderRadius.all(const Radius.circular(5.0))
           ),
           child: new ClipRRect(
@@ -57,7 +57,7 @@ class VisitedPlacesCard extends CustomCard {
           child: new Text(
             "Locations I've visited today",
             style: TextStyle(
-              color: CustomPalette.palette[50],
+              color: CustomPalette.text[100],
               fontSize: 20,
               fontWeight: FontWeight.w300
             ),
@@ -69,7 +69,7 @@ class VisitedPlacesCard extends CustomCard {
           child: new Text(
             "0 place",
             style: TextStyle(
-                color: CustomPalette.palette[100],
+                color: CustomPalette.text[600],
                 fontSize: 18,
                 fontWeight: FontWeight.w300
             ),

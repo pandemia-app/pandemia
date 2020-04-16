@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
 class CustomCard extends StatelessWidget {
-  final Color cardColor = CustomPalette.palette[600];
-  final Color shadowColor = CustomPalette.palette[400];
+  final Color cardColor = CustomPalette.background[600];
+  final Color shadowColor = CustomPalette.background[900];
   final String title;
   CustomCard (this.title);
 

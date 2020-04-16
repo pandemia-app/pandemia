@@ -43,7 +43,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      backgroundColor: CustomPalette.palette[300],
+      backgroundColor: CustomPalette.background[700],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -60,9 +60,9 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        backgroundColor: CustomPalette.palette[800],
-        unselectedItemColor: CustomPalette.palette[100],
-        selectedItemColor: CustomPalette.palette[900],
+        backgroundColor: CustomPalette.background[500],
+        unselectedItemColor: CustomPalette.text[600],
+        selectedItemColor: Color(0xFF63aeff),
         onTap: _onItemTapped,
       ),
     );

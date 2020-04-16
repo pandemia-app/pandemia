@@ -6,7 +6,6 @@ import 'package:pandemia/utils/CustomPalette.dart';
 
 class HomeView extends StatelessWidget {
   HomeView();
-  final Color cardColor = CustomPalette.palette[600];
 
   @override
   Widget build(BuildContext context) {

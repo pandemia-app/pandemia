@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/home.dart';
+import 'package:pandemia/views/places/places.dart';
 import 'main.dart';
 
 class BottomNavigationWidgetState extends State<MyHomePage> {
@@ -14,10 +15,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
 
   final List<Widget> _widgetOptions = <Widget>[
     HomeView(),
-    Text(
-      'Index 1: Places',
-      style: optionStyle,
-    ),
+    PlacesView(),
     Text(
       'Index 2: Favorites',
       style: optionStyle,

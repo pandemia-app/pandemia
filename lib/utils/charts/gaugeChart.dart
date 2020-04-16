@@ -18,29 +18,72 @@ class GaugeChart extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return new Stack(
+    return new Row (
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Center(
-          child: Text("30%", style: TextStyle(fontSize: 42, color: CustomPalette.text[400]),),
+        Container (
+          width: 180,
+          margin: EdgeInsets.fromLTRB(0, 42, 0, 0),
+          child: Stack (
+            children: <Widget>[
+              Container (
+                transform: Matrix4.translationValues(58, 62, 0),
+                child: Text("30%", style: TextStyle(fontSize: 20, color: CustomPalette.text[400])),
+              ),
+
+              Container (
+                width: 150,
+                height: 150,
+                child: charts.PieChart(
+                    seriesList,
+                    animate: animate,
+                    defaultRenderer: new charts.ArcRendererConfig(
+                        arcWidth: 10, startAngle: pi, arcLength: 2*pi)),
+              ),
+            ],
+          ),
         ),
 
-        charts.PieChart(
-            seriesList,
-            animate: animate,
-            defaultRenderer: new charts.ArcRendererConfig(
-            arcWidth: 30, startAngle: 4/5 * pi, arcLength: 7/5*pi)),
-
-        Center (
+        Expanded (
           child: Container (
             width: 200,
-            transform: Matrix4.translationValues(25, 50, 0),
+            // transform: Matrix4.translationValues(25, -15, 0),
             child: Text("I might have been exposed today",
                 style: TextStyle(fontSize: 20, color: CustomPalette.text[400])),
           ),
         )
+      ],
+    );
+
+    Stack(
+      children: <Widget>[
+        Container (
+          transform: Matrix4.translationValues(0, -60, 0),
+          child: Center(
+            child: Text("30%", style: TextStyle(fontSize: 42, color: CustomPalette.text[400])),
+          ),
+        ),
+
+        Container (
+          height: 200,
+          width: 200,
+          child: charts.PieChart(
+              seriesList,
+              animate: animate,
+              defaultRenderer: new charts.ArcRendererConfig(
+                  arcWidth: 10, startAngle: pi, arcLength: 2*pi)),
+        ),
+
+
+        Container (
+          width: 200,
+          transform: Matrix4.translationValues(25, -15, 0),
+          child: Text("I might have been exposed today",
+              style: TextStyle(fontSize: 20, color: CustomPalette.text[400])),
+        ),
+
       ],
     );
   }

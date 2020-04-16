@@ -10,23 +10,12 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea (
-      child: CustomScrollView(
-        primary: false,
-        slivers: <Widget>[
-          SliverPadding(
-              padding: const EdgeInsets.all(0),
-              sliver: SliverGrid.count(
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 20,
-                crossAxisCount: 1,
-                children: <Widget>[
-                  MyExpositionCard('exposition for today'),
-                  ExpositionProgressionCard('exposition progression'),
-                  VisitedPlacesCard("places i've visited today")
-                ],
-              ),
-          ),
-        ],
+      child: ListView(
+        children: <Widget>[
+          MyExpositionCard('exposition for today'),
+          ExpositionProgressionCard('exposition progression'),
+          VisitedPlacesCard("places i've visited today")
+        ]
       )
     );
   }

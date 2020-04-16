@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pandemia/components/card.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -17,6 +16,7 @@ class VisitedPlacesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container (
+      height: 350,
       margin: const EdgeInsets.all(20),
       child: Stack(
         children: <Widget>[

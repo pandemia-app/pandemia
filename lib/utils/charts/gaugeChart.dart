@@ -25,6 +25,7 @@ class GaugeChart extends StatelessWidget {
       children: <Widget>[
         Container (
           width: 180,
+          height: 150,
           margin: EdgeInsets.fromLTRB(0, 42, 0, 0),
           child: Stack (
             children: <Widget>[

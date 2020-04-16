@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pandemia/components/card.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/gaugeChart.dart';
 
@@ -14,6 +13,7 @@ class MyExpositionCard extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Container (
+      margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
       child: Stack (
         children: <Widget>[
           Container(

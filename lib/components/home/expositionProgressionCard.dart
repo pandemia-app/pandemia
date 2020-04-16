@@ -11,6 +11,7 @@ class ExpositionProgressionCard extends CustomCard {
   Widget build(BuildContext context) {
     return
       new Container (
+        height: 400,
         color: cardColor,
         child: Stack (
           children: <Widget>[

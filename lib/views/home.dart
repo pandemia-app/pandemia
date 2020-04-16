@@ -9,12 +9,12 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-      CustomScrollView(
+    return SafeArea (
+      child: CustomScrollView(
         primary: false,
         slivers: <Widget>[
           SliverPadding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(0),
               sliver: SliverGrid.count(
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 20,
@@ -27,6 +27,7 @@ class HomeView extends StatelessWidget {
               ),
           ),
         ],
-      );
+      )
+    );
   }
 }

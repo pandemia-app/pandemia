@@ -16,8 +16,9 @@ class ExpositionProgressionCard extends CustomCard {
         child: Stack (
           children: <Widget>[
             Container (
-                child: SimpleLineChart.withSampleData(),
-                margin: EdgeInsets.fromLTRB(10, 50, 10, 10)
+
+                child: TimeSeriesChart.withSampleData(),
+                margin: EdgeInsets.fromLTRB(15, 60, 0, 15),
             ),
 
             Container(

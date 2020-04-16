@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pandemia/components/visitedPlacesCard.dart';
+import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/views/places/places.dart';
 
 class PlacesState extends State<PlacesView> {

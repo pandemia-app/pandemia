@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pandemia/components/card.dart';
-import 'package:pandemia/components/visitedPlacesCard.dart';
+import 'package:pandemia/components/home/myExpositionCard.dart';
+import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
 class HomeView extends StatelessWidget {
@@ -20,7 +21,7 @@ class HomeView extends StatelessWidget {
                 mainAxisSpacing: 20,
                 crossAxisCount: 1,
                 children: <Widget>[
-                  CustomCard("my exposition for today"),
+                  MyExpositionCard('exposition for today'),
                   CustomCard('progression of the exposition'),
                   VisitedPlacesCard("places i've visited today")
                 ],

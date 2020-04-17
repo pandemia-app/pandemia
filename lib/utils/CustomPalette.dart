@@ -29,4 +29,19 @@ class CustomPalette {
         900: Color(0xFF000000)
       }
   );
+
+  static const List<Color> heatmap = [
+    Color(0x222196F3),
+    Color(0x55228FF1),
+    Color(0x882388EF),
+    Color(0xbb2482EC),
+    Color(0xee257BEA),
+    Color(0xff2674E8),
+    Color(0xff266DE6),
+    Color(0xff2766E4),
+    Color(0xff285FE2),
+    Color(0xff2959DF),
+    Color(0xff2A52DD),
+    Color(0xff2B4BDB)
+  ];
 }

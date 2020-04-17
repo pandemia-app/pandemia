@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
+import 'package:pandemia/utils/map/Heatmap.dart';
 
 class VisitedPlacesCard extends StatelessWidget {
   static String _mapStyle;
@@ -15,6 +16,21 @@ class VisitedPlacesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Set<Heatmap> _heatmaps = new Set();
+    _heatmaps.add(
+        Heatmap(
+            heatmapId: HeatmapId("42"),
+            points: HeatmapUtils.points,
+            radius: 15,
+            visible: true,
+            opacity: 1,
+            transparency: 0,
+            gradient:  HeatmapGradient(
+                colors: <Color>[Colors.green, Colors.red], startPoints: <double>[0.2, 0.8]
+            )
+        )
+    );
+
     return Container (
       height: 350,
       margin: const EdgeInsets.all(20),
@@ -36,6 +52,7 @@ class VisitedPlacesCard extends StatelessWidget {
                       target: _center,
                       zoom: 13.75,
                     ),
+                    heatmaps: _heatmaps,
                     myLocationButtonEnabled: false,
                     buildingsEnabled: false,
                     compassEnabled: false,

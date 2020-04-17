@@ -26,7 +26,9 @@ class VisitedPlacesCard extends StatelessWidget {
             opacity: 1,
             transparency: 0,
             gradient:  HeatmapGradient(
-                colors: <Color>[Colors.green, Colors.red], startPoints: <double>[0.2, 0.8]
+                colors: CustomPalette.heatmap,
+                startPoints: <double>[0.101, 0.202, 0.303, 0.404, 0.505, 0.606,
+                  0.807, 0.808, 0.809, 0.810, 0.811, 0.812]
             )
         )
     );

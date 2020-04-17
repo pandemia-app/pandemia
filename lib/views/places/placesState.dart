@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
+import 'package:pandemia/utils/map/Heatmap.dart';
 import 'package:pandemia/views/places/places.dart';
 
 class PlacesState extends State<PlacesView> {
@@ -16,6 +17,20 @@ class PlacesState extends State<PlacesView> {
 
   @override
   Widget build(BuildContext context) {
+    final Set<Heatmap> _heatmaps = new Set();
+    _heatmaps.add(
+        Heatmap(
+            heatmapId: HeatmapId("42"),
+            points: HeatmapUtils.points,
+            radius: 15,
+            visible: true,
+            opacity: 1,
+            transparency: 0,
+            gradient:  HeatmapGradient(
+                colors: <Color>[Colors.green, Colors.red], startPoints: <double>[0.2, 0.8]
+            )
+        )
+    );
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
     });
@@ -27,6 +42,7 @@ class PlacesState extends State<PlacesView> {
             target: _center,
             zoom: 13.75,
           ),
+          heatmaps: _heatmaps,
         ),
       ),
     );

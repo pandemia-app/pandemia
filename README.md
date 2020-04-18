@@ -1,4 +1,4 @@
-# pandemia
+# Pandemia
 
 Pandemia is an open source initiative to build a mobile app to fight against pandemia.
 

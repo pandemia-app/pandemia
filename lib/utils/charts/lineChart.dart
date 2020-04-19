@@ -31,7 +31,21 @@ class TimeSeriesChart extends StatelessWidget {
       dateTimeFactory: const charts.LocalDateTimeFactory(),
 
       primaryMeasureAxis: new charts.NumericAxisSpec(
-        tickProviderSpec: new charts.BasicNumericTickProviderSpec(desiredTickCount: 10),
+        tickProviderSpec: new charts.StaticNumericTickProviderSpec(
+          <charts.TickSpec<num>>[
+            charts.TickSpec<num>(0),
+            charts.TickSpec<num>(10),
+            charts.TickSpec<num>(20),
+            charts.TickSpec<num>(30),
+            charts.TickSpec<num>(40),
+            charts.TickSpec<num>(50),
+            charts.TickSpec<num>(60),
+            charts.TickSpec<num>(70),
+            charts.TickSpec<num>(80),
+            charts.TickSpec<num>(90),
+            charts.TickSpec<num>(100),
+          ],
+        ),
           renderSpec: new charts.GridlineRendererSpec(
             // Tick and Label styling here.
               labelStyle: new charts.TextStyleSpec(

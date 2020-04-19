@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
 class TimeSeriesChart extends StatelessWidget {
@@ -11,7 +14,7 @@ class TimeSeriesChart extends StatelessWidget {
   /// Creates a [TimeSeriesChart] with sample data and no transition.
   factory TimeSeriesChart.withSampleData() {
     return new TimeSeriesChart(
-      _createSampleData(),
+      _generateRandomData(),
       animate: true,
     );
   }
@@ -55,21 +58,19 @@ class TimeSeriesChart extends StatelessWidget {
     );
   }
 
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<TimeExposition, DateTime>> _createSampleData() {
-    final data = [
-      new TimeExposition(new DateTime(2020, 3, 30), 5),
-      new TimeExposition(new DateTime(2020, 3, 31), 15),
-      new TimeExposition(new DateTime(2020, 4, 2), 30),
-      new TimeExposition(new DateTime(2020, 4, 5), 42),
-      new TimeExposition(new DateTime(2020, 4, 6), 41),
-      new TimeExposition(new DateTime(2020, 4, 8), 39),
-      new TimeExposition(new DateTime(2020, 4, 10), 37),
-      new TimeExposition(new DateTime(2020, 4, 11), 35),
-      new TimeExposition(new DateTime(2020, 4, 13), 33),
-      new TimeExposition(new DateTime(2020, 4, 15), 31),
-      new TimeExposition(new DateTime(2020, 4, 16), 30),
-    ];
+  /// generates random data from time t to today's date
+  static List<charts.Series<TimeExposition, DateTime>> _generateRandomData() {
+    var tDate = DateTime.parse("2020-03-30");
+    var days = new DateTime.now().difference(tDate).inDays;
+    var random = new Random.secure();
+    var data = new List<TimeExposition>();
+    
+    for (var i=0; i<days; i++) {
+      data.add(
+          new TimeExposition(
+              tDate.add(new Duration(days: i)),
+              random.nextInt(100)));
+    }
 
     return [
       new charts.Series<TimeExposition, DateTime>(
@@ -77,7 +78,7 @@ class TimeSeriesChart extends StatelessWidget {
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         domainFn: (TimeExposition exposition, _) => exposition.time,
         measureFn: (TimeExposition exposition, _) => exposition.value,
-        data: data,
+        data: data
       )
     ];
   }

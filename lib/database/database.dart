@@ -6,6 +6,7 @@ import 'models/Location.dart';
 
 class LocationsDatabase {
   Database database;
+  final String tName = "locations";
 
   Future<void> open () async {
     var dbPath = await getDatabasesPath();
@@ -20,9 +21,21 @@ class LocationsDatabase {
 
   Future<void> insertLocation(Location loc) async {
     await this.database.insert(
-      'locations',
+      this.tName,
       loc.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  Future<List<Location>> getLocations() async {
+    final List<Map<String, dynamic>> maps = await this.database.query(tName);
+    return List.generate(maps.length, (i) {
+      return Location(
+        id: maps[i]['id'],
+        lat: maps[i]['lat'],
+        lng: maps[i]['lng'],
+        timestamp: maps[i]['date']
+      );
+    });
   }
 }

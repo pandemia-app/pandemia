@@ -1,8 +1,8 @@
-import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
-
 class Location {
-  final LatLng position;
-  final DateTime timestamp;
+  final int id;
+  final double lat;
+  final double lng;
+  final int timestamp;
 
-  Location ({this.position, this.timestamp});
+  Location ({this.id, this.lat, this.lng, this.timestamp});
 }

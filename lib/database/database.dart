@@ -8,10 +8,10 @@ class LocationsDatabase {
   Future<void> open () async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'locations.db');
-    this.database = openDatabase(path, onCreate: (db, version) {
+    this.database = openDatabase(path, version: 1, onCreate: (db, version) {
       print("creating locations table");
       return db.execute(
-        "CREATE TABLE locations (coords LatLng, date Date)",
+        "CREATE TABLE locations (id INTEGER PRIMARY KEY, lat REAL, lng REAL, date INTEGER)",
       );
     });
   }

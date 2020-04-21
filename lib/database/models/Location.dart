@@ -8,10 +8,16 @@ class Location {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'lat': lat,
       'lng': lng,
       'date': timestamp
     };
   }
+
+  @override
+  String toString() {
+    return 'Location{id: $id, lat: $lat, lng: $lng, date: $timestamp}';
+  }
+
+
 }

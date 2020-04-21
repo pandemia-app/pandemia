@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pandemia/state/AppModel.dart';
+import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';

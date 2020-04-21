@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pandemia/database/database.dart';
-import 'package:pandemia/database/models/Location.dart';
-import 'package:pandemia/state/AppModel.dart';
+import 'package:pandemia/data/database/database.dart';
+import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/home.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:provider/provider.dart';
+import 'data/state/AppModel.dart';
 import 'main.dart';
 
 class BottomNavigationWidgetState extends State<MyHomePage> {

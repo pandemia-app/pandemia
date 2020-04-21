@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pandemia/navigator.dart';
-import 'package:pandemia/state/AppModel.dart';
 import 'package:provider/provider.dart';
+import 'data/state/AppModel.dart';
 
 void main() {
   runApp(

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pandemia/database/database.dart';
+import 'package:pandemia/database/models/Location.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/home.dart';
 import 'package:pandemia/views/places/places.dart';
@@ -25,7 +26,11 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
   ];
 
   void _onItemTapped(int index) {
-    db.open().then((erg) { return print("db opened"); });
+    db.open().then((erg) async {
+      var loc = new Location(id: 0, lat: 3.14, lng: 55.42, timestamp: DateTime.now().millisecondsSinceEpoch);
+      await db.insertLocation(loc);
+      return print("db opened");
+    });
     setState(() {
       _selectedIndex = index;
     });

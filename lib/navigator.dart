@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pandemia/database/database.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/home.dart';
 import 'package:pandemia/views/places/places.dart';
@@ -7,6 +8,7 @@ import 'main.dart';
 
 class BottomNavigationWidgetState extends State<MyHomePage> {
   final String title;
+  final LocationsDatabase db = new LocationsDatabase();
   BottomNavigationWidgetState({Key key, this.title}) : super ();
   int _selectedIndex = 0;
 
@@ -23,6 +25,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
   ];
 
   void _onItemTapped(int index) {
+    db.open().then((erg) { return print("db opened"); });
     setState(() {
       _selectedIndex = index;
     });

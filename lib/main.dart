@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pandemia/navigator.dart';
+import 'package:pandemia/state/AppModel.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppModel(),
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

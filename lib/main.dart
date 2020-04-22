@@ -1,12 +1,18 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:pandemia/navigator.dart';
+import 'package:provider/provider.dart';
+import 'data/state/AppModel.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 void main() {
   runZoned<Future<void>>(() async {
-    runApp(MyApp());
+    runApp(
+      ChangeNotifierProvider(
+        create: (context) => AppModel(),
+        child: MyApp(),
+      ),
+    );
   }, onError: Crashlytics.instance.recordError);
 }
 

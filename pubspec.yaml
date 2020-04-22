@@ -20,8 +20,12 @@ dependencies:
   flutter:
     sdk: flutter
   charts_flutter: ^0.9.0
-  google_maps_flutter_heatmap: ^0.1.1
   firebase_crashlytics: ^0.1.3+3
+  google_maps_flutter: ^0.5.26+2
+  intl: ^0.16.1
+  sqflite:
+  path:
+  provider: ^3.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/gaugeChart.dart';
+import 'package:intl/intl.dart';
 
 class MyExpositionCard extends StatelessWidget {
   MyExpositionCard(String title);
-
-  String getFormattedDate () {
-    return "16/04/2020";
-  }
 
   Widget build(BuildContext context) {
     return Container (
@@ -41,7 +38,7 @@ class MyExpositionCard extends StatelessWidget {
 
                 Container(
                     child: new Text(
-                      getFormattedDate(),
+                      new DateFormat("dd/MM/yyyy").format(new DateTime.now()),
                       style: TextStyle(
                           color: CustomPalette.text[600],
                           fontSize: 18,

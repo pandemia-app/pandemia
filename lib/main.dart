@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/navigator.dart';
 import 'package:provider/provider.dart';
+import 'data/database/database.dart';
 import 'data/state/AppModel.dart';
+import 'package:geolocator/geolocator.dart';
+
+var geolocator = Geolocator();
+var locationOptions = LocationOptions(accuracy: LocationAccuracy.best, timeInterval: 5000);
+final LocationsDatabase db = new LocationsDatabase();
 
 void main() {
   runApp(
@@ -16,6 +23,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    db.open();
+    geolocator.getPositionStream(locationOptions).listen((Position position) {
+      if (position == null) return;
+      var loc = new Location(id: 0, lat: position.latitude, lng: position.longitude,
+          timestamp: position.timestamp.millisecondsSinceEpoch);
+      db.insertLocation(loc).then((_) => print('new location stored: $loc'));
+    });
+
     return MaterialApp(
       title: 'Pandemia',
       home: MyHomePage(),

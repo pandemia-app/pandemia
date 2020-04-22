@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pandemia/data/database/database.dart';
-import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/home.dart';
 import 'package:pandemia/views/places/places.dart';
@@ -11,7 +9,6 @@ import 'main.dart';
 
 class BottomNavigationWidgetState extends State<MyHomePage> {
   final String title;
-  final LocationsDatabase db = new LocationsDatabase();
   BottomNavigationWidgetState({Key key, this.title}) : super ();
 
   static const TextStyle optionStyle =
@@ -27,13 +24,6 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
   ];
 
   void _onItemTapped(int index) {
-    db.open().then((erg) async {
-      var loc = new Location(id: 0, lat: 3.14, lng: 55.42, timestamp: DateTime.now().millisecondsSinceEpoch);
-      await db.insertLocation(loc);
-      print (await db.getLocations());
-      return print("db opened");
-    });
-
     Provider.of<AppModel>(context, listen: false).setTabIndex(index);
   }
 

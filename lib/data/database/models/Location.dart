@@ -2,7 +2,7 @@ class Location {
   final int id;
   final double lat;
   final double lng;
-  final int timestamp;
+  final DateTime timestamp;
 
   Location ({this.id, this.lat, this.lng, this.timestamp});
 
@@ -10,13 +10,13 @@ class Location {
     return {
       'lat': lat,
       'lng': lng,
-      'date': timestamp
+      'date': timestamp.millisecondsSinceEpoch
     };
   }
 
   @override
   String toString() {
-    return 'Location{id: $id, lat: $lat, lng: $lng, date: $timestamp}';
+    return '{lat: $lat, lng: $lng, date: $timestamp}';
   }
 
 

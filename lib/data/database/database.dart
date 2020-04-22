@@ -34,7 +34,7 @@ class LocationsDatabase {
         id: maps[i]['id'],
         lat: maps[i]['lat'],
         lng: maps[i]['lng'],
-        timestamp: maps[i]['date']
+        timestamp: new DateTime(maps[i]['date'])
       );
     });
   }

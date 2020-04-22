@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     geolocator.getPositionStream(locationOptions).listen((Position position) {
       if (position == null) return;
       var loc = new Location(id: 0, lat: position.latitude, lng: position.longitude,
-          timestamp: position.timestamp.millisecondsSinceEpoch);
+          timestamp: position.timestamp);
       db.insertLocation(loc).then((_) => print('new location stored: $loc'));
     });
 

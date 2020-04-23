@@ -33,8 +33,11 @@ class FavoritesState extends State<FavoritesView> {
             new FlatButton(
               child: new Text("Remove"),
               onPressed: () {
-                // _data.removeWhere((i) => i == item);
+                _data.removeWhere((i) => i == item);
                 Navigator.of(context).pop();
+                setState(() {
+                  _data = _data;
+                });
               },
             ),
           ],

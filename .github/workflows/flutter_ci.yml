@@ -1,0 +1,62 @@
+name: Flutter CI
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    name: "Static code analysis"
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - uses: actions/checkout@v2.1.0
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - uses: subosito/flutter-action@v1
+    - run: flutter pub get
+    - name: Lint analysis
+      run: flutter analyze
+
+  build-android:
+    name: "Build Android apk"
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2.1.0
+    - uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: 'stable'
+    - run: flutter pub get
+
+    - name: Build Pandemia APK
+      run: flutter build apk
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Pandemia.apk
+        path: build/app/outputs/apk/release/app-release.apk
+
+  build-iOS:
+    name: Build iOS package
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - name: Upgrade flutter
+        run: |
+          flutter channel master
+          flutter upgrade
+      - name: build iOS Pandemia package
+        run: flutter build ios --release --no-codesign
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Pandemia.app
+          path: build/ios/iphoneos/Runner.app

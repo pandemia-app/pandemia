@@ -35,9 +35,9 @@ jobs:
     - name: Build Pandemia APK
       run: flutter build apk
     - uses: actions/upload-artifact@v1
-        with:
-          name: Pandemia.apk
-          path: build/app/outputs/apk/release/app-release.apk
+      with:
+        name: Pandemia.apk
+        path: build/app/outputs/apk/release/app-release.apk
 
   build-iOS:
     name: Build iOS package
@@ -57,6 +57,6 @@ jobs:
       - name: build iOS Pandemia package
         run: flutter build ios --release --no-codesign
     - uses: actions/upload-artifact@v1
-        with:
-          name: Pandemia.app
-          path: build/ios/iphoneos/Runner.app
+      with:
+        name: Pandemia.app
+        path: build/ios/iphoneos/Runner.app

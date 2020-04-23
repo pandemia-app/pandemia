@@ -26,30 +26,28 @@ class SimpleBarChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
-    final data = [
-      new OrdinalSales('2014', 5),
-      new OrdinalSales('2015', 25),
-      new OrdinalSales('2016', 100),
-      new OrdinalSales('2017', 75),
-    ];
+  static List<charts.Series<CrowdRate, String>> _createSampleData() {
+    final data = new List<CrowdRate>();
+    final rates = [0, 0, 0, 0, 0, 0, 0, 0, 20, 25, 30, 40, 35, 38, 42, 45, 42, 57, 62, 0, 0, 0, 0, 0, 0];
+    for (var i=0; i<25; i++) {
+      data.add(new CrowdRate(i.toString(), rates[i]));
+    }
 
     return [
-      new charts.Series<OrdinalSales, String>(
-        id: 'Sales',
+      new charts.Series<CrowdRate, String>(
+        id: 'Crowds',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
+        domainFn: (CrowdRate cr, _) => cr.hour,
+        measureFn: (CrowdRate cr, _) => cr.rate,
         data: data,
       )
     ];
   }
 }
 
-/// Sample ordinal data type.
-class OrdinalSales {
-  final String year;
-  final int sales;
+class CrowdRate {
+  final String hour;
+  final int rate;
 
-  OrdinalSales(this.year, this.sales);
+  CrowdRate (this.hour, this.rate);
 }

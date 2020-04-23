@@ -52,7 +52,11 @@ class FavoritesState extends State<FavoritesView> {
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       title: Text(item.name, style: TextStyle(color: CustomPalette.text[200])),
-                      subtitle: Text(item.address, style: TextStyle(color: CustomPalette.text[500])),
+                      subtitle: Text(item.address,
+                        style: TextStyle(color: CustomPalette.text[500]),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: isExpanded ? 3 : 1,
+                      ),
                     ),
                   );
                 },

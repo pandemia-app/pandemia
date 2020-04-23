@@ -1,31 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/favorites/view.dart';
 
-class Item {
-  Item({
-    this.expandedValue,
-    this.headerValue,
-    this.isExpanded = false,
-  });
-
-  String expandedValue;
-  String headerValue;
-  bool isExpanded;
-}
-
-List<Item> generateItems(int numberOfItems) {
-  return List.generate(numberOfItems, (int index) {
-    return Item(
-      headerValue: 'Place no $index',
-      expandedValue: 'This is item number $index',
-    );
-  });
+List<Favorite> generateItems() {
+  return [
+    Favorite (name: "MONOPRIX Dunkerque", address: "9 Place de la République, 59140 Dunkerque"),
+    Favorite (name: "3 Brasseurs Dunkerque", address: "Rue des Fusiliers Marins, 59140 Dunkerque"),
+    Favorite (name: "Cora Dunkerque", address: "BP, 50039 Rue Jacquard, 59411 Coudekerque-Branche")
+  ];
 }
 
 class FavoritesState extends State<FavoritesView> {
-  List<Item> _data = generateItems(15);
+  List<Favorite> _data = generateItems();
 
   @override
   Widget build(BuildContext context) {
@@ -55,15 +43,15 @@ class FavoritesState extends State<FavoritesView> {
                 }
               });
             },
-            children: _data.map<ExpansionPanel>((Item item) {
+            children: _data.map<ExpansionPanel>((Favorite item) {
               return ExpansionPanel(
                 canTapOnHeader: true,
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return Container (
                     margin: EdgeInsets.all(0),
                     child: ListTile(
-                      title: Text(item.headerValue, style: TextStyle(color: CustomPalette.text[200])),
-                      subtitle: Text('Address', style: TextStyle(color: CustomPalette.text[500])),
+                      title: Text(item.name, style: TextStyle(color: CustomPalette.text[200])),
+                      subtitle: Text(item.address, style: TextStyle(color: CustomPalette.text[500])),
                     ),
                   );
                 },
@@ -76,7 +64,7 @@ class FavoritesState extends State<FavoritesView> {
                   color: CustomPalette.background[300],
                   child: ListTile(
                       title: Text(
-                          item.expandedValue,
+                          item.name,
                         style: TextStyle(color: CustomPalette.text[100]),
                       )
                   ),

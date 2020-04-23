@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
+import 'package:pandemia/utils/charts/barChart.dart';
 import 'package:pandemia/views/favorites/view.dart';
 
 List<Favorite> generateItems() {
@@ -32,7 +33,7 @@ class FavoritesState extends State<FavoritesView> {
         margin: EdgeInsets.all(0),
         child: Theme(
           data: Theme.of(context).copyWith(
-              cardColor: CustomPalette.background[400],
+              cardColor: CustomPalette.background[500],
           ),
           child:ExpansionPanelList(
             expansionCallback: (int index, bool isExpanded) {
@@ -61,12 +62,10 @@ class FavoritesState extends State<FavoritesView> {
                       borderRadius: BorderRadius.zero,
                   ) ,
                   borderOnForeground: true,
-                  color: CustomPalette.background[300],
-                  child: ListTile(
-                      title: Text(
-                          item.name,
-                        style: TextStyle(color: CustomPalette.text[100]),
-                      )
+                  color: CustomPalette.background[600],
+                  child: Container (
+                    height: 200,
+                    child: SimpleBarChart.withSampleData(),
                   ),
                 ),
                 isExpanded: item.isExpanded

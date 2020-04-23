@@ -40,48 +40,52 @@ class FavoritesState extends State<FavoritesView> {
   Widget _buildPanel() {
     return
       Container(
-          color: CustomPalette.background[700],
-          margin: EdgeInsets.all(0),
-          child: Theme(
-          data: Theme.of(context).copyWith(cardColor: Colors.red),
-
-    child:ExpansionPanelList(
-        expansionCallback: (int index, bool isExpanded) {
-          setState(() {
-            for (var i=0, len=_data.length; i<len; i++) {
-              _data[i].isExpanded =
-              i == index ? !isExpanded : false;
-            }
-          });
-        },
-        children: _data.map<ExpansionPanel>((Item item) {
-          return ExpansionPanel(
-            canTapOnHeader: true,
-            headerBuilder: (BuildContext context, bool isExpanded) {
-              return Container (
-                margin: EdgeInsets.all(0),
-                child: ListTile(
-                  subtitle: Text('Address'),
-                  title: Text(item.headerValue, style: TextStyle(color: CustomPalette.text[200]),),
-                ),
-              );
+        color: CustomPalette.background[700],
+        margin: EdgeInsets.all(0),
+        child: Theme(
+          data: Theme.of(context).copyWith(
+              cardColor: CustomPalette.background[400],
+          ),
+          child:ExpansionPanelList(
+            expansionCallback: (int index, bool isExpanded) {
+              setState(() {
+                for (var i=0, len=_data.length; i<len; i++) {
+                  _data[i].isExpanded =
+                  i == index ? !isExpanded : false;
+                }
+              });
             },
-            body: Card(
-              margin: EdgeInsets.all(0),
-              shape: ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.zero,
-              ) ,
-              borderOnForeground: true,
-              color: Colors.green,
-              child: ListTile(
-                  title: Text(item.expandedValue)
-              ),
-            ),
-            isExpanded: item.isExpanded
-          );
-        }).toList(),
-      )
-    )
+            children: _data.map<ExpansionPanel>((Item item) {
+              return ExpansionPanel(
+                canTapOnHeader: true,
+                headerBuilder: (BuildContext context, bool isExpanded) {
+                  return Container (
+                    margin: EdgeInsets.all(0),
+                    child: ListTile(
+                      title: Text(item.headerValue, style: TextStyle(color: CustomPalette.text[200])),
+                      subtitle: Text('Address', style: TextStyle(color: CustomPalette.text[500])),
+                    ),
+                  );
+                },
+                body: Card(
+                  margin: EdgeInsets.all(0),
+                  shape: ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                  ) ,
+                  borderOnForeground: true,
+                  color: CustomPalette.background[300],
+                  child: ListTile(
+                      title: Text(
+                          item.expandedValue,
+                        style: TextStyle(color: CustomPalette.text[100]),
+                      )
+                  ),
+                ),
+                isExpanded: item.isExpanded
+              );
+            }).toList(),
+          )
+        )
       );
   }
 }

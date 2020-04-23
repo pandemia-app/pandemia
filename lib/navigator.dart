@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
+import 'package:pandemia/views/favorites/view.dart';
 import 'package:pandemia/views/home.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:provider/provider.dart';
@@ -20,10 +21,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
   final List<Widget> _widgetOptions = <Widget>[
     HomeView(),
     PlacesView(),
-    Text(
-      'Index 2: Favorites',
-      style: optionStyle,
-    ),
+    FavoritesView()
   ];
 
   void _onItemTapped(int index) {

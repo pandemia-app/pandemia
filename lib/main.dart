@@ -7,7 +7,7 @@ import 'data/state/AppModel.dart';
 import 'package:geolocator/geolocator.dart';
 
 var geolocator = Geolocator();
-var locationOptions = LocationOptions(accuracy: LocationAccuracy.best, timeInterval: 5000);
+var locationOptions = LocationOptions(accuracy: LocationAccuracy.best, timeInterval: 60000);
 final LocationsDatabase db = new LocationsDatabase();
 
 void main() {

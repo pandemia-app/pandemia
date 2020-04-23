@@ -16,6 +16,33 @@ List<Favorite> generateItems() {
 class FavoritesState extends State<FavoritesView> {
   List<Favorite> _data = generateItems();
 
+  void _showDialog(Favorite item) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Remove place"),
+          content: new Text("Do you want to remove ${item.name} from your favorite places?"),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Remove"),
+              onPressed: () {
+                // _data.removeWhere((i) => i == item);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -48,16 +75,19 @@ class FavoritesState extends State<FavoritesView> {
               return ExpansionPanel(
                 canTapOnHeader: true,
                 headerBuilder: (BuildContext context, bool isExpanded) {
-                  return Container (
-                    margin: EdgeInsets.all(0),
-                    child: ListTile(
-                      title: Text(item.name, style: TextStyle(color: CustomPalette.text[200])),
-                      subtitle: Text(item.address,
-                        style: TextStyle(color: CustomPalette.text[500]),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: isExpanded ? 3 : 1,
+                  return GestureDetector(
+                    onLongPress: () => _showDialog(item),
+                    child: Container (
+                      margin: EdgeInsets.all(0),
+                      child: ListTile(
+                        title: Text(item.name, style: TextStyle(color: CustomPalette.text[200])),
+                        subtitle: Text(item.address,
+                          style: TextStyle(color: CustomPalette.text[500]),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: isExpanded ? 3 : 1,
+                        ),
                       ),
-                    ),
+                    )
                   );
                 },
                 body: Card(

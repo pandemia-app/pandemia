@@ -33,6 +33,8 @@ class AppDatabase {
   }
 
   Future<void> insertFavoritePlace(Favorite fav) async {
+    if (this.database == null)
+      await open();
     await this.database.insert(
       this.fName,
       fav.toMap(),
@@ -53,6 +55,9 @@ class AppDatabase {
   }
 
   Future<List<Favorite>> getFavoritePlaces() async {
+    if (this.database == null)
+      await open();
+
     final List<Map<String, dynamic>> maps = await this.database.query(fName);
     return List.generate(maps.length, (i) {
       return Favorite(

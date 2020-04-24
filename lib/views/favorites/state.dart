@@ -8,27 +8,36 @@ import 'package:pandemia/views/favorites/view.dart';
 
 class FavoritesState extends State<FavoritesView> {
   AppDatabase db = new AppDatabase();
-  List<Favorite> _data = new List();
+  final List<Favorite> _data = new List();
 
   void _addSamplePlaces () {
     setState(() {
+      // closing all tabs
       for (var f in _data)
         f.isExpanded = false;
-      _data.add
-        (Favorite (id: DateTime.now().millisecondsSinceEpoch,
-          name: "MONOPRIX Dunkerque",
-          address: "9 Place de la République, 59140 Dunkerque"));
-      _data.add
-        (Favorite (id: DateTime.now().millisecondsSinceEpoch,
-          name: "3 Brasseurs Dunkerque",
-          address: "Rue des Fusiliers Marins, 59140 Dunkerque"));
-      _data.add
-        (Favorite (id: DateTime.now().millisecondsSinceEpoch,
-            name: "Cora Dunkerque",
-            address: "BP, 50039 Rue Jacquard, 59411 Coudekerque-Branche"));
+    });
+
+    var p1 = Favorite (id: DateTime.now().millisecondsSinceEpoch,
+        name: "MONOPRIX Dunkerque",
+        address: "9 Place de la République, 59140 Dunkerque");
+    var p2 = Favorite (id: DateTime.now().millisecondsSinceEpoch,
+        name: "3 Brasseurs Dunkerque",
+        address: "Rue des Fusiliers Marins, 59140 Dunkerque");
+    var p3 = Favorite (id: DateTime.now().millisecondsSinceEpoch,
+        name: "Cora Dunkerque",
+        address: "BP, 50039 Rue Jacquard, 59411 Coudekerque-Branche");
+
+    db.insertFavoritePlace(p1);
+    db.insertFavoritePlace(p2);
+    db.insertFavoritePlace(p3);
+
+    // forcing component refresh
+    setState(() {
+      _data.add(p1);
+      _data.add(p2);
+      _data.add(p3);
     });
   }
-
 
   void _showDialog(Favorite item) {
     showDialog(
@@ -61,21 +70,36 @@ class FavoritesState extends State<FavoritesView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomPalette.background[700],
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => _addSamplePlaces(),
-        tooltip: "Add sample places",
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            child: _buildPanel(),
-            padding: EdgeInsets.all(20),
-          ),
-        ),
-      )
+    return FutureBuilder<List<Favorite>>(
+        future: db.getFavoritePlaces(),
+        builder: (context, AsyncSnapshot<List<Favorite>> snapshot) {
+          if (!snapshot.hasData)
+            return CircularProgressIndicator();
+
+          if (_data.length == 0) {
+            _data.clear();
+            _data.addAll(snapshot.data);
+            print(_data.length);
+          }
+
+          return Scaffold(
+            key: Key("value"),
+              backgroundColor: CustomPalette.background[700],
+              floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: () => _addSamplePlaces(),
+                tooltip: "Add sample places",
+              ),
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: _buildPanel(),
+                    padding: EdgeInsets.all(20),
+                  ),
+                ),
+              )
+          );
+        }
     );
   }
 

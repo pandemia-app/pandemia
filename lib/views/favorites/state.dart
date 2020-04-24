@@ -5,16 +5,28 @@ import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/barChart.dart';
 import 'package:pandemia/views/favorites/view.dart';
 
-List<Favorite> generateItems() {
-  return [
-    Favorite (name: "MONOPRIX Dunkerque", address: "9 Place de la République, 59140 Dunkerque"),
-    Favorite (name: "3 Brasseurs Dunkerque", address: "Rue des Fusiliers Marins, 59140 Dunkerque"),
-    Favorite (name: "Cora Dunkerque", address: "BP, 50039 Rue Jacquard, 59411 Coudekerque-Branche")
-  ];
-}
-
 class FavoritesState extends State<FavoritesView> {
-  List<Favorite> _data = generateItems();
+  List<Favorite> _data = new List(); // generateItems();
+
+  void _addSamplePlaces () {
+    setState(() {
+      for (var f in _data)
+        f.isExpanded = false;
+      _data.add
+        (Favorite (id: DateTime.now().millisecondsSinceEpoch,
+          name: "MONOPRIX Dunkerque",
+          address: "9 Place de la République, 59140 Dunkerque"));
+      _data.add
+        (Favorite (id: DateTime.now().millisecondsSinceEpoch,
+          name: "3 Brasseurs Dunkerque",
+          address: "Rue des Fusiliers Marins, 59140 Dunkerque"));
+      _data.add
+        (Favorite (id: DateTime.now().millisecondsSinceEpoch,
+            name: "Cora Dunkerque",
+            address: "BP, 50039 Rue Jacquard, 59411 Coudekerque-Branche"));
+    });
+  }
+
 
   void _showDialog(Favorite item) {
     showDialog(
@@ -33,10 +45,9 @@ class FavoritesState extends State<FavoritesView> {
             new FlatButton(
               child: new Text("Remove"),
               onPressed: () {
-                _data.removeWhere((i) => i == item);
                 Navigator.of(context).pop();
                 setState(() {
-                  _data = _data;
+                  _data.removeWhere((i) => i == item);
                 });
               },
             ),
@@ -48,18 +59,27 @@ class FavoritesState extends State<FavoritesView> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        child: _buildPanel(),
-        padding: EdgeInsets.all(20),
+    return Scaffold(
+      backgroundColor: CustomPalette.background[700],
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _addSamplePlaces(),
+        tooltip: "Add sample places",
       ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            child: _buildPanel(),
+            padding: EdgeInsets.all(20),
+          ),
+        ),
+      )
     );
   }
 
   Widget _buildPanel() {
     return
       Container(
-        color: CustomPalette.background[700],
         margin: EdgeInsets.all(0),
         child: Theme(
           data: Theme.of(context).copyWith(

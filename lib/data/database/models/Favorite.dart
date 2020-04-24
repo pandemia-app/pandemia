@@ -9,6 +9,7 @@ class Favorite {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'address': address
     };

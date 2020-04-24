@@ -35,6 +35,7 @@ class AppDatabase {
   Future<void> insertFavoritePlace(Favorite fav) async {
     if (this.database == null)
       await open();
+    print('adding new place (${fav.id})');
     await this.database.insert(
       this.fName,
       fav.toMap(),
@@ -66,5 +67,12 @@ class AppDatabase {
           address: maps[i]['address']
       );
     });
+  }
+
+  Future<void> removeFavoritePlace (int id) async {
+    print('removing $id');
+    if (this.database == null)
+      await open();
+    await database.delete( fName, where: "id = ?", whereArgs: [id]);
   }
 }

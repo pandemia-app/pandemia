@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pandemia/data/database/database.dart';
@@ -10,33 +12,34 @@ class FavoritesState extends State<FavoritesView> {
   AppDatabase db = new AppDatabase();
   final List<Favorite> _data = new List();
 
-  void _addSamplePlaces () {
-    setState(() {
-      // closing all tabs
-      for (var f in _data)
-        f.isExpanded = false;
-    });
-
-    var p1 = Favorite (id: DateTime.now().millisecondsSinceEpoch,
+  void _addSamplePlaces () async {
+    var now = DateTime.now().millisecondsSinceEpoch;
+    var p1 = Favorite (id: now + 1,
         name: "MONOPRIX Dunkerque",
         address: "9 Place de la République, 59140 Dunkerque");
-    var p2 = Favorite (id: DateTime.now().millisecondsSinceEpoch,
+    var p2 = Favorite (id: now + 2,
         name: "3 Brasseurs Dunkerque",
         address: "Rue des Fusiliers Marins, 59140 Dunkerque");
-    var p3 = Favorite (id: DateTime.now().millisecondsSinceEpoch,
+    var p3 = Favorite (id: now + 3,
         name: "Cora Dunkerque",
         address: "BP, 50039 Rue Jacquard, 59411 Coudekerque-Branche");
 
-    db.insertFavoritePlace(p1);
-    db.insertFavoritePlace(p2);
-    db.insertFavoritePlace(p3);
+    var futures = <Future>[
+      db.insertFavoritePlace(p1),
+      db.insertFavoritePlace(p2),
+      db.insertFavoritePlace(p3)
+    ];
 
     // forcing component refresh
+    await Future.wait(futures);
     setState(() {
       _data.add(p1);
       _data.add(p2);
       _data.add(p3);
+      for (var f in _data)
+        f.isExpanded = false;
     });
+
   }
 
   void _showDialog(Favorite item) {
@@ -57,8 +60,11 @@ class FavoritesState extends State<FavoritesView> {
               child: new Text("Remove"),
               onPressed: () {
                 Navigator.of(context).pop();
-                setState(() {
-                  _data.removeWhere((i) => i == item);
+                db.removeFavoritePlace(item.id)
+                .then((_) {
+                  setState(() {
+                    _data.removeWhere((i) => i == item);
+                  });
                 });
               },
             ),
@@ -79,11 +85,10 @@ class FavoritesState extends State<FavoritesView> {
           if (_data.length == 0) {
             _data.clear();
             _data.addAll(snapshot.data);
-            print(_data.length);
+            print('building ${snapshot.data.length} items');
           }
 
           return Scaffold(
-            key: Key("value"),
               backgroundColor: CustomPalette.background[700],
               floatingActionButton: FloatingActionButton(
                 child: Icon(Icons.add),

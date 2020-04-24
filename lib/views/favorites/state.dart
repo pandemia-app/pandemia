@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pandemia/data/database/database.dart';
@@ -7,10 +5,28 @@ import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/barChart.dart';
 import 'package:pandemia/views/favorites/view.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class FavoritesState extends State<FavoritesView> {
   AppDatabase db = new AppDatabase();
   final List<Favorite> _data = new List();
+  RefreshController _refreshController =
+    RefreshController(initialRefresh: false);
+
+  void _onRefresh() async{
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 2000));
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async{
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    if(mounted)
+      setState((){});
+    _refreshController.loadComplete();
+  }
 
   void _addSamplePlaces () async {
     var now = DateTime.now().millisecondsSinceEpoch;
@@ -88,19 +104,33 @@ class FavoritesState extends State<FavoritesView> {
             print('building ${snapshot.data.length} items');
           }
 
-          return Scaffold(
-              backgroundColor: CustomPalette.background[700],
-              floatingActionButton: FloatingActionButton(
-                child: Icon(Icons.add),
-                onPressed: () => _addSamplePlaces(),
-                tooltip: "Add sample places",
-              ),
-              body: SafeArea(
-                child: SingleChildScrollView(
-                  child: Container(
-                    child: _buildPanel(),
-                    padding: EdgeInsets.all(20),
-                  ),
+          return SafeArea(
+              child: Scaffold(
+                body: SmartRefresher(
+                    enablePullDown: true,
+                    header: ClassicHeader(
+                      idleText: "Pull to refresh metrics",
+                      releaseText: "Release to refresh metrics",
+                      refreshingText: "Computing metrics...",
+                      completeText: "Results imported."),
+                    controller: _refreshController,
+                    onRefresh: _onRefresh,
+                    onLoading: _onLoading,
+                    child: SafeArea(
+                      child: SingleChildScrollView(
+                        child: Container(
+                          child: _buildPanel(),
+                          padding: EdgeInsets.all(20),
+                        ),
+                      ),
+                    )
+                ),
+
+                backgroundColor: CustomPalette.background[700],
+                floatingActionButton: FloatingActionButton(
+                  child: Icon(Icons.add),
+                  onPressed: () => _addSamplePlaces(),
+                  tooltip: "Add sample places",
                 ),
               )
           );

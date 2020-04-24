@@ -1,12 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/barChart.dart';
 import 'package:pandemia/views/favorites/view.dart';
 
 class FavoritesState extends State<FavoritesView> {
-  List<Favorite> _data = new List(); // generateItems();
+  AppDatabase db = new AppDatabase();
+  List<Favorite> _data = new List();
 
   void _addSamplePlaces () {
     setState(() {

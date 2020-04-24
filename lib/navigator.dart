@@ -12,7 +12,7 @@ import 'main.dart';
 
 class BottomNavigationWidgetState extends State<MyHomePage> {
   final String title;
-  final LocationsDatabase db = new LocationsDatabase();
+  final AppDatabase db = new AppDatabase();
   BottomNavigationWidgetState({Key key, this.title}) : super ();
 
   static const TextStyle optionStyle =

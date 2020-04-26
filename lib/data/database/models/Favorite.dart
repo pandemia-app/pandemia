@@ -5,7 +5,7 @@ class Favorite {
   final Map<int, int> attendance;
   bool isExpanded;
 
-  Favorite ({this.id, this.name, this.address, this.attendance, this.isExpanded = false});
+  Favorite ({this.id, this.name, this.address, this.attendance, this.isExpanded = true});
 
   Map<String, dynamic> toMap() {
     return {

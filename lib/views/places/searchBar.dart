@@ -10,6 +10,7 @@ import 'package:pandemia/utils/secret/SecretLoader.dart';
 
 class SearchBar extends StatelessWidget {
   GoogleMapController mapController;
+  final TextEditingController _controller = new TextEditingController();
   SearchBar ({this.mapController});
 
   @override
@@ -18,8 +19,18 @@ class SearchBar extends StatelessWidget {
       child: Container (
         margin: EdgeInsets.all(10),
         child: TextField(
+          controller: _controller,
             style: TextStyle(color: CustomPalette.text[400]),
               decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    Future.delayed(Duration(milliseconds: 50)).then((_) {
+                      _controller.clear();
+                      FocusScope.of(context).unfocus();
+                    });
+                    },
+                  icon: Icon(Icons.clear, color: CustomPalette.text[400]),
+                ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(width: 1,color: CustomPalette.text[400]),

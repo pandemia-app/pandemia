@@ -9,10 +9,12 @@ class PlacesState extends State<PlacesView> {
   GoogleMapController mapController;
   String _mapStyle;
   final LatLng _center = const LatLng(50.6311652, 3.0477402);
+  final searchBar = new SearchBar();
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     controller.setMapStyle(_mapStyle);
+    searchBar.mapController = controller;
   }
 
   @override
@@ -35,7 +37,7 @@ class PlacesState extends State<PlacesView> {
 
             Align(
               alignment: Alignment.topCenter,
-              child: SearchBar(),
+              child: searchBar,
             )
           ],
         )

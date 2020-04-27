@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -8,6 +9,9 @@ import 'package:pandemia/utils/secret/Secret.dart';
 import 'package:pandemia/utils/secret/SecretLoader.dart';
 
 class SearchBar extends StatelessWidget {
+  GoogleMapController mapController;
+  SearchBar ({this.mapController});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,7 +55,24 @@ class SearchBar extends StatelessWidget {
         print('no matching place found');
         break;
       case 1:
-        print('going to ${candidates[0]['geometry']['location']}');
+        var place = candidates[0];
+        var location =
+          new LatLng(
+              place['geometry']['location']['lat'],
+              place['geometry']['location']['lng']
+          );
+        var viewport = place['geometry']['viewport'];
+        print('going to $location');
+        mapController.animateCamera(
+            CameraUpdate.newLatLng(location));
+        mapController.animateCamera(
+            CameraUpdate.newLatLngBounds(
+                new LatLngBounds(
+                    southwest: new LatLng(
+                        viewport['southwest']['lat'], viewport['southwest']['lng']),
+                    northeast: new LatLng(
+                        viewport['northeast']['lat'], viewport['northeast']['lng']))
+                , 0));
         break;
       default:
         // TODO display list of addresses

@@ -25,6 +25,12 @@ class PlacesState extends State<PlacesView> {
         pAddress = place['formatted_address'];
       });
     };
+    searchBar.closeCallback = () {
+      setState(() {
+        pName = null;
+        pAddress = null;
+      });
+    };
   }
 
   @override
@@ -41,6 +47,7 @@ class PlacesState extends State<PlacesView> {
           children: <Widget>[
             GoogleMap(
               onMapCreated: _onMapCreated,
+              zoomControlsEnabled: false,
               initialCameraPosition: CameraPosition(
                 target: _center,
                 zoom: 13.75,

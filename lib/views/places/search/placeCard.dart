@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../../utils/CustomPalette.dart';
 import '../../../utils/CustomPalette.dart';
 
 class PlaceCard extends StatelessWidget {
@@ -26,13 +24,12 @@ class PlaceCard extends StatelessWidget {
         )
         ),
         subtitle: Text("$address", style: TextStyle(
-            color: CustomPalette.text[600],
-            fontSize: 18,
+            color: CustomPalette.text[300],
+            fontSize: 16,
             fontWeight: FontWeight.w300
         ),),
         trailing: Icon(Icons.star_border),
       ),
     );
   }
-
 }

@@ -55,7 +55,8 @@ class SearchBar extends StatelessWidget {
     Secret secret = await SecretLoader(secretPath: "secrets.json").load();
     const _host = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';
     var encoded = Uri.encodeComponent(address);
-    final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery&fields=name,formatted_address,geometry&key=${secret.apiKey}');
+    // TODO filter place types (prevent registering cities, for example, for they cannot provide popular times)
+    final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery&fields=name,place_id,formatted_address,geometry&key=${secret.apiKey}');
     print('hitting $uri');
 
     http.Response response = await http.get (uri);

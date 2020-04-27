@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:pandemia/utils/secret/Secret.dart';
 import 'package:pandemia/utils/secret/SecretLoader.dart';
 
+// ignore: must_be_immutable
 class SearchBar extends StatelessWidget {
   GoogleMapController mapController;
   final TextEditingController _controller = new TextEditingController();

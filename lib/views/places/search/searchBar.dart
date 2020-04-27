@@ -4,13 +4,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:pandemia/utils/secret/Secret.dart';
 import 'package:pandemia/utils/secret/SecretLoader.dart';
 
 class SearchBar extends StatelessWidget {
   GoogleMapController mapController;
   final TextEditingController _controller = new TextEditingController();
+  Function callback;
   SearchBar ({this.mapController});
 
   @override
@@ -84,6 +84,7 @@ class SearchBar extends StatelessWidget {
                     northeast: new LatLng(
                         viewport['northeast']['lat'], viewport['northeast']['lng']))
                 , 0));
+        callback(place);
         break;
       default:
         // TODO display list of addresses

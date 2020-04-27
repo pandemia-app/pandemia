@@ -24,6 +24,8 @@ class PlacesState extends State<PlacesView> {
     });
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomPadding: false,
         body: Stack (
           fit: StackFit.passthrough,
           children: <Widget>[

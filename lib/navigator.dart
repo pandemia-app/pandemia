@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
+import 'package:pandemia/views/favorites/view.dart';
 import 'package:pandemia/views/home.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,7 @@ import 'main.dart';
 
 class BottomNavigationWidgetState extends State<MyHomePage> {
   final String title;
-  final LocationsDatabase db = new LocationsDatabase();
+  final AppDatabase db = new AppDatabase();
   BottomNavigationWidgetState({Key key, this.title}) : super ();
 
   static const TextStyle optionStyle =
@@ -20,10 +21,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
   final List<Widget> _widgetOptions = <Widget>[
     HomeView(),
     PlacesView(),
-    Text(
-      'Index 2: Favorites',
-      style: optionStyle,
-    ),
+    FavoritesView()
   ];
 
   void _onItemTapped(int index) {

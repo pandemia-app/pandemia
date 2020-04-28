@@ -65,8 +65,41 @@ class FavoritesState extends State<FavoritesView> {
     return FutureBuilder<List<Favorite>>(
         future: db.getFavoritePlaces(),
         builder: (context, AsyncSnapshot<List<Favorite>> snapshot) {
-          if (!snapshot.hasData)
-            return CircularProgressIndicator();
+          if (!snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Center (
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      child: new Text(
+                        "Nothing to see here!",
+                        style: TextStyle(
+                            color: CustomPalette.text[100],
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300
+                        ),
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                    ),
+
+                    Container(
+                        child: new Text(
+                          "Try to add places via the Places view.",
+                          style: TextStyle(
+                              color: CustomPalette.text[600],
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 10.0)
+                    )
+                  ],
+                )
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          }
 
           if (_data.length == 0) {
             _data.clear();

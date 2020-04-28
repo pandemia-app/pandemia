@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:pandemia/views/places/search/placeCard.dart';
 import 'package:pandemia/views/places/search/searchBar.dart';
@@ -11,8 +12,7 @@ class PlacesState extends State<PlacesView> {
   String _mapStyle;
   final LatLng _center = const LatLng(50.6311652, 3.0477402);
   final searchBar = new SearchBar();
-  String pName;
-  String pAddress;
+  Favorite fPlace;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -21,14 +21,15 @@ class PlacesState extends State<PlacesView> {
     searchBar.callback = (dynamic place) {
       print(place);
       setState(() {
-        pName = place['name'];
-        pAddress = place['formatted_address'];
+        fPlace =
+            Favorite(address: place['formatted_address'], name: place['name'],
+            id: place['place_id']);
+        print(fPlace);
       });
     };
     searchBar.closeCallback = () {
       setState(() {
-        pName = null;
-        pAddress = null;
+        fPlace = null;
       });
     };
   }
@@ -61,7 +62,7 @@ class PlacesState extends State<PlacesView> {
 
             Align(
               alignment: Alignment.bottomCenter,
-              child: PlaceCard(name: pName, address: pAddress)
+              child: PlaceCard(place: fPlace)
             )
           ],
         )

@@ -28,36 +28,6 @@ class FavoritesState extends State<FavoritesView> {
     _refreshController.loadComplete();
   }
 
-  void _addSamplePlaces () async {
-    var now = DateTime.now().millisecondsSinceEpoch;
-    var p1 = Favorite (id: now + 1,
-        name: "MONOPRIX Dunkerque",
-        address: "9 Place de la République, 59140 Dunkerque");
-    var p2 = Favorite (id: now + 2,
-        name: "3 Brasseurs Dunkerque",
-        address: "Rue des Fusiliers Marins, 59140 Dunkerque");
-    var p3 = Favorite (id: now + 3,
-        name: "Cora Dunkerque",
-        address: "BP, 50039 Rue Jacquard, 59411 Coudekerque-Branche");
-
-    var futures = <Future>[
-      db.insertFavoritePlace(p1),
-      db.insertFavoritePlace(p2),
-      db.insertFavoritePlace(p3)
-    ];
-
-    // forcing component refresh
-    await Future.wait(futures);
-    setState(() {
-      _data.add(p1);
-      _data.add(p2);
-      _data.add(p3);
-      for (var f in _data)
-        f.isExpanded = false;
-    });
-
-  }
-
   void _showDialog(Favorite item) {
     showDialog(
       context: context,
@@ -126,12 +96,7 @@ class FavoritesState extends State<FavoritesView> {
                     )
                 ),
 
-                backgroundColor: CustomPalette.background[700],
-                floatingActionButton: FloatingActionButton(
-                  child: Icon(Icons.add),
-                  onPressed: () => _addSamplePlaces(),
-                  tooltip: "Add sample places",
-                ),
+                backgroundColor: CustomPalette.background[700]
               )
           );
         }

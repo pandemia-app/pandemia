@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
+import 'package:pandemia/data/state/AppModel.dart';
+import 'package:provider/provider.dart';
 import '../../../utils/CustomPalette.dart';
 
 class PlaceCard extends StatefulWidget {
@@ -12,11 +14,19 @@ class PlaceCard extends StatefulWidget {
 }
 
 class _PlaceCardState extends State<PlaceCard> {
+  IconData icon = Icons.star_border;
+
   @override
   Widget build(BuildContext context) {
     if (widget.place == null) {
       return new Container ();
     }
+
+    isPlaceRegistered(widget.place.id).then((value) {
+      setState(() {
+        icon = value == true ? Icons.star : Icons.star_border;
+      });
+    });
 
     return Container (
       margin: EdgeInsets.all(7),
@@ -33,16 +43,37 @@ class _PlaceCardState extends State<PlaceCard> {
             fontSize: 16,
             fontWeight: FontWeight.w300
         ),),
-        trailing: buildFavButton(widget.place.id),
+        trailing: buildFavButton(widget.place),
       ),
     );
   }
 
-  // TODO check if the place is already registered, and display logo accordingly
-  Widget buildFavButton (String placeId) {
+  Future<bool> isPlaceRegistered (String placeId) async {
+    return await Provider.of<AppModel>(context, listen: false)
+        .database.isPlaceRegistered(placeId);
+  }
+
+  Widget buildFavButton (Favorite place) {
     return IconButton(
-        icon: Icon(Icons.star_border),
-        onPressed: () => print("hello")
+        icon: Icon(icon),
+        onPressed: () async {
+          if (await isPlaceRegistered(place.id)) {
+            Provider.of<AppModel>(context, listen: false)
+                .database.removeFavoritePlace(place.id).then((_) {
+              setState(() {
+                icon = Icons.star_border;
+              });
+            });
+          } else {
+            Provider.of<AppModel>(context, listen: false)
+                .database.insertFavoritePlace(place).then((_) {
+                    setState(() {
+                      icon = Icons.star;
+                    });
+              });
+          }
+        }
+
     );
   }
 }

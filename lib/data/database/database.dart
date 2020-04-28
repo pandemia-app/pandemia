@@ -19,7 +19,7 @@ class AppDatabase {
         "CREATE TABLE $lName (id INTEGER PRIMARY KEY, lat REAL, lng REAL, date INTEGER)",
       );
       db.execute(
-        "CREATE TABLE $fName (id INTEGER PRIMARY KEY, name TEXT, address TEXT)",
+        "CREATE TABLE $fName (id TEXT, name TEXT, address TEXT)",
       );
     });
   }
@@ -30,6 +30,16 @@ class AppDatabase {
       loc.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  Future<bool> isPlaceRegistered(String placeId) async {
+    if (this.database == null)
+      await open();
+    var place =
+      await this.database.rawQuery('SELECT * from $fName WHERE id = "$placeId";');
+    print(place);
+    // TODO check condition
+    return place.length == 0 ? false : true;
   }
 
   Future<void> insertFavoritePlace(Favorite fav) async {

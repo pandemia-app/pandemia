@@ -33,8 +33,16 @@ class _PlaceCardState extends State<PlaceCard> {
             fontSize: 16,
             fontWeight: FontWeight.w300
         ),),
-        trailing: Icon(Icons.star_border),
+        trailing: buildFavButton("placeId"),
       ),
+    );
+  }
+
+  // TODO check if the place is already registered, and display logo accordingly
+  Widget buildFavButton (String placeId) {
+    return IconButton(
+        icon: Icon(Icons.star_border),
+        onPressed: () => print("hello")
     );
   }
 }

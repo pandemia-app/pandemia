@@ -37,8 +37,6 @@ class AppDatabase {
       await open();
     var place =
       await this.database.rawQuery('SELECT * from $fName WHERE id = "$placeId";');
-    print(place);
-    // TODO check condition
     return place.length == 0 ? false : true;
   }
 

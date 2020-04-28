@@ -65,7 +65,7 @@ class FavoritesState extends State<FavoritesView> {
     return FutureBuilder<List<Favorite>>(
         future: db.getFavoritePlaces(),
         builder: (context, AsyncSnapshot<List<Favorite>> snapshot) {
-          if (!snapshot.hasData) {
+          if (!snapshot.hasData || snapshot.data.length == 0) {
             if (snapshot.connectionState == ConnectionState.done) {
               return Center (
                 child: Stack(

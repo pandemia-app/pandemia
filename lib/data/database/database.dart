@@ -69,7 +69,7 @@ class AppDatabase {
     });
   }
 
-  Future<void> removeFavoritePlace (int id) async {
+  Future<void> removeFavoritePlace (String id) async {
     print('removing $id');
     if (this.database == null)
       await open();

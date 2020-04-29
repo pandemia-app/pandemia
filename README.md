@@ -11,7 +11,7 @@ Pandemia is actively developed by members of the [Spirals research group](https:
 
 All this project's Dart code is located in the `lib` folder.
 
-## Mockups
+## Mockups 
 
 An interactive mockup of the application can be found at `resources/mockup.pdf`.
 

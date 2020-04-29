@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'data/state/AppModel.dart';
 
 void main() async {
-  await DotEnv().load('lib/.env');
+  await DotEnv().load('lib/.env.generated');
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppModel(),

@@ -19,7 +19,6 @@ class FavoritesState extends State<FavoritesView> {
     await Future.delayed(Duration(milliseconds: 2000));
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
-    _showKey();
   }
 
   void _onLoading() async{
@@ -58,18 +57,6 @@ class FavoritesState extends State<FavoritesView> {
         f.isExpanded = false;
     });
 
-  }
-
-  void _showKey() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text("Key display"),
-          content: new Text(AppModel.apiKey),
-        );
-      },
-    );
   }
 
   void _showDialog(Favorite item) {

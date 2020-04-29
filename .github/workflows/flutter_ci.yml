@@ -35,6 +35,8 @@ jobs:
     - run: flutter pub get
 
     - name: Generating .env file
+      env: # set secret as an environment variable
+        GMAPS_PLACES_API_KEY: ${{ secrets.GMAPS_PLACES_API_KEY }}
       run: dart tool/env.dart
 
     - name: Build Pandemia APK
@@ -60,7 +62,10 @@ jobs:
           flutter channel master
           flutter upgrade
       - name: Generating .env file
+        env: # set secret as an environment variable
+          GMAPS_PLACES_API_KEY: ${{ secrets.GMAPS_PLACES_API_KEY }}
         run: dart tool/env.dart
+
       - name: build iOS Pandemia package
         run: flutter build ios --release --no-codesign
       - uses: actions/upload-artifact@v1

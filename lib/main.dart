@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pandemia/navigator.dart';
 import 'package:provider/provider.dart';
 import 'data/state/AppModel.dart';
 
-void main() {
+void main() async {
+  await DotEnv().load('lib/.env.generated');
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppModel(),

@@ -55,7 +55,6 @@ flutter:
   #  - images/a_dot_ham.jpeg
   assets:
     - assets/mapstyle.txt
-    - secrets.json
     - lib/.env.generated
 
   # An image asset can refer to one or more resolution-specific "variants", see

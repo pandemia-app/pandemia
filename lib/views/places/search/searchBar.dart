@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:pandemia/utils/secret/Secret.dart';
-import 'package:pandemia/utils/secret/SecretLoader.dart';
 
 // ignore: must_be_immutable
 class SearchBar extends StatelessWidget {
@@ -53,11 +52,11 @@ class SearchBar extends StatelessWidget {
   }
 
   void findPlaceFromString (String address) async {
-    Secret secret = await SecretLoader(secretPath: "secrets.json").load();
+    String key = AppModel.apiKey;
     const _host = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';
     var encoded = Uri.encodeComponent(address);
     // TODO filter place types (prevent registering cities, for example, for they cannot provide popular times)
-    final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery&fields=name,place_id,formatted_address,geometry&key=${secret.apiKey}');
+    final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery&fields=name,place_id,formatted_address,geometry&key=$key');
     print('hitting $uri');
 
     http.Response response = await http.get (uri);

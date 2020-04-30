@@ -1,8 +1,6 @@
 import 'dart:math';
-
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
 class TimeSeriesChart extends StatelessWidget {

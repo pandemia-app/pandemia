@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pandemia/navigator.dart';
 import 'package:provider/provider.dart';
 import 'data/state/AppModel.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-void main() {
+void main() async {
+  await DotEnv().load('lib/.env.generated');
   runZoned<Future<void>>(() async {
     runApp(
       ChangeNotifierProvider(

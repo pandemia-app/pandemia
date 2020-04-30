@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "127536505126",
-    "firebase_url": "https://pandemia-274308.firebaseio.com",
-    "project_id": "pandemia-274308",
-    "storage_bucket": "pandemia-274308.appspot.com"
+    "project_number": "790618610786",
+    "firebase_url": "https://pandemia-c8196.firebaseio.com",
+    "project_id": "pandemia-c8196",
+    "storage_bucket": "pandemia-c8196.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:127536505126:android:c49eee8a8e897c1ea821e7",
+        "mobilesdk_app_id": "1:790618610786:android:26189b88a0072e0dfdc53b",
         "android_client_info": {
           "package_name": "fr.inria.pandemia"
         }
       },
       "oauth_client": [
         {
-          "client_id": "127536505126-cbic6dir6i84tas0duodv1hdiao6c44n.apps.googleusercontent.com",
+          "client_id": "790618610786-jvqc5a0o43mvab6f2a41b40g3ve1h2jk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB7rvLk4lEUyTIaqL_67PC-3pzDuXzgZxo"
+          "current_key": "AIzaSyAnHaHdrclgW1MeYRrx6zz-fFg5r8XAZ4U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "127536505126-cbic6dir6i84tas0duodv1hdiao6c44n.apps.googleusercontent.com",
+              "client_id": "790618610786-jvqc5a0o43mvab6f2a41b40g3ve1h2jk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

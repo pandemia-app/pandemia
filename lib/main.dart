@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pandemia/navigator.dart';
 import 'package:provider/provider.dart';
-import 'data/database/database.dart';
 import 'data/state/AppModel.dart';
 import 'package:geolocator/geolocator.dart';
 
 var geolocator = Geolocator();
 var locationOptions = LocationOptions(accuracy: LocationAccuracy.best, timeInterval: 60000);
-final LocationsDatabase db = new LocationsDatabase();
+final AppDatabase db = new AppDatabase();
 
-void main() {
+void main() async {
+  await DotEnv().load('lib/.env.generated');
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppModel(),

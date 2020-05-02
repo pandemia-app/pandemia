@@ -2,16 +2,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/views/places/places.dart';
+import 'package:pandemia/views/places/search/placeCard.dart';
+import 'package:pandemia/views/places/search/searchBar.dart';
 
 class PlacesState extends State<PlacesView> {
   GoogleMapController mapController;
   String _mapStyle;
   final LatLng _center = const LatLng(50.6311652, 3.0477402);
+  final searchBar = new SearchBar();
+  Favorite fPlace;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
     controller.setMapStyle(_mapStyle);
+    searchBar.mapController = controller;
+    searchBar.callback = (dynamic place) {
+      print(place);
+      setState(() {
+        fPlace =
+            Favorite(address: place['formatted_address'], name: place['name'],
+            id: place['place_id']);
+        print(fPlace);
+      });
+    };
+    searchBar.closeCallback = () {
+      setState(() {
+        fPlace = null;
+      });
+    };
   }
 
   @override
@@ -21,13 +41,31 @@ class PlacesState extends State<PlacesView> {
     });
     return MaterialApp(
       home: Scaffold(
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 13.75,
-          ),
-        ),
+        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomPadding: false,
+        body: Stack (
+          fit: StackFit.passthrough,
+          children: <Widget>[
+            GoogleMap(
+              onMapCreated: _onMapCreated,
+              zoomControlsEnabled: false,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 13.75,
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.topCenter,
+              child: searchBar,
+            ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: PlaceCard(place: fPlace)
+            )
+          ],
+        )
       ),
     );
   }

@@ -28,36 +28,6 @@ class FavoritesState extends State<FavoritesView> {
     _refreshController.loadComplete();
   }
 
-  void _addSamplePlaces () async {
-    var now = DateTime.now().millisecondsSinceEpoch;
-    var p1 = Favorite (id: now + 1,
-        name: "MONOPRIX Dunkerque",
-        address: "9 Place de la République, 59140 Dunkerque");
-    var p2 = Favorite (id: now + 2,
-        name: "3 Brasseurs Dunkerque",
-        address: "Rue des Fusiliers Marins, 59140 Dunkerque");
-    var p3 = Favorite (id: now + 3,
-        name: "Cora Dunkerque",
-        address: "BP, 50039 Rue Jacquard, 59411 Coudekerque-Branche");
-
-    var futures = <Future>[
-      db.insertFavoritePlace(p1),
-      db.insertFavoritePlace(p2),
-      db.insertFavoritePlace(p3)
-    ];
-
-    // forcing component refresh
-    await Future.wait(futures);
-    setState(() {
-      _data.add(p1);
-      _data.add(p2);
-      _data.add(p3);
-      for (var f in _data)
-        f.isExpanded = false;
-    });
-
-  }
-
   void _showDialog(Favorite item) {
     showDialog(
       context: context,
@@ -95,8 +65,41 @@ class FavoritesState extends State<FavoritesView> {
     return FutureBuilder<List<Favorite>>(
         future: db.getFavoritePlaces(),
         builder: (context, AsyncSnapshot<List<Favorite>> snapshot) {
-          if (!snapshot.hasData)
-            return CircularProgressIndicator();
+          if (!snapshot.hasData || snapshot.data.length == 0) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Center (
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      child: new Text(
+                        "Nothing to see here!",
+                        style: TextStyle(
+                            color: CustomPalette.text[100],
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300
+                        ),
+                      ),
+                      padding: EdgeInsets.all(10.0),
+                    ),
+
+                    Container(
+                        child: new Text(
+                          "Try to add places via the Places view.",
+                          style: TextStyle(
+                              color: CustomPalette.text[600],
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 10.0)
+                    )
+                  ],
+                )
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          }
 
           if (_data.length == 0) {
             _data.clear();
@@ -126,12 +129,7 @@ class FavoritesState extends State<FavoritesView> {
                     )
                 ),
 
-                backgroundColor: CustomPalette.background[700],
-                floatingActionButton: FloatingActionButton(
-                  child: Icon(Icons.add),
-                  onPressed: () => _addSamplePlaces(),
-                  tooltip: "Add sample places",
-                ),
+                backgroundColor: CustomPalette.background[700]
               )
           );
         }

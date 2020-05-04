@@ -107,6 +107,20 @@ class AppDatabase {
     );
   }
 
+  Future<List<DailyReport>> getReports() async {
+    if (this.database == null)
+      await open();
+
+    final List<Map<String, dynamic>> maps = await this.database.query(rName);
+    return List.generate(maps.length, (i) {
+      return DailyReport(
+        timestamp: maps[i]['id'],
+        expositionRate: maps[i]['expositionRate'],
+        broadcastRate: maps[i]['broadcastRate']
+      );
+    });
+  }
+
   Future<List<Location>> getLocations() async {
     final List<Map<String, dynamic>> maps = await this.database.query(lName);
     return List.generate(maps.length, (i) {

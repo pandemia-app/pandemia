@@ -3,18 +3,18 @@ import 'package:pandemia/data/database/models/DailyReport.dart';
 var database = new AppDatabase();
 
 class IndicatorsComputer {
-  void setTodaysReport (DailyReport report) async {
+  Future<void> setTodaysReport (DailyReport report) async {
     // check if today's report exists
     var exists = await database.isReportRegistered(report.timestamp);
 
     // if not, insert the argument in db
     if (!exists) {
-      database.insertReport(report);
+      await database.insertReport(report);
     }
 
     // if yes, update the report
     else {
-      database.updateExpositionRate(report);
+      await database.updateExpositionRate(report);
     }
   }
 

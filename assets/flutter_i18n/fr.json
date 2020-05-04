@@ -10,6 +10,8 @@
 
   "word_place": "endroit",
 
+  "places_searchbar_label": "Rechercher un endroit...",
+
   "favorites_none_title": "Aucun endroit enregistré !",
   "favorites_none_subtitle": "Essayez d'ajouter des endroits avec \"Lieux\".",
   "favorites_removedialog_title": "Suppression de l'endroit",

@@ -10,6 +10,8 @@
 
   "word_place": "place",
 
+  "places_searchbar_label": "Search place...",
+
   "favorites_none_title": "Nothing to see here!",
   "favorites_none_subtitle": "Try to add places via the Places view.",
   "favorites_removedialog_title": "Remove place",

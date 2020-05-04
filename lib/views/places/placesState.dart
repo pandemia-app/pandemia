@@ -36,6 +36,7 @@ class PlacesState extends State<PlacesView> {
 
   @override
   Widget build(BuildContext context) {
+    searchBar.fatherContext = context;
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
     });

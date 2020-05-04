@@ -105,12 +105,33 @@ class AppDatabase {
 
     var now = DailyReport.getTodaysTimestamp();
     var result =
-      await this.database.rawQuery('SELECT * from $rName WHERE id = $now');
+    await this.database.rawQuery('SELECT * from $rName WHERE id = $now');
     if (result.length == 0) return;
 
     // results from a query are read-only, we need to clone them
     var report = Map<String, dynamic>.from(result.elementAt(0));
     report['expositionRate'] = rate;
+
+    await this.database.update(
+      rName,
+      report,
+      where: "id = ?",
+      whereArgs: [now],
+    );
+  }
+
+  Future<void> updateTodaysBroadcastRate (int rate) async {
+    if (this.database == null)
+      await open();
+
+    var now = DailyReport.getTodaysTimestamp();
+    var result =
+    await this.database.rawQuery('SELECT * from $rName WHERE id = $now');
+    if (result.length == 0) return;
+
+    // results from a query are read-only, we need to clone them
+    var report = Map<String, dynamic>.from(result.elementAt(0));
+    report['broadcastRate'] = rate;
 
     await this.database.update(
       rName,

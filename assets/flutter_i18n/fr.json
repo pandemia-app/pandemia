@@ -1,5 +1,12 @@
 {
   "navigator_home": "Accueil",
   "navigator_places": "Lieux",
-  "navigator_favorites": "Favoris"
+  "navigator_favorites": "Favoris",
+
+  "home_myexposition_title": "Mon exposition au virus",
+  "home_expositionprogression_title": "Progression de mon exposition",
+  "home_expositionprogression_since": "Depuis le",
+  "home_places_title": "Endroits visités aujourd'hui",
+
+  "word_place": "endroit"
 }

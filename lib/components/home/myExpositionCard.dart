@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/gaugeChart.dart';
 import 'package:intl/intl.dart';
@@ -26,7 +27,7 @@ class MyExpositionCard extends StatelessWidget {
 
                 Container(
                   child: new Text(
-                    "Virus exposition",
+                      FlutterI18n.translate(context, "home_myexposition_title"),
                     style: TextStyle(
                         color: CustomPalette.text[100],
                         fontSize: 20,

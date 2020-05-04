@@ -1,5 +1,12 @@
 {
   "navigator_home": "Home",
   "navigator_places": "Places",
-  "navigator_favorites": "Favorites"
+  "navigator_favorites": "Favorites",
+
+  "home_myexposition_title": "Virus exposition",
+  "home_expositionprogression_title": "Exposition progression",
+  "home_expositionprogression_since": "From",
+  "home_places_title": "Locations I've visited today",
+
+  "word_place": "place"
 }

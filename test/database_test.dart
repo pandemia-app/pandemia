@@ -7,6 +7,7 @@ void main() {
     var computer = new IndicatorsComputer();
     int today = DailyReport.getTodaysTimestamp();
 
+    // adding report for today
     await computer.setTodaysReport(
         new DailyReport(broadcastRate: 46, expositionRate: 58, timestamp: today)
     );
@@ -14,5 +15,10 @@ void main() {
     print(await database.getReports());
     var result = await database.isReportRegistered(today);
     expect(result, true);
+
+    // updating exposition rate
+    var updateResult = await computer.updateTodaysExpositionRate(42);
+    expect(updateResult, true);
+    // TODO check value
   });
 }

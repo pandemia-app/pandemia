@@ -18,4 +18,10 @@ class DailyReport {
     var date = DateTime(now.year, now.month, now.day);
     return date.millisecondsSinceEpoch;
   }
+
+  @override
+  String toString() {
+    return 'DailyReport[timestamp=${new DateTime(timestamp).toIso8601String()}, '
+        'expositionRate=$expositionRate, broadcastRate=$broadcastRate]';
+  }
 }

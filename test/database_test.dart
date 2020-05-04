@@ -11,14 +11,13 @@ void main() {
     await computer.setTodaysReport(
         new DailyReport(broadcastRate: 46, expositionRate: 58, timestamp: today)
     );
-
-    print(await database.getReports());
     var result = await database.isReportRegistered(today);
     expect(result, true);
 
     // updating exposition rate
     var updateResult = await computer.updateTodaysExpositionRate(42);
     expect(updateResult, true);
-    // TODO check value
+    var report = await database.getReport(today);
+    expect(report.expositionRate, 42);
   });
 }

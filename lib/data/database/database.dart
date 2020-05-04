@@ -52,6 +52,18 @@ class AppDatabase {
     return report.length == 0 ? false : true;
   }
 
+  Future<DailyReport> getReport (int timestamp) async {
+    if (this.database == null)
+      await open();
+    var report =
+      await this.database.rawQuery('SELECT * from $rName WHERE id = $timestamp');
+    return new DailyReport(
+      timestamp: report[0]['id'],
+      broadcastRate: report[0]['broadcastRate'],
+      expositionRate: report[0]['expositionRate']
+    );
+  }
+
   Future<void> insertFavoritePlace(Favorite fav) async {
     if (this.database == null)
       await open();

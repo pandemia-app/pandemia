@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -59,6 +60,17 @@ class AppDatabase {
       this.fName,
       fav.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<void> insertReport(DailyReport report) async {
+    if (this.database == null)
+      await open();
+    print('saving new report');
+    await this.database.insert(
+      rName,
+      report.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace
     );
   }
 

@@ -1,3 +1,5 @@
 {
-  "home.test": "Good evening"
+  "navigator_home": "Home",
+  "navigator_places": "Places",
+  "navigator_favorites": "Favorites"
 }

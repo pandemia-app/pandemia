@@ -1,3 +1,5 @@
 {
-  "home.test": "Bonsoir"
+  "navigator_home": "Accueil",
+  "navigator_places": "Lieux",
+  "navigator_favorites": "Favoris"
 }

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
 class TimeSeriesChart extends StatelessWidget {
@@ -16,7 +17,6 @@ class TimeSeriesChart extends StatelessWidget {
       animate: true,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +67,36 @@ class TimeSeriesChart extends StatelessWidget {
               )
           )
       ),
+    );
+  }
+
+  static Future<List<TimeExposition>> reportsData() async {
+    var database = new AppDatabase();
+    var reports = await database.getReports();
+    var data = new List<TimeExposition>();
+
+    print('${reports.length} reports found while generating graph');
+
+    for (var i=0, len=reports.length; i<len; i++) {
+      data.add(new TimeExposition(
+          new DateTime(reports[i].timestamp), reports[i].expositionRate));
+    }
+
+    return data;
+  }
+
+  static TimeSeriesChart fromSeries (List<TimeExposition> series) {
+    return TimeSeriesChart(
+      [
+        new charts.Series<TimeExposition, DateTime>(
+            id: 'Progression',
+            colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+            domainFn: (TimeExposition exposition, _) => exposition.time,
+            measureFn: (TimeExposition exposition, _) => exposition.value,
+            data: series
+        )
+      ],
+      animate: true,
     );
   }
 

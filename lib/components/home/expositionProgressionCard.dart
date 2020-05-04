@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pandemia/components/card.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/lineChart.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class ExpositionProgressionCard extends CustomCard {
   ExpositionProgressionCard(String title) : super('');
@@ -16,8 +17,7 @@ class ExpositionProgressionCard extends CustomCard {
         child: Stack (
           children: <Widget>[
             Container (
-
-                child: TimeSeriesChart.withSampleData(),
+                child: buildGraph(),
                 margin: EdgeInsets.fromLTRB(15, 60, 0, 15),
             ),
 
@@ -47,5 +47,35 @@ class ExpositionProgressionCard extends CustomCard {
           ],
         ),
       );
+  }
+
+  Widget buildGraph () {
+    return FutureBuilder<List<TimeExposition>>(
+        future: TimeSeriesChart.reportsData(),
+        builder: (context, AsyncSnapshot<List<TimeExposition>> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          var data = snapshot.data;
+          if (data.length == 0) {
+            return Container(
+              child: Center (
+                child: Text(
+                  "No progression to display yet",
+                  style: TextStyle(
+                      color: CustomPalette.text[100],
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300
+                  ),
+                ),
+              ),
+            );
+          } else
+            return TimeSeriesChart.fromSeries(data);
+        }
+    );
   }
 }

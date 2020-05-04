@@ -74,6 +74,26 @@ class AppDatabase {
     );
   }
 
+  Future<void> updateTodaysExpositionRate (int rate) async {
+    if (this.database == null)
+      await open();
+
+    var now = DailyReport.getTodaysTimestamp();
+    var result =
+      await this.database.rawQuery('SELECT from $rName WHERE id = $now');
+    if (result.length == 0) return;
+
+    var report = result.elementAt(0);
+    report['expositionRate'] = rate;
+
+    await this.database.update(
+      rName,
+      report,
+      where: "id = ?",
+      whereArgs: [now],
+    );
+  }
+
   Future<List<Location>> getLocations() async {
     final List<Map<String, dynamic>> maps = await this.database.query(lName);
     return List.generate(maps.length, (i) {

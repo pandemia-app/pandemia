@@ -57,6 +57,8 @@ flutter:
   assets:
     - assets/mapstyle.txt
     - lib/.env.generated
+    - assets/flutter_i18n/fr.json
+    - assets/flutter_i18n/en.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

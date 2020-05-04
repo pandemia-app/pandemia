@@ -14,14 +14,18 @@ class IndicatorsComputer {
 
     // if yes, update the report
     else {
-
+      database.updateExpositionRate(report);
     }
   }
 
-  void updateTodaysExpositionRate (int rate) async {
+  Future<bool> updateTodaysExpositionRate (int rate) async {
     // check if today's report exists
-    // if not, create it
+    var exists = await database.isReportRegistered(DailyReport.getTodaysTimestamp());
+    if (!exists) return false;
+
     // if yes, update it
+    await database.updateTodaysExpositionRate(rate);
+    return true;
   }
 
   void updateTodaysBroadcastRate (int rate) async {

@@ -74,6 +74,19 @@ class AppDatabase {
     );
   }
 
+  Future<void> updateExpositionRate (DailyReport report) async {
+    if (this.database == null)
+      await open();
+
+    await this.database.update(
+      rName,
+      report.toMap(),
+      where: "id = ?",
+      whereArgs: [report.timestamp],
+      conflictAlgorithm: ConflictAlgorithm.replace
+    );
+  }
+
   Future<void> updateTodaysExpositionRate (int rate) async {
     if (this.database == null)
       await open();

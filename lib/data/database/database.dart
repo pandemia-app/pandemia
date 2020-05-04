@@ -48,7 +48,7 @@ class AppDatabase {
     if (this.database == null)
       await open();
     var report =
-        await this.database.rawQuery('SELECT from $rName WHERE id = $timestamp');
+        await this.database.rawQuery('SELECT * from $rName WHERE id = $timestamp');
     return report.length == 0 ? false : true;
   }
 

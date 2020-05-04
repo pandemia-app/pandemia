@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'models/Location.dart';
 
 class AppDatabase {
   Database database;
   final String lName = "locations";
   final String fName = "favorites";
+  final String rName = "reports";
 
   Future<void> open () async {
     var dbPath = await getDatabasesPath();
@@ -20,6 +20,9 @@ class AppDatabase {
       );
       db.execute(
         "CREATE TABLE $fName (id TEXT, name TEXT, address TEXT)",
+      );
+      db.execute(
+        "CREATE TABLE $rName (id INTEGER, expositionRate INTEGER, broadcastRate INTEGER)"
       );
     });
   }
@@ -38,6 +41,14 @@ class AppDatabase {
     var place =
       await this.database.rawQuery('SELECT * from $fName WHERE id = "$placeId";');
     return place.length == 0 ? false : true;
+  }
+
+  Future<bool> isReportRegistered(int timestamp) async {
+    if (this.database == null)
+      await open();
+    var report =
+        await this.database.rawQuery('SELECT from $rName WHERE id = $timestamp');
+    return report.length == 0 ? false : true;
   }
 
   Future<void> insertFavoritePlace(Favorite fav) async {

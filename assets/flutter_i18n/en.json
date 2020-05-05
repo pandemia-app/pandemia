@@ -8,6 +8,14 @@
   "home_expositionprogression_since": "From",
   "home_places_title": "Locations I've visited today",
 
+  "home_ratemsg_0": "I'm safe",
+  "home_ratemsg_20": "I might have been exposed today",
+  "home_ratemsg_40": "I may have been exposed today",
+  "home_ratemsg_60": "I have been exposed today",
+  "home_ratemsg_80": "I surely have been exposed today",
+  "home_ratemsg_100": "I definitely have been exposed today",
+  "home_ratemsg_stayhome": "I certainly have been exposed today, I must stay home",
+
   "word_place": "place",
 
   "places_searchbar_label": "Search place...",

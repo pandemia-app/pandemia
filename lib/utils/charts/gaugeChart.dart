@@ -1,5 +1,6 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
 class GaugeChart extends StatelessWidget {
@@ -51,7 +52,7 @@ class GaugeChart extends StatelessWidget {
           child: Container (
             width: 200,
             // transform: Matrix4.translationValues(25, -15, 0),
-            child: Text("I might have been exposed today",
+            child: Text(getLabelFromRate(rate, context),
                 style: TextStyle(fontSize: 20, color: CustomPalette.text[400])),
           ),
         )
@@ -74,6 +75,27 @@ class GaugeChart extends StatelessWidget {
         data: data,
       )
     ];
+  }
+
+  String getLabelFromRate(int rate, BuildContext context) {
+    assert (rate >= 0 && rate <= 100);
+
+    if (rate == 0)
+      return FlutterI18n.translate(context, "home_ratemsg_0");
+    if (rate < 20)
+      return FlutterI18n.translate(context, "home_ratemsg_20");
+    if (rate < 40)
+      return FlutterI18n.translate(context, "home_ratemsg_40");
+    if (rate < 60)
+      return FlutterI18n.translate(context, "home_ratemsg_60");
+    if (rate < 80)
+      return FlutterI18n.translate(context, "home_ratemsg_80");
+    if (rate < 100)
+      return FlutterI18n.translate(context, "home_ratemsg_100");
+    if (rate == 100)
+      return FlutterI18n.translate(context, "home_ratemsg_stayhome");
+
+    return "error";
   }
 }
 

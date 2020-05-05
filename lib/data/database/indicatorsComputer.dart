@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 var database = new AppDatabase();
@@ -6,7 +8,7 @@ class IndicatorsComputer {
   /// is called several times a day to update today's report
   /// returns the exposition rate of the day
   Future<int> generateReport () async {
-    return 42;
+    return new Random().nextInt(100);
   }
 
   Future<void> setTodaysReport (DailyReport report) async {

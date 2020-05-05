@@ -5,16 +5,16 @@ import 'package:pandemia/utils/CustomPalette.dart';
 class GaugeChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
+  final int rate;
   final double pi = 3.14;
 
-  GaugeChart(this.seriesList, {this.animate});
+  GaugeChart(this.rate, this.seriesList, {this.animate});
 
-  /// Creates a [PieChart] with sample data and no transition.
-  factory GaugeChart.withSampleData() {
+  factory GaugeChart.fromRate(int rate) {
     return new GaugeChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
+      rate,
+      _createData(rate),
+      animate: true,
     );
   }
 
@@ -31,7 +31,7 @@ class GaugeChart extends StatelessWidget {
             children: <Widget>[
               Container (
                 transform: Matrix4.translationValues(58, 62, 0),
-                child: Text("30%", style: TextStyle(fontSize: 20, color: CustomPalette.text[400])),
+                child: Text("$rate%", style: TextStyle(fontSize: 20, color: CustomPalette.text[400])),
               ),
 
               Container (
@@ -60,10 +60,10 @@ class GaugeChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<GaugeSegment, String>> _createSampleData() {
+  static List<charts.Series<GaugeSegment, String>> _createData(int rate) {
     final data = [
-      new GaugeSegment('Contamination rate', 30),
-      new GaugeSegment('Space', 70),
+      new GaugeSegment('Contamination rate', rate),
+      new GaugeSegment('Space', 100 - rate),
     ];
 
     return [

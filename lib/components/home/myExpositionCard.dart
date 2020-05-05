@@ -32,7 +32,7 @@ class MyExpositionCard extends StatelessWidget {
                   child: Stack (
                     children: <Widget>[
                       Container (
-                        child: GaugeChart.withSampleData(),
+                        child: GaugeChart.fromRate(snapshot.data),
                         margin: EdgeInsets.all(10),
                         // transform: Matrix4.translationValues(0, 40, 0),
                       ),

@@ -4,7 +4,6 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/components/card.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/lineChart.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 
 class ExpositionProgressionCard extends CustomCard {
   ExpositionProgressionCard(String title) : super('');

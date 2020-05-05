@@ -15,7 +15,9 @@ class AppModel extends ChangeNotifier {
   }
 
   storeReports (List<DailyReport> reports) {
+    print('storing ${reports.length} reports in model');
     this.reports.clear();
     this.reports.addAll(reports);
+    notifyListeners();
   }
 }

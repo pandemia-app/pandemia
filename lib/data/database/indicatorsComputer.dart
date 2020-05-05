@@ -7,9 +7,15 @@ import 'package:provider/provider.dart';
 var database = new AppDatabase();
 
 class IndicatorsComputer {
+  // since generateRandomReport is called several times (because of builds),
+  // we need to be able to block further calls
+  var generated = false;
+
   /// is called several times a day to update today's report
   /// returns the exposition rate of the day
   Future<void> generateRandomReport (BuildContext context) async {
+    if (generated) return;
+    print('generating report');
     // TODO rates computing
 
     var report = new DailyReport(
@@ -22,6 +28,13 @@ class IndicatorsComputer {
     // putting all reports in app model, to share them among other components
     List<DailyReport> reports = await database.getReports();
     Provider.of<AppModel>(context, listen: false).storeReports(reports);
+
+    generated = true;
+  }
+
+  Future<void> forceReportRecomputing (BuildContext context) async {
+    generated = false;
+    await generateRandomReport(context);
   }
 
   Future<void> setTodaysReport (DailyReport report) async {

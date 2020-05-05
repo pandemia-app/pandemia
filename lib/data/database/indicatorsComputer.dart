@@ -3,6 +3,12 @@ import 'package:pandemia/data/database/models/DailyReport.dart';
 var database = new AppDatabase();
 
 class IndicatorsComputer {
+  /// is called several times a day to update today's report
+  /// returns the exposition rate of the day
+  Future<int> generateReport () async {
+    return 42;
+  }
+
   Future<void> setTodaysReport (DailyReport report) async {
     // check if today's report exists
     var exists = await database.isReportRegistered(report.timestamp);

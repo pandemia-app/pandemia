@@ -16,7 +16,9 @@ class IndicatorsComputer {
   Future<void> generateRandomReport (BuildContext context) async {
     if (generated) return;
     print('generating report');
+
     // TODO rates computing
+    await new Future.delayed(const Duration(milliseconds: 750), () {});
 
     var report = new DailyReport(
         timestamp: DailyReport.getTodaysTimestamp(),

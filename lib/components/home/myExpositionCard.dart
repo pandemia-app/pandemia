@@ -17,8 +17,14 @@ class MyExpositionCard extends StatelessWidget {
         builder: (context, AsyncSnapshot<int> snapshot) {
 
           if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
+            return Container (
+              color: CustomPalette.background[600],
+              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+              width: 180,
+              height: 212,
+              child: Center(
+                child: CircularProgressIndicator(),
+              )
             );
           }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/components/card.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/lineChart.dart';
@@ -23,7 +24,7 @@ class ExpositionProgressionCard extends CustomCard {
 
             Container(
               child: new Text(
-                "Exposition progression",
+                FlutterI18n.translate(context, "home_expositionprogression_title"),
                 style: TextStyle(
                     color: CustomPalette.text[100],
                     fontSize: 20,
@@ -35,7 +36,8 @@ class ExpositionProgressionCard extends CustomCard {
 
             Container(
                 child: new Text(
-                  "From 30/03/2020",
+                  FlutterI18n.translate(context, "home_expositionprogression_since") +
+                  " 30/03/2020",
                   style: TextStyle(
                       color: CustomPalette.text[600],
                       fontSize: 18,

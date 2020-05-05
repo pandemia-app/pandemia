@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
@@ -66,7 +67,7 @@ class VisitedPlacesCard extends StatelessWidget {
 
                     Container(
                       child: new Text(
-                        "Locations I've visited today",
+                        FlutterI18n.translate(context, "home_places_title"),
                         style: TextStyle(
                             color: CustomPalette.text[100],
                             fontSize: 20,
@@ -78,7 +79,7 @@ class VisitedPlacesCard extends StatelessWidget {
 
                     Container(
                         child: new Text(
-                          "0 place",
+                          getPlacesTitle(context),
                           style: TextStyle(
                               color: CustomPalette.text[600],
                               fontSize: 18,
@@ -94,5 +95,11 @@ class VisitedPlacesCard extends StatelessWidget {
         );
       },
     );
+  }
+
+  String getPlacesTitle (BuildContext context) {
+    int placesCount = 0;
+    return "$placesCount " + FlutterI18n.translate(context, "word_place")
+        + (placesCount > 1 ? 's' : '');
   }
 }

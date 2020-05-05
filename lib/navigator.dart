@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
@@ -55,20 +56,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
 
             backgroundColor: CustomPalette.background[700],
             bottomNavigationBar: BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  title: Text('Home'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  title: Text('Places'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.star),
-                  title: Text('Favorites'),
-                ),
-              ],
+              items: getNavigationItems(),
               currentIndex: model.tabIndex,
               backgroundColor: CustomPalette.background[500],
               unselectedItemColor: CustomPalette.text[600],
@@ -78,5 +66,22 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
           );
         }
     );
+  }
+
+  List<BottomNavigationBarItem> getNavigationItems () {
+    return [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        title: Text(FlutterI18n.translate(context, "navigator_home")),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.search),
+        title: Text(FlutterI18n.translate(context, "navigator_places")),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.star),
+        title: Text(FlutterI18n.translate(context, "navigator_favorites")),
+      ),
+    ];
   }
 }

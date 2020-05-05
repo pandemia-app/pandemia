@@ -1,0 +1,26 @@
+{
+  "navigator_home": "Home",
+  "navigator_places": "Places",
+  "navigator_favorites": "Favorites",
+
+  "home_myexposition_title": "Virus exposition",
+  "home_expositionprogression_title": "Exposition progression",
+  "home_expositionprogression_since": "From",
+  "home_places_title": "Locations I've visited today",
+
+  "word_place": "place",
+
+  "places_searchbar_label": "Search place...",
+
+  "favorites_none_title": "Nothing to see here!",
+  "favorites_none_subtitle": "Try to add places via the Places view.",
+  "favorites_removedialog_title": "Remove place",
+  "favorites_removedialog_text1": "Do you want to remove",
+  "favorites_removedialog_text2": "from your favorite places?",
+  "favorites_removedialog_cancellabel": "Cancel",
+  "favorites_removedialog_removelabel": "Remove",
+  "favorites_pullrefresh_idle": "Pull to refresh metrics",
+  "favorites_pullrefresh_release": "Release to refresh metrics",
+  "favorites_pullrefresh_refreshing": "Computing metrics...",
+  "favorites_pullrefresh_complete": "Results imported."
+}

@@ -1,0 +1,26 @@
+{
+  "navigator_home": "Accueil",
+  "navigator_places": "Lieux",
+  "navigator_favorites": "Favoris",
+
+  "home_myexposition_title": "Mon exposition au virus",
+  "home_expositionprogression_title": "Progression de mon exposition",
+  "home_expositionprogression_since": "Depuis le",
+  "home_places_title": "Endroits visités aujourd'hui",
+
+  "word_place": "endroit",
+
+  "places_searchbar_label": "Rechercher un endroit...",
+
+  "favorites_none_title": "Aucun endroit enregistré !",
+  "favorites_none_subtitle": "Essayez d'ajouter des endroits avec \"Lieux\".",
+  "favorites_removedialog_title": "Suppression de l'endroit",
+  "favorites_removedialog_text1": "Voulez-vous retirer",
+  "favorites_removedialog_text2": "de vos endroits favoris ?",
+  "favorites_removedialog_cancellabel": "Non",
+  "favorites_removedialog_removelabel": "Oui",
+  "favorites_pullrefresh_idle": "Tirer pour mettre à jour les informations",
+  "favorites_pullrefresh_release": "Lâchez pour mettre à jour les informations",
+  "favorites_pullrefresh_refreshing": "Mise à jour en cours...",
+  "favorites_pullrefresh_complete": "Mise à jour terminée !"
+}

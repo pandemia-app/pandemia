@@ -9,7 +9,7 @@ var database = new AppDatabase();
 class IndicatorsComputer {
   /// is called several times a day to update today's report
   /// returns the exposition rate of the day
-  Future<int> generateRandomReport (BuildContext context) async {
+  Future<void> generateRandomReport (BuildContext context) async {
     // TODO rates computing
 
     var report = new DailyReport(
@@ -21,10 +21,7 @@ class IndicatorsComputer {
 
     // putting all reports in app model, to share them among other components
     List<DailyReport> reports = await database.getReports();
-    if (reports.length != 0)
-      Provider.of<AppModel>(context, listen: false).storeReports(reports);
-
-    return report.expositionRate;
+    Provider.of<AppModel>(context, listen: false).storeReports(reports);
   }
 
   Future<void> setTodaysReport (DailyReport report) async {

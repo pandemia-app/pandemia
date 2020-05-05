@@ -2,29 +2,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:pandemia/data/database/indicatorsComputer.dart';
+import 'package:pandemia/data/database/models/DailyReport.dart';
+import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/gaugeChart.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class MyExpositionCard extends StatelessWidget {
   MyExpositionCard(String title);
-  final IndicatorsComputer computer = new IndicatorsComputer();
 
   Widget build(BuildContext context) {
-    return FutureBuilder<int> (
-      future: computer.generateRandomReport(context),
-        builder: (context, AsyncSnapshot<int> snapshot) {
+    return Consumer<AppModel>(
+        builder: (context, model, child) {
+          List<DailyReport> reports = model.reports;
 
-          if (!snapshot.hasData) {
+          if (reports.length == 0) {
             return Container (
-              color: CustomPalette.background[600],
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-              width: 180,
-              height: 212,
-              child: Center(
-                child: CircularProgressIndicator(),
-              )
+                color: CustomPalette.background[600],
+                margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                width: 180,
+                height: 212,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                )
             );
           }
 
@@ -38,7 +39,7 @@ class MyExpositionCard extends StatelessWidget {
                   child: Stack (
                     children: <Widget>[
                       Container (
-                        child: GaugeChart.fromRate(snapshot.data),
+                        child: GaugeChart.fromRate(reports.elementAt(reports.length-1).expositionRate),
                         margin: EdgeInsets.all(10),
                         // transform: Matrix4.translationValues(0, 40, 0),
                       ),

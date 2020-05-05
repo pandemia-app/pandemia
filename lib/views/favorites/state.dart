@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
@@ -33,17 +34,18 @@ class FavoritesState extends State<FavoritesView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Remove place"),
-          content: new Text("Do you want to remove ${item.name} from your favorite places?"),
+          title: new Text(FlutterI18n.translate(context, "favorites_removedialog_title")),
+          content: new Text("${FlutterI18n.translate(context, "favorites_removedialog_text1")} "
+              "${item.name} ${FlutterI18n.translate(context, "favorites_removedialog_text2")}"),
           actions: <Widget>[
             new FlatButton(
-              child: new Text("Close"),
+              child: new Text(FlutterI18n.translate(context, "favorites_removedialog_cancellabel")),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             new FlatButton(
-              child: new Text("Remove"),
+              child: new Text(FlutterI18n.translate(context, "favorites_removedialog_removelabel")),
               onPressed: () {
                 Navigator.of(context).pop();
                 db.removeFavoritePlace(item.id)
@@ -72,7 +74,7 @@ class FavoritesState extends State<FavoritesView> {
                   children: <Widget>[
                     Container(
                       child: new Text(
-                        "Nothing to see here!",
+                        FlutterI18n.translate(context, "favorites_none_title"),
                         style: TextStyle(
                             color: CustomPalette.text[100],
                             fontSize: 20,
@@ -84,7 +86,7 @@ class FavoritesState extends State<FavoritesView> {
 
                     Container(
                         child: new Text(
-                          "Try to add places via the Places view.",
+                          FlutterI18n.translate(context, "favorites_none_subtitle"),
                           style: TextStyle(
                               color: CustomPalette.text[600],
                               fontSize: 18,
@@ -112,10 +114,10 @@ class FavoritesState extends State<FavoritesView> {
                 body: SmartRefresher(
                     enablePullDown: true,
                     header: ClassicHeader(
-                      idleText: "Pull to refresh metrics",
-                      releaseText: "Release to refresh metrics",
-                      refreshingText: "Computing metrics...",
-                      completeText: "Results imported."),
+                      idleText: FlutterI18n.translate(context, "favorites_pullrefresh_idle"),
+                      releaseText: FlutterI18n.translate(context, "favorites_pullrefresh_release"),
+                      refreshingText: FlutterI18n.translate(context, "favorites_pullrefresh_refreshing"),
+                      completeText: FlutterI18n.translate(context, "favorites_pullrefresh_complete")),
                     controller: _refreshController,
                     onRefresh: _onRefresh,
                     onLoading: _onLoading,

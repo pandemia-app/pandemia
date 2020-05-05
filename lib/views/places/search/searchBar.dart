@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
@@ -10,6 +11,7 @@ import 'dart:convert';
 class SearchBar extends StatelessWidget {
   GoogleMapController mapController;
   final TextEditingController _controller = new TextEditingController();
+  BuildContext fatherContext;
   Function closeCallback;
   Function callback;
   SearchBar ({this.mapController});
@@ -42,7 +44,7 @@ class SearchBar extends StatelessWidget {
                     borderSide: BorderSide(width: 1,color: CustomPalette.text[400]),
                   ),
                   labelStyle: TextStyle(color: CustomPalette.text[400]),
-                  labelText: 'Search place...',
+                  labelText: FlutterI18n.translate(fatherContext, "places_searchbar_label"),
               ),
 
           onSubmitted: (s) => findPlaceFromString(s),

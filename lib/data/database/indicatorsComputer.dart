@@ -1,20 +1,29 @@
 import 'dart:math';
-
+import 'package:flutter/cupertino.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
+import 'package:pandemia/data/state/AppModel.dart';
+import 'package:provider/provider.dart';
 var database = new AppDatabase();
 
 class IndicatorsComputer {
   /// is called several times a day to update today's report
   /// returns the exposition rate of the day
-  Future<int> generateRandomReport () async {
-    // await new Future.delayed(const Duration(seconds: 1), () => "1");
+  Future<int> generateRandomReport (BuildContext context) async {
+    // TODO rates computing
+
     var report = new DailyReport(
         timestamp: DailyReport.getTodaysTimestamp(),
         broadcastRate: new Random().nextInt(100),
         expositionRate: new Random().nextInt(100)
     );
     await setTodaysReport(report);
+
+    // putting all reports in app model, to share them among other components
+    List<DailyReport> reports = await database.getReports();
+    if (reports.length != 0)
+      Provider.of<AppModel>(context, listen: false).storeReports(reports);
+
     return report.expositionRate;
   }
 

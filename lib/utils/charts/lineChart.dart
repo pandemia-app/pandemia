@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:pandemia/data/database/database.dart';
+import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
 class TimeSeriesChart extends StatelessWidget {
@@ -85,7 +86,14 @@ class TimeSeriesChart extends StatelessWidget {
     return data;
   }
 
-  factory TimeSeriesChart.fromReports (List<TimeExposition> series) {
+  factory TimeSeriesChart.fromReports (List<DailyReport> reports) {
+    List<TimeExposition> series = [];
+
+    for (var i=0, len=reports.length; i<len; i++) {
+      series.add(new TimeExposition(
+          new DateTime(reports[i].timestamp), reports[i].expositionRate));
+    }
+
     var data = [
       new charts.Series<TimeExposition, DateTime>(
           id: 'Progression',

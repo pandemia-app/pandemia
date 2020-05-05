@@ -13,7 +13,7 @@ class MyExpositionCard extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return FutureBuilder<int> (
-      future: computer.generateRandomReport(),
+      future: computer.generateRandomReport(context),
         builder: (context, AsyncSnapshot<int> snapshot) {
 
           if (!snapshot.hasData) {

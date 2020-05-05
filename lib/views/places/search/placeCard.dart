@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:provider/provider.dart';
@@ -7,14 +9,17 @@ import '../../../utils/CustomPalette.dart';
 
 class PlaceCard extends StatefulWidget {
   final Favorite place;
-  PlaceCard({this.place});
+  final BuildContext mainContext;
+  PlaceCard({this.place, this.mainContext});
 
   @override
-  _PlaceCardState createState() => _PlaceCardState();
+  _PlaceCardState createState() => _PlaceCardState(mainContext: mainContext);
 }
 
 class _PlaceCardState extends State<PlaceCard> {
+  _PlaceCardState({this.mainContext});
   IconData icon = Icons.star_border;
+  BuildContext mainContext;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +48,7 @@ class _PlaceCardState extends State<PlaceCard> {
             fontSize: 16,
             fontWeight: FontWeight.w300
         ),),
-        trailing: buildFavButton(widget.place),
+        trailing: buildFavButton(widget.place, context),
       ),
     );
   }
@@ -53,20 +58,34 @@ class _PlaceCardState extends State<PlaceCard> {
         .database.isPlaceRegistered(placeId);
   }
 
-  Widget buildFavButton (Favorite place) {
+  Widget buildFavButton (Favorite place, BuildContext context) {
     return IconButton(
         icon: Icon(icon),
         onPressed: () async {
           if (await isPlaceRegistered(place.id)) {
-            Provider.of<AppModel>(context, listen: false)
+            Provider.of<AppModel>(mainContext, listen: false)
                 .database.removeFavoritePlace(place.id).then((_) {
+              Fluttertoast.showToast(
+                  msg: FlutterI18n.translate(mainContext, "places_place_removed_toast"),
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 2,
+                  fontSize: 16.0
+              );
               setState(() {
                 icon = Icons.star_border;
               });
             });
           } else {
-            Provider.of<AppModel>(context, listen: false)
+            Provider.of<AppModel>(mainContext, listen: false)
                 .database.insertFavoritePlace(place).then((_) {
+              Fluttertoast.showToast(
+                  msg: FlutterI18n.translate(mainContext, "places_place_added_toast"),
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 2,
+                  fontSize: 16.0
+              );
                     setState(() {
                       icon = Icons.star;
                     });

@@ -11,6 +11,8 @@
   "word_place": "endroit",
 
   "places_searchbar_label": "Rechercher un endroit...",
+  "places_place_added_toast":  "Endroit ajouté aux favoris.",
+  "places_place_removed_toast": "Endroit supprimé des favoris.",
 
   "favorites_none_title": "Aucun endroit enregistré !",
   "favorites_none_subtitle": "Essayez d'ajouter des endroits avec \"Lieux\".",

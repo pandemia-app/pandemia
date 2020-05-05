@@ -11,6 +11,8 @@
   "word_place": "place",
 
   "places_searchbar_label": "Search place...",
+  "places_place_added_toast":  "Place added to favorites.",
+  "places_place_removed_toast": "Place removed from favorites.",
 
   "favorites_none_title": "Nothing to see here!",
   "favorites_none_subtitle": "Try to add places via the Places view.",

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:intl/intl.dart';
 import 'package:pandemia/components/card.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
@@ -15,13 +16,15 @@ class ExpositionProgressionCard extends CustomCard {
   Widget build(BuildContext context) {
     return Consumer<AppModel>(
       builder: (context, model, child) {
+        List<DailyReport> reports = model.reports;
+
         return new Container (
           height: 400,
           color: cardColor,
           child: Stack (
             children: <Widget>[
               Container (
-                child: buildGraph(model.reports),
+                child: buildGraph(reports),
                 margin: EdgeInsets.fromLTRB(15, 60, 0, 15),
               ),
 
@@ -38,21 +41,35 @@ class ExpositionProgressionCard extends CustomCard {
               ),
 
               Container(
-                  child: new Text(
-                    FlutterI18n.translate(context, "home_expositionprogression_since") +
-                        " 30/03/2020",
-                    style: TextStyle(
-                        color: CustomPalette.text[600],
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300
-                    ),
-                  ),
+                  child: buildGraphSubtitle(reports, context),
                   padding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 10.0)
               ),
             ],
           ),
         );
       },
+    );
+  }
+
+  Widget buildGraphSubtitle (List<DailyReport> reports, BuildContext context) {
+    if (reports.length == 0) {
+      return new Container();
+    }
+
+    DailyReport report = reports.first;
+    DateTime oldest = DateTime.fromMillisecondsSinceEpoch(
+      report.timestamp,
+    );
+    print(report.timestamp);
+
+    return new Text(
+      FlutterI18n.translate(context, "home_expositionprogression_since") + " " +
+          new DateFormat("dd/MM/yyyy").format(oldest),
+      style: TextStyle(
+          color: CustomPalette.text[600],
+          fontSize: 18,
+          fontWeight: FontWeight.w300
+      ),
     );
   }
 
@@ -63,7 +80,6 @@ class ExpositionProgressionCard extends CustomCard {
         child: CircularProgressIndicator(),
       );
     }
-
     return TimeSeriesChart.fromReports(reports);
   }
 }

@@ -91,10 +91,10 @@ class TimeSeriesChart extends StatelessWidget {
 
     for (var i=0, len=reports.length; i<len; i++) {
       series.add(new TimeExposition(
-          new DateTime(reports[i].timestamp), reports[i].expositionRate));
+          new DateTime.fromMillisecondsSinceEpoch(reports[i].timestamp), reports[i].expositionRate));
     }
 
-    var data = [
+    List<charts.Series<TimeExposition, DateTime>> data = [
       new charts.Series<TimeExposition, DateTime>(
           id: 'Progression',
           colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
@@ -103,6 +103,8 @@ class TimeSeriesChart extends StatelessWidget {
           data: series
       )
     ];
+
+    print(data);
 
     return new TimeSeriesChart(
       data,

@@ -75,7 +75,7 @@ class ExpositionProgressionCard extends CustomCard {
               ),
             );
           } else
-            return TimeSeriesChart.fromSeries(data);
+            return TimeSeriesChart.fromReports(data);
         }
     );
   }

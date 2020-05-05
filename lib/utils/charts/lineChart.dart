@@ -85,17 +85,19 @@ class TimeSeriesChart extends StatelessWidget {
     return data;
   }
 
-  static TimeSeriesChart fromSeries (List<TimeExposition> series) {
-    return TimeSeriesChart(
-      [
-        new charts.Series<TimeExposition, DateTime>(
-            id: 'Progression',
-            colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-            domainFn: (TimeExposition exposition, _) => exposition.time,
-            measureFn: (TimeExposition exposition, _) => exposition.value,
-            data: series
-        )
-      ],
+  factory TimeSeriesChart.fromReports (List<TimeExposition> series) {
+    var data = [
+      new charts.Series<TimeExposition, DateTime>(
+          id: 'Progression',
+          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+          domainFn: (TimeExposition exposition, _) => exposition.time,
+          measureFn: (TimeExposition exposition, _) => exposition.value,
+          data: series
+      )
+    ];
+
+    return new TimeSeriesChart(
+      data,
       animate: true,
     );
   }

@@ -7,8 +7,15 @@ var database = new AppDatabase();
 class IndicatorsComputer {
   /// is called several times a day to update today's report
   /// returns the exposition rate of the day
-  Future<int> generateReport () async {
-    return new Random().nextInt(100);
+  Future<int> generateRandomReport () async {
+    // await new Future.delayed(const Duration(seconds: 1), () => "1");
+    var report = new DailyReport(
+        timestamp: DailyReport.getTodaysTimestamp(),
+        broadcastRate: new Random().nextInt(100),
+        expositionRate: new Random().nextInt(100)
+    );
+    await setTodaysReport(report);
+    return report.expositionRate;
   }
 
   Future<void> setTodaysReport (DailyReport report) async {

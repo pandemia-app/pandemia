@@ -60,7 +60,6 @@ class ExpositionProgressionCard extends CustomCard {
     DateTime oldest = DateTime.fromMillisecondsSinceEpoch(
       report.timestamp,
     );
-    print(report.timestamp);
 
     return new Text(
       FlutterI18n.translate(context, "home_expositionprogression_since") + " " +

@@ -5,6 +5,7 @@ import 'package:pandemia/components/home/expositionProgressionCard.dart';
 import 'package:pandemia/components/home/myExpositionCard.dart';
 import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeView extends StatelessWidget {
   HomeView();
@@ -74,6 +75,7 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
                 new ListTile(
+                  onTap: _openRepositoryURL,
                   leading: new Icon(Icons.code),
                   contentPadding: padding,
                   title: new Text(
@@ -97,5 +99,14 @@ class HomeView extends StatelessWidget {
           );
         }
     );
+  }
+
+  _openRepositoryURL () async {
+    const url = 'https://github.com/pandemia-app/pandemia';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

@@ -21,7 +21,7 @@ class DailyReport {
 
   @override
   String toString() {
-    return 'DailyReport[timestamp=${new DateTime(timestamp).toIso8601String()}, '
+    return 'DailyReport[timestamp=${new DateTime.fromMillisecondsSinceEpoch(timestamp).toIso8601String()}, '
         'expositionRate=$expositionRate, broadcastRate=$broadcastRate]';
   }
 }

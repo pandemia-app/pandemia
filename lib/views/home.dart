@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/components/home/expositionProgressionCard.dart';
 import 'package:pandemia/components/home/myExpositionCard.dart';
 import 'package:pandemia/components/home/visitedPlacesCard.dart';
@@ -42,33 +43,54 @@ class HomeView extends StatelessWidget {
               children: <Widget>[
                 new ListTile(
                     leading: new Icon(Icons.info_outline),
-                    title: new Text('Fonctionnement'),
+                    title: new Text(
+                      FlutterI18n.translate(context, "home_info_operation_title"),
+                    ),
                     contentPadding: padding,
-                    subtitle: Text("Pandemia propose plusieurs fonctionnalités vous permettant de gérer vos déplacements en période de pandémie."+
-                        "Elle calcule vos indicateurs d'exposition et de diffusion (voir ce lien pour le détail des calculs), et vous" +
-                        "permet également de consulter l'affluence de vos lieux favoris, afin de savoir à quel moment s'y rendre est" +
-                        "le moins risqué."),
+                    subtitle: Text(
+                      FlutterI18n.translate(context, "home_info_operation_text1") + '\n' +
+                          FlutterI18n.translate(context, "home_info_operation_text2"),
+                    ),
                 ),
                 new ListTile(
                   leading: new Icon(Icons.data_usage),
                   contentPadding: padding,
-                  title: new Text('Données personnelles'),
-                  subtitle: Text("Pandemia est une application fonctionnant en autonomie ; elle ne transmet pas vos informations à un quelconque parti." +
-                        "Si vous activez la géolocalisation de votre smartphone, nous utilisons les positions remontées par celui-ci pour" +
-                        "améliorer les résultats de nos calculs ; ces positions sont stockées sur votre smartphone, et n'en sortent pas."),
+                  title: new Text(
+                      FlutterI18n.translate(context, "home_info_data_title")
+                  ),
+                  subtitle: Text(
+                    FlutterI18n.translate(context, "home_info_data_text1") + '\n' +
+                        FlutterI18n.translate(context, "home_info_data_text2"),
+                  ),
                 ),
                 new ListTile(
                   leading: new Icon(Icons.warning),
                   contentPadding: padding,
-                  title: new Text('Avertissement'),
-                  subtitle: Text("Les informations calculées par Pandemia ne remplacent en aucun cas un test de dépistage, mais elles peuvent " +
-          "contribuer à identifier la nécessité de se faire dépister auprès de professionnels de santé."),
+                  title: new Text(
+                      FlutterI18n.translate(context, "home_info_disclaimer_title")
+                  ),
+                  subtitle: Text(
+                      FlutterI18n.translate(context, "home_info_disclaimer_text")
+                  ),
                 ),
                 new ListTile(
                   leading: new Icon(Icons.code),
                   contentPadding: padding,
-                  title: new Text('Sources'),
-                  subtitle: Text("Le code source de Pandemia est accessible à l'adresse suivante : https://github.com/pandemia-app/pandemia"),
+                  title: new Text(
+                      FlutterI18n.translate(context, "home_info_source_title")
+                  ),
+                  subtitle: Text.rich(
+                    TextSpan(
+                      text: FlutterI18n.translate(context, "home_info_source_text") + " ",
+                      children: <TextSpan>[
+                      TextSpan(
+                        text: 'https://github.com/pandemia-app/pandemia',
+                        style: TextStyle(
+                        decoration: TextDecoration.underline,
+                      )),
+                      ],
+                    )
+                  ),
                 ),
               ],
             ),

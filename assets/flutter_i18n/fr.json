@@ -8,6 +8,17 @@
   "home_expositionprogression_since": "Depuis le",
   "home_places_title": "Endroits visités aujourd'hui",
 
+  "home_info_operation_title": "Fonctionnement",
+  "home_info_operation_text1": "Pandemia propose plusieurs fonctionnalités vous permettant de gérer vos déplacements en période de pandémie.",
+  "home_info_operation_text2": "Elle calcule vos indicateurs d'exposition et de diffusion, et vous permet également de consulter l'affluence de vos lieux favoris, afin de savoir à quel moment s'y rendre est le moins risqué.",
+  "home_info_data_title": "Vos données personnelles",
+  "home_info_data_text1": "Pandemia est une application fonctionnant en autonomie ; elle ne transmet pas vos informations à un quelconque parti.",
+  "home_info_data_text2": "Si vous activez la géolocalisation de votre smartphone, nous utilisons les positions remontées par celui-ci pour améliorer les résultats de nos calculs ; ces positions sont stockées sur votre smartphone, et n'en sortent pas.",
+  "home_info_disclaimer_title": "Avertissement",
+  "home_info_disclaimer_text": "Les informations calculées par Pandemia ne remplacent en aucun cas un test de dépistage, mais elles peuvent contribuer à identifier la nécessité de se faire dépister auprès de professionnels de santé.",
+  "home_info_source_title": "Sources",
+  "home_info_source_text": "Le code source de Pandemia est accessible à l'adresse suivante :",
+
   "word_place": "endroit",
 
   "places_searchbar_label": "Rechercher un endroit...",

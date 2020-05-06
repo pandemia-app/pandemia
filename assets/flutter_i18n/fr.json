@@ -19,6 +19,14 @@
   "home_info_source_title": "Sources",
   "home_info_source_text": "Le code source de Pandemia est accessible à l'adresse suivante :",
 
+  "home_ratemsg_0": "Aucun risque pris aujourd'hui",
+  "home_ratemsg_20": "J'ai possiblement été exposé aujourd'hui",
+  "home_ratemsg_40": "J'ai peut-être été exposé aujourd'hui",
+  "home_ratemsg_60": "J'ai probablement été exposé aujourd'hui",
+  "home_ratemsg_80": "J'ai certainement été exposé aujourd'hui",
+  "home_ratemsg_100": "J'ai très certainement été exposé aujourd'hui",
+  "home_ratemsg_stayhome": "J'ai été exposé à coup sûr aujourd'hui, je dois rester chez moi",
+
   "word_place": "endroit",
 
   "places_searchbar_label": "Rechercher un endroit...",

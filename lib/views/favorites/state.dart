@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:html/parser.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/parser.dart';
@@ -141,6 +142,8 @@ class FavoritesState extends State<FavoritesView> {
   }
 
   Widget _buildPanel() {
+    WebViewController _controller;
+
     return
       Container(
         margin: EdgeInsets.all(0),
@@ -158,7 +161,7 @@ class FavoritesState extends State<FavoritesView> {
               });
             },
             children: _data.map<ExpansionPanel>((Favorite item) {
-              Parser.getPopularTimes(item.id);
+              // Parser.getPopularTimes(item.id);
               return ExpansionPanel(
                 canTapOnHeader: true,
                 headerBuilder: (BuildContext context, bool isExpanded) {
@@ -191,9 +194,17 @@ class FavoritesState extends State<FavoritesView> {
                         Container(
                           height: 1,  // hiding webview
                           child: WebView(
+                            onWebViewCreated: (c) => _controller = c,
                             initialUrl: "https://www.google.com/maps/place/?q=place_id:${item.id}",
                             javascriptMode: JavascriptMode.unrestricted,
-                            onPageFinished: (e) => print('event : $e'),
+                            onPageFinished: (e) async {
+                              // TODO check event type and launch parsing accordingly
+                              var docu = await _controller.evaluateJavascript("document.documentElement.innerHTML;");
+                              // print(docu);
+                              var dom = parse(docu);
+                              print(e);
+                              print(dom.getElementsByTagName('script'));
+                            },
                           )
                         ),
                         SimpleBarChart.withSampleData(),

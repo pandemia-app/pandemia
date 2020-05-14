@@ -8,6 +8,7 @@ import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/barChart.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class FavoritesState extends State<FavoritesView> {
   AppDatabase db = new AppDatabase();
@@ -185,7 +186,19 @@ class FavoritesState extends State<FavoritesView> {
                   color: CustomPalette.background[600],
                   child: Container (
                     height: 200,
-                    child: SimpleBarChart.withSampleData(),
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
+                          height: 1,  // hiding webview
+                          child: WebView(
+                            initialUrl: "https://www.google.com/maps/place/?q=place_id:${item.id}",
+                            javascriptMode: JavascriptMode.unrestricted,
+                            onPageFinished: (e) => print('event : $e'),
+                          )
+                        ),
+                        SimpleBarChart.withSampleData(),
+                      ],
+                    )
                   ),
                 ),
                 isExpanded: item.isExpanded

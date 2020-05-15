@@ -104,8 +104,6 @@ class TimeSeriesChart extends StatelessWidget {
       )
     ];
 
-    print(data);
-
     return new TimeSeriesChart(
       data,
       animate: true,

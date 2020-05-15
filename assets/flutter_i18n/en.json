@@ -8,6 +8,17 @@
   "home_expositionprogression_since": "From",
   "home_places_title": "Locations I've visited today",
 
+  "home_info_operation_title": "How does it work?",
+  "home_info_operation_text1": "Pandemia offers several features assisting you in your daily movements during a pandemic.",
+  "home_info_operation_text2": "It computes your daily exposition and broadcast rates, and allows you to consult popularity of your favorite places, to find out when it's the safest time to go there.",
+  "home_info_data_title": "Personal data",
+  "home_info_data_text1": "Pandemia is a standalone application; it does not send your data to third parties",
+  "home_info_data_text2": "If you activate your smartphone's geolocation, we use locations to improve our calculations' results; these locations are stored on your smartphone, and nowhere else.",
+  "home_info_disclaimer_title": "Disclaimer",
+  "home_info_disclaimer_text": "Pandemia-computed information does not replace screening tests, but can help you decide whether to be tested by health services.",
+  "home_info_source_title": "Source code",
+  "home_info_source_text": "Pandemia's source code is available here:",
+
   "home_ratemsg_0": "I'm safe",
   "home_ratemsg_20": "I might have been exposed today",
   "home_ratemsg_40": "I may have been exposed today",
@@ -19,6 +30,8 @@
   "word_place": "place",
 
   "places_searchbar_label": "Search place...",
+  "places_place_added_toast":  "Place added to favorites.",
+  "places_place_removed_toast": "Place removed from favorites.",
 
   "favorites_none_title": "Nothing to see here!",
   "favorites_none_subtitle": "Try to add places via the Places view.",

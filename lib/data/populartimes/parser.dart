@@ -12,7 +12,7 @@ class Parser {
       print(populartimes);
       return populartimes;
     } catch (err) {
-      print("pas d'affluence trouvée pour ${place.name}");
+      print("no popular times for ${place.name}");
       return -1;
     }
   }
@@ -28,14 +28,22 @@ class Parser {
     return response.body;
   }
 
-  static parseResponse (String file) {
+  static List<List<int>> parseResponse (String file) {
     // removing first line
     var responseObject = file.split('\n');
     responseObject.removeAt(0);
 
     var object = responseObject.join("");
     var jsonObject = json.decode(object);
+    var popularTimes = jsonObject[0][1][0][14][84][0];
+    var todaysTimes = popularTimes[1][1];
 
-    return jsonObject[0][1][0][14][84][0];
+    var result = new List<List<int>>();
+    for (var times in todaysTimes) {
+      // adding hour <=> visits relation
+      result.add([times[0], times[1]]);
+    }
+
+    return result;
   }
 }

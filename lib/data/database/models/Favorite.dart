@@ -19,4 +19,8 @@ class Favorite {
   String toString() {
     return 'Favorite{name: $name, address: $address}';
   }
+
+  String getIdentifier() {
+    return '$name $address';
+  }
 }

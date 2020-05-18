@@ -9,6 +9,6 @@ void main() {
     await tester.pumpWidget(MyApp());
 
     String placeId = "ChIJ36KsmTnWwkcRvQqaRytgL48";
-    var times = Parser.getPopularTimes(placeId);
+    // var times = Parser.getPopularTimes(placeId);
   });
 }

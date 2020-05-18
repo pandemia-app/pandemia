@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:html/parser.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/parser.dart';
@@ -9,7 +8,6 @@ import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/barChart.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class FavoritesState extends State<FavoritesView> {
   AppDatabase db = new AppDatabase();
@@ -142,8 +140,6 @@ class FavoritesState extends State<FavoritesView> {
   }
 
   Widget _buildPanel() {
-    WebViewController _controller;
-
     return
       Container(
         margin: EdgeInsets.all(0),
@@ -161,7 +157,8 @@ class FavoritesState extends State<FavoritesView> {
               });
             },
             children: _data.map<ExpansionPanel>((Favorite item) {
-              // Parser.getPopularTimes(item.id);
+              Parser.getPopularTimes(item);
+
               return ExpansionPanel(
                 canTapOnHeader: true,
                 headerBuilder: (BuildContext context, bool isExpanded) {

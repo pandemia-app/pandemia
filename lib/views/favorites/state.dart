@@ -189,27 +189,7 @@ class FavoritesState extends State<FavoritesView> {
                   color: CustomPalette.background[600],
                   child: Container (
                     height: 200,
-                    child: Stack(
-                      children: <Widget>[
-                        Container(
-                          height: 1,  // hiding webview
-                          child: WebView(
-                            onWebViewCreated: (c) => _controller = c,
-                            initialUrl: "https://www.google.com/maps/place/?q=place_id:${item.id}",
-                            javascriptMode: JavascriptMode.unrestricted,
-                            onPageFinished: (e) async {
-                              // TODO check event type and launch parsing accordingly
-                              var docu = await _controller.evaluateJavascript("document.documentElement.innerHTML;");
-                              // print(docu);
-                              var dom = parse(docu);
-                              print(e);
-                              print(dom.getElementsByTagName('script'));
-                            },
-                          )
-                        ),
-                        SimpleBarChart.withSampleData(),
-                      ],
-                    )
+                    child: SimpleBarChart.withSampleData(),
                   ),
                 ),
                 isExpanded: item.isExpanded

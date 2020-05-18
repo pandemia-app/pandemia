@@ -1,20 +1,21 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
 class GaugeChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
+  final int rate;
   final double pi = 3.14;
 
-  GaugeChart(this.seriesList, {this.animate});
+  GaugeChart(this.rate, this.seriesList, {this.animate});
 
-  /// Creates a [PieChart] with sample data and no transition.
-  factory GaugeChart.withSampleData() {
+  factory GaugeChart.fromRate(int rate) {
     return new GaugeChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
+      rate,
+      _createData(rate),
+      animate: true,
     );
   }
 
@@ -31,7 +32,7 @@ class GaugeChart extends StatelessWidget {
             children: <Widget>[
               Container (
                 transform: Matrix4.translationValues(58, 62, 0),
-                child: Text("30%", style: TextStyle(fontSize: 20, color: CustomPalette.text[400])),
+                child: Text("$rate%", style: TextStyle(fontSize: 20, color: CustomPalette.text[400])),
               ),
 
               Container (
@@ -51,7 +52,7 @@ class GaugeChart extends StatelessWidget {
           child: Container (
             width: 200,
             // transform: Matrix4.translationValues(25, -15, 0),
-            child: Text("I might have been exposed today",
+            child: Text(getLabelFromRate(rate, context),
                 style: TextStyle(fontSize: 20, color: CustomPalette.text[400])),
           ),
         )
@@ -60,10 +61,10 @@ class GaugeChart extends StatelessWidget {
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<GaugeSegment, String>> _createSampleData() {
+  static List<charts.Series<GaugeSegment, String>> _createData(int rate) {
     final data = [
-      new GaugeSegment('Contamination rate', 30),
-      new GaugeSegment('Space', 70),
+      new GaugeSegment('Contamination rate', rate),
+      new GaugeSegment('Space', 100 - rate),
     ];
 
     return [
@@ -74,6 +75,27 @@ class GaugeChart extends StatelessWidget {
         data: data,
       )
     ];
+  }
+
+  String getLabelFromRate(int rate, BuildContext context) {
+    assert (rate >= 0 && rate <= 100);
+
+    if (rate == 0)
+      return FlutterI18n.translate(context, "home_ratemsg_0");
+    if (rate < 20)
+      return FlutterI18n.translate(context, "home_ratemsg_20");
+    if (rate < 40)
+      return FlutterI18n.translate(context, "home_ratemsg_40");
+    if (rate < 60)
+      return FlutterI18n.translate(context, "home_ratemsg_60");
+    if (rate < 80)
+      return FlutterI18n.translate(context, "home_ratemsg_80");
+    if (rate < 100)
+      return FlutterI18n.translate(context, "home_ratemsg_100");
+    if (rate == 100)
+      return FlutterI18n.translate(context, "home_ratemsg_stayhome");
+
+    return "error";
   }
 }
 

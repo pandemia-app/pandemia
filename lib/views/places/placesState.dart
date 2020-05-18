@@ -63,7 +63,7 @@ class PlacesState extends State<PlacesView> {
 
             Align(
               alignment: Alignment.bottomCenter,
-              child: PlaceCard(place: fPlace)
+              child: PlaceCard(place: fPlace, mainContext: context)
             )
           ],
         )

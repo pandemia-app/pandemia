@@ -3,15 +3,17 @@ import 'package:http/http.dart' as http;
 import 'package:pandemia/data/database/models/Favorite.dart';
 
 /// https://stackoverflow.com/questions/30857150/getting-google-maps-link-from-place-id
+/// https://github.com/m-wrzr/populartimes
 class Parser {
   static Future<dynamic> getPopularTimes(Favorite place) async {
     var file = await getFile(place);
     try {
       var populartimes = parseResponse(file);
+      print(populartimes);
       return populartimes;
     } catch (err) {
       print("pas d'affluence trouvée pour ${place.name}");
-      return new Error();
+      return -1;
     }
   }
 

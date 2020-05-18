@@ -71,33 +71,33 @@ class FavoritesState extends State<FavoritesView> {
           if (!snapshot.hasData || snapshot.data.length == 0) {
             if (snapshot.connectionState == ConnectionState.done) {
               return Center (
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      child: new Text(
-                        FlutterI18n.translate(context, "favorites_none_title"),
-                        style: TextStyle(
-                            color: CustomPalette.text[100],
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300
-                        ),
-                      ),
-                      padding: EdgeInsets.all(10.0),
-                    ),
-
-                    Container(
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
                         child: new Text(
-                          FlutterI18n.translate(context, "favorites_none_subtitle"),
+                          FlutterI18n.translate(context, "favorites_none_title"),
                           style: TextStyle(
-                              color: CustomPalette.text[600],
-                              fontSize: 18,
+                              color: CustomPalette.text[100],
+                              fontSize: 20,
                               fontWeight: FontWeight.w300
                           ),
                         ),
-                        padding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 10.0)
-                    )
-                  ],
-                )
+                        padding: EdgeInsets.all(10.0),
+                      ),
+
+                      Container(
+                          child: new Text(
+                            FlutterI18n.translate(context, "favorites_none_subtitle"),
+                            style: TextStyle(
+                                color: CustomPalette.text[600],
+                                fontSize: 18,
+                                fontWeight: FontWeight.w300
+                            ),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 10.0)
+                      )
+                    ],
+                  )
               );
             } else {
               return CircularProgressIndicator();
@@ -157,8 +157,6 @@ class FavoritesState extends State<FavoritesView> {
               });
             },
             children: _data.map<ExpansionPanel>((Favorite item) {
-              Parser.getPopularTimes(item);
-
               return ExpansionPanel(
                 canTapOnHeader: true,
                 headerBuilder: (BuildContext context, bool isExpanded) {
@@ -177,17 +175,48 @@ class FavoritesState extends State<FavoritesView> {
                     )
                   );
                 },
-                body: Card(
-                  margin: EdgeInsets.all(0),
-                  shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                  ) ,
-                  borderOnForeground: true,
-                  color: CustomPalette.background[600],
-                  child: Container (
-                    height: 200,
-                    child: SimpleBarChart.withSampleData(),
-                  ),
+                body: FutureBuilder<dynamic>(
+                  future: Parser.getPopularTimes(item),
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                    // loading results
+                    if (!snapshot.hasData) {
+                      return Container (
+                        height: 200,
+                        color: CustomPalette.background[600],
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+
+                    // no popular times for this place
+                    if (snapshot.data == -1) {
+                      return Container(
+                        child: Text(
+                          FlutterI18n.translate(context, "favorites_nopopulartimes"),
+                          style: TextStyle(
+                              color: CustomPalette.text[600],
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300
+                          ),
+                        ),
+                        padding: EdgeInsets.fromLTRB(15, 0, 15, 20),
+                      );
+                    }
+
+                    return Card(
+                      margin: EdgeInsets.all(0),
+                      shape: ContinuousRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ) ,
+                      borderOnForeground: true,
+                      color: CustomPalette.background[600],
+                      child: Container (
+                        height: 200,
+                        child: SimpleBarChart.withSampleData(),
+                      ),
+                    );
+                  }
                 ),
                 isExpanded: item.isExpanded
               );

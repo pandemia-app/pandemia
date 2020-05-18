@@ -22,5 +22,6 @@
   "favorites_pullrefresh_idle": "Pull to refresh metrics",
   "favorites_pullrefresh_release": "Release to refresh metrics",
   "favorites_pullrefresh_refreshing": "Computing metrics...",
-  "favorites_pullrefresh_complete": "Results imported."
+  "favorites_pullrefresh_complete": "Results imported.",
+  "favorites_nopopulartimes": "No popular times available for this place."
 }

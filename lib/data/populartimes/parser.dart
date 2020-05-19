@@ -36,17 +36,20 @@ class Parser {
     var object = responseObject.join("");
     var jsonObject = json.decode(object);
     var popularTimes = jsonObject[0][1][0][14][84][0];
-    var todaysTimes = popularTimes[1][1];
 
-    var result = new List<List<int>>();
-    for (var times in todaysTimes) {
-      // adding hour <=> visits relation
-      result.add([times[0], times[1]]);
+    Map<int, List<List<int>>> results = new Map();
+    for (var dayResult in popularTimes) {
+      var dayIndex = dayResult[0];
+      List<List<int>> formattedResult = [];
+      for (var data in dayResult[1]) {
+        formattedResult.add([data[0], data[1]]);
+      }
+      results.putIfAbsent(dayIndex, () => formattedResult);
     }
 
     return PopularTimes(
         currentPopularity: jsonObject[0][1][0][14][84][7][1],
-        stats: result
+        stats: results
     );
   }
 }

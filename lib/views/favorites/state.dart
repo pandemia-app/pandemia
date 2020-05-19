@@ -217,7 +217,7 @@ class FavoritesState extends State<FavoritesView> {
                         height: 200,
                         child: Stack (
                           children: <Widget>[
-                            SimpleBarChart.fromPopularTimes(data.stats),
+                            SimpleBarChart.fromPopularTimes(data.getTodaysStats()),
                             Container (
                               padding: EdgeInsets.only(left: 15, top: 5),
                               child: Text(

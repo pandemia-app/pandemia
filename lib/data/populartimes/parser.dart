@@ -59,8 +59,14 @@ class Parser {
       results.putIfAbsent(dayIndex, () => formattedResult);
     }
 
+    // current popularity might not be available when parsing
+    int popularity = 0;
+    try {
+      popularity = jsonObject[0][1][0][14][84][7][1];
+    } catch (_) { }
+
     return PopularTimes(
-        currentPopularity: jsonObject[0][1][0][14][84][7][1],
+        currentPopularity: popularity,
         stats: results
     );
   }

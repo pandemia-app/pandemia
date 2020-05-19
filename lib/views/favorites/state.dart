@@ -232,6 +232,8 @@ class FavoritesState extends State<FavoritesView> {
                       );
                     }
 
+                    CarouselController carouselController = CarouselController();
+
                     return Card(
                       margin: EdgeInsets.all(0),
                       shape: ContinuousRectangleBorder(
@@ -241,14 +243,44 @@ class FavoritesState extends State<FavoritesView> {
                       color: CustomPalette.background[600],
                       child: Container (
                         height: 200,
-                        child: CarouselSlider(
-                          options: CarouselOptions(
-                            enableInfiniteScroll: true,
-                            enlargeCenterPage: true,
-                            initialPage: DateTime.now().weekday-1,
-                            viewportFraction: 1
-                          ),
-                          items: statCards,
+                        child: Stack(
+                          children: <Widget>[
+                            CarouselSlider(
+                              carouselController: carouselController,
+                              options: CarouselOptions(
+                                  enableInfiniteScroll: true,
+                                  enlargeCenterPage: true,
+                                  initialPage: DateTime.now().weekday-1,
+                                  viewportFraction: 1,
+                                  height: 200
+                              ),
+                              items: statCards,
+                            ),
+
+                            Align(
+                              child: GestureDetector(
+                                onTap: () { carouselController.previousPage(); },
+                                child: IconTheme(
+                                  data: new IconThemeData(
+                                      color: CustomPalette.text[400]),
+                                  child: new Icon(Icons.arrow_back_ios),
+                                ),
+                              ),
+                              alignment: Alignment.centerLeft,
+                            ),
+
+                            Align(
+                              child: GestureDetector(
+                                onTap: () { carouselController.nextPage(); },
+                                child: IconTheme(
+                                  data: new IconThemeData(
+                                      color: CustomPalette.text[400]),
+                                  child: new Icon(Icons.arrow_forward_ios),
+                                ),
+                              ),
+                              alignment: Alignment.centerRight,
+                            ),
+                          ],
                         )
                       ),
                     );

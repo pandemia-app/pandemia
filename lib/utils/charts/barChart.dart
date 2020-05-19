@@ -38,15 +38,15 @@ class SimpleBarChart extends StatelessWidget {
           tickProviderSpec:
             new charts.StaticOrdinalTickProviderSpec(
                 <charts.TickSpec<String>>[
-                  new charts.TickSpec('7'),
-                  new charts.TickSpec('9'),
-                  new charts.TickSpec('11'),
-                  new charts.TickSpec('13'),
-                  new charts.TickSpec('15'),
-                  new charts.TickSpec('17'),
-                  new charts.TickSpec('19'),
-                  new charts.TickSpec('21'),
-                  new charts.TickSpec('23'),
+                  new charts.TickSpec('7h'),
+                  new charts.TickSpec('9h'),
+                  new charts.TickSpec('11h'),
+                  new charts.TickSpec('13h'),
+                  new charts.TickSpec('15h'),
+                  new charts.TickSpec('17h'),
+                  new charts.TickSpec('19h'),
+                  new charts.TickSpec('21h'),
+                  new charts.TickSpec('23h'),
                 ]
             )),
     );
@@ -54,34 +54,11 @@ class SimpleBarChart extends StatelessWidget {
 
   /// Create one series with sample hard coded data.
   static List<charts.Series<CrowdRate, String>> _createDataFromPopularTimes(List<List<int>> times) {
-    final markers = [];
     final data = new List<CrowdRate>();
-    final rates = [];
 
     for (var time in times) {
-      data.add(new CrowdRate(time.first.toString(), time.last));
+      data.add(new CrowdRate("${time.first}h", time.last));
     }
-/*
-    for (var time in times) {
-      rates.add(time.last);
-    }
-
-    // first hour
-    var index = 0;
-    while (rates[index] == 0)
-      index++;
-    markers.add(index-1);
-
-    // last hour
-    // start iteration from the end (some places close at noon)
-    index = rates.length-1;
-    while (rates[index] == 0)
-      index--;
-    markers.add(index+2);
-
-    for (var i=markers[0]; i<markers[1]; i++) {
-      data.add(new CrowdRate(i.toString(), rates[i]));
-    }*/
 
     return [
       new charts.Series<CrowdRate, String>(

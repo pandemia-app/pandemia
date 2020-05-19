@@ -209,7 +209,7 @@ class FavoritesState extends State<FavoritesView> {
                     // building stats carousel items
                     PopularTimes data = snapshot.data;
                     List<Widget> statCards = [];
-                    for (var weekday in data.stats.keys) {
+                    for (var weekday in data.getOrderedKeys()) {
                       statCards.add(
                           Stack (
                             children: <Widget>[
@@ -245,6 +245,7 @@ class FavoritesState extends State<FavoritesView> {
                           options: CarouselOptions(
                             enableInfiniteScroll: true,
                             enlargeCenterPage: true,
+                            initialPage: DateTime.now().weekday-1
                           ),
                           items: statCards,
                         )

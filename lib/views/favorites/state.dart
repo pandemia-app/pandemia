@@ -4,6 +4,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/parser.dart';
+import 'package:pandemia/data/populartimes/populartimes.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/barChart.dart';
 import 'package:pandemia/views/favorites/view.dart';
@@ -204,6 +205,7 @@ class FavoritesState extends State<FavoritesView> {
                       );
                     }
 
+                    PopularTimes data = snapshot.data;
                     return Card(
                       margin: EdgeInsets.all(0),
                       shape: ContinuousRectangleBorder(
@@ -213,7 +215,7 @@ class FavoritesState extends State<FavoritesView> {
                       color: CustomPalette.background[600],
                       child: Container (
                         height: 200,
-                        child: SimpleBarChart.fromPopularTimes(snapshot.data),
+                        child: SimpleBarChart.fromPopularTimes(data.stats),
                       ),
                     );
                   }

@@ -45,5 +45,13 @@
   "favorites_pullrefresh_refreshing": "Computing metrics...",
   "favorites_pullrefresh_complete": "Results imported.",
   "favorites_nopopulartimes": "No popular times available for this place.",
-  "favorites_currentpopularity": "Current popularity:"
+  "favorites_currentpopularity": "Current popularity:",
+
+  "day_1": "Monday",
+  "day_2": "Tuesday",
+  "day_3": "Wednesday",
+  "day_4": "Thursday",
+  "day_5": "Friday",
+  "day_6": "Saturday",
+  "day_7": "Sunday"
 }

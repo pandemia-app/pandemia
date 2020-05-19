@@ -211,9 +211,24 @@ class FavoritesState extends State<FavoritesView> {
                     List<Widget> statCards = [];
                     for (var weekday in data.stats.keys) {
                       statCards.add(
-                        SimpleBarChart.fromPopularTimes(
-                          data.stats[weekday]
-                        )
+                          Stack (
+                            children: <Widget>[
+                              SimpleBarChart.fromPopularTimes (
+                                  data.stats[weekday]
+                              ),
+                              Container (
+                                padding: EdgeInsets.only(left: 15, top: 5),
+                                child: Text(
+                                  FlutterI18n.translate(context, "day_$weekday"),
+                                  style: TextStyle(
+                                      color: CustomPalette.text[500],
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w300
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
                       );
                     }
 
@@ -229,25 +244,10 @@ class FavoritesState extends State<FavoritesView> {
                         child: CarouselSlider(
                           options: CarouselOptions(
                             enableInfiniteScroll: true,
+                            enlargeCenterPage: true,
                           ),
                           items: statCards,
                         )
-                        /*Stack (
-                          children: <Widget>[
-                            SimpleBarChart.fromPopularTimes(data.getTodaysStats()),
-                            Container (
-                              padding: EdgeInsets.only(left: 15, top: 5),
-                              child: Text(
-                                FlutterI18n.translate(context, "favorites_currentpopularity") + " ${data.currentPopularity}%",
-                                style: TextStyle(
-                                    color: CustomPalette.text[600],
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w300
-                                ),
-                              ),
-                            )
-                          ],
-                        )*/
                       ),
                     );
                   }

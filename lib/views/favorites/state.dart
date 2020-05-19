@@ -245,7 +245,8 @@ class FavoritesState extends State<FavoritesView> {
                           options: CarouselOptions(
                             enableInfiniteScroll: true,
                             enlargeCenterPage: true,
-                            initialPage: DateTime.now().weekday-1
+                            initialPage: DateTime.now().weekday-1,
+                            viewportFraction: 1
                           ),
                           items: statCards,
                         )

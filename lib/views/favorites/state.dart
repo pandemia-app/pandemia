@@ -215,7 +215,22 @@ class FavoritesState extends State<FavoritesView> {
                       color: CustomPalette.background[600],
                       child: Container (
                         height: 200,
-                        child: SimpleBarChart.fromPopularTimes(data.stats),
+                        child: Stack (
+                          children: <Widget>[
+                            SimpleBarChart.fromPopularTimes(data.stats),
+                            Container (
+                              padding: EdgeInsets.only(left: 15, top: 5),
+                              child: Text(
+                                FlutterI18n.translate(context, "favorites_currentpopularity") + " ${data.currentPopularity}%",
+                                style: TextStyle(
+                                    color: CustomPalette.text[600],
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w300
+                                ),
+                              ),
+                            )
+                          ],
+                        )
                       ),
                     );
                   }

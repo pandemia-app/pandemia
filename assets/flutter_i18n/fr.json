@@ -44,5 +44,6 @@
   "favorites_pullrefresh_release": "Lâchez pour mettre à jour les informations",
   "favorites_pullrefresh_refreshing": "Mise à jour en cours...",
   "favorites_pullrefresh_complete": "Mise à jour terminée !",
-  "favorites_nopopulartimes": "Ce lieu ne possède pas de données d'affluence."
+  "favorites_nopopulartimes": "Ce lieu ne possède pas de données d'affluence.",
+  "favorites_currentpopularity": "Affluence actuelle :"
 }

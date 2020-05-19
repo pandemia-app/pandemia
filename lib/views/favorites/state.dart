@@ -213,7 +213,7 @@ class FavoritesState extends State<FavoritesView> {
                       color: CustomPalette.background[600],
                       child: Container (
                         height: 200,
-                        child: SimpleBarChart.withSampleData(),
+                        child: SimpleBarChart.fromPopularTimes(snapshot.data),
                       ),
                     );
                   }

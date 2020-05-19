@@ -9,15 +9,12 @@ class SimpleBarChart extends StatelessWidget {
 
   SimpleBarChart(this.seriesList, {this.animate});
 
-  /// Creates a [BarChart] with sample data and no transition.
-  factory SimpleBarChart.withSampleData() {
+  factory SimpleBarChart.fromPopularTimes(List<List<int>> times) {
     return new SimpleBarChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
+      _createDataFromPopularTimes(times),
+      animate: true
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +46,25 @@ class SimpleBarChart extends StatelessWidget {
                   new charts.TickSpec('17'),
                   new charts.TickSpec('19'),
                   new charts.TickSpec('21'),
+                  new charts.TickSpec('23'),
                 ]
             )),
     );
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<CrowdRate, String>> _createSampleData() {
+  static List<charts.Series<CrowdRate, String>> _createDataFromPopularTimes(List<List<int>> times) {
     final markers = [];
     final data = new List<CrowdRate>();
-    final rates = [0, 0, 0, 0, 0, 0, 0, 0, 20, 25, 30, 40, 35, 38, 42, 45, 42, 57, 62, 0, 0, 0, 0, 0, 0];
+    final rates = [];
+
+    for (var time in times) {
+      data.add(new CrowdRate(time.first.toString(), time.last));
+    }
+/*
+    for (var time in times) {
+      rates.add(time.last);
+    }
 
     // first hour
     var index = 0;
@@ -75,7 +81,7 @@ class SimpleBarChart extends StatelessWidget {
 
     for (var i=markers[0]; i<markers[1]; i++) {
       data.add(new CrowdRate(i.toString(), rates[i]));
-    }
+    }*/
 
     return [
       new charts.Series<CrowdRate, String>(

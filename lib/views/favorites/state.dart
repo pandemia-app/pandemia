@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -205,7 +206,17 @@ class FavoritesState extends State<FavoritesView> {
                       );
                     }
 
+                    // building stats carousel items
                     PopularTimes data = snapshot.data;
+                    List<Widget> statCards = [];
+                    for (var weekday in data.stats.keys) {
+                      statCards.add(
+                        SimpleBarChart.fromPopularTimes(
+                          data.stats[weekday]
+                        )
+                      );
+                    }
+
                     return Card(
                       margin: EdgeInsets.all(0),
                       shape: ContinuousRectangleBorder(
@@ -215,7 +226,13 @@ class FavoritesState extends State<FavoritesView> {
                       color: CustomPalette.background[600],
                       child: Container (
                         height: 200,
-                        child: Stack (
+                        child: CarouselSlider(
+                          options: CarouselOptions(
+                            enableInfiniteScroll: true,
+                          ),
+                          items: statCards,
+                        )
+                        /*Stack (
                           children: <Widget>[
                             SimpleBarChart.fromPopularTimes(data.getTodaysStats()),
                             Container (
@@ -230,7 +247,7 @@ class FavoritesState extends State<FavoritesView> {
                               ),
                             )
                           ],
-                        )
+                        )*/
                       ),
                     );
                   }

@@ -9,7 +9,9 @@ class Parser {
   static Future<dynamic> getPopularTimes(Favorite place) async {
     var file = await getFile(place);
     try {
-      return parseResponse(file);
+      PopularTimes stats = parseResponse(file);
+      print('popular times successfully retrieved for ${place.name}');
+      return stats;
     } catch (err) {
       print("no popular times for ${place.name}");
       return -1;

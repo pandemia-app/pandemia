@@ -142,155 +142,194 @@ class FavoritesState extends State<FavoritesView> {
   }
 
   Widget _buildPanel() {
-    return
-      Container(
-        margin: EdgeInsets.all(0),
-        child: Theme(
-          data: Theme.of(context).copyWith(
-              cardColor: CustomPalette.background[500],
-          ),
-          child:ExpansionPanelList(
-            expansionCallback: (int index, bool isExpanded) {
-              setState(() {
-                for (var i=0, len=_data.length; i<len; i++) {
-                  _data[i].isExpanded =
-                  i == index ? !isExpanded : false;
-                }
-              });
-            },
-            children: _data.map<ExpansionPanel>((Favorite item) {
-              return ExpansionPanel(
-                canTapOnHeader: true,
-                headerBuilder: (BuildContext context, bool isExpanded) {
-                  return GestureDetector(
-                    onLongPress: () => _showDialog(item),
-                    child: Container (
-                      margin: EdgeInsets.all(0),
-                      child: ListTile(
-                        title: Text(item.name, style: TextStyle(color: CustomPalette.text[200])),
-                        subtitle: Text(item.address,
-                          style: TextStyle(color: CustomPalette.text[500]),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: isExpanded ? 3 : 1,
-                        ),
-                      ),
+    List<Widget> panels = new List();
+
+    // deploys an expansion panel and closes others
+    Function expansionCallback = (int index, bool isExpanded, Favorite place) {
+      setState(() {
+        for (var i = 0, len = _data.length; i < len; i++) {
+          _data[i].isExpanded =
+          _data[i].id == place.id ? !place.isExpanded : false;
+        }
+      });
+    };
+
+    // builds a header for all panels with places' name and address
+    Function headerBuilder = (BuildContext context, bool isExpanded, Favorite place) {
+      return GestureDetector(
+          onLongPress: () => _showDialog(place),
+          child: Container (
+            margin: EdgeInsets.all(0),
+            child: ListTile(
+              title: Text(place.name, style: TextStyle(color: CustomPalette.text[200])),
+              subtitle: Text(place.address,
+                style: TextStyle(color: CustomPalette.text[500]),
+                overflow: TextOverflow.ellipsis,
+                maxLines: isExpanded ? 3 : 1,
+              ),
+            ),
+          )
+      );
+    };
+
+    // creating an expansion panel for each place
+    for (Favorite place in _data) {
+      panels.add(
+          FutureBuilder<dynamic>(
+              future: Parser.getPopularTimes(place),
+              builder: (context, AsyncSnapshot<dynamic> snapshot) {
+                // loading data
+                if (!snapshot.hasData) {
+                  return Container (
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: ExpansionPanelList (
+                      expansionCallback: (index, isExpanded) => expansionCallback(index, isExpanded, place),
+                      children: [ExpansionPanel(
+                          canTapOnHeader: true,
+                          isExpanded: place.isExpanded,
+                          headerBuilder: (context, isExpanded) => headerBuilder(context, isExpanded, place),
+                          body: Container (
+                            height: 200,
+                            color: CustomPalette.background[600],
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                      )],
                     )
                   );
-                },
-                body: FutureBuilder<dynamic>(
-                  future: Parser.getPopularTimes(item),
-                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                    // loading results
-                    if (!snapshot.hasData) {
-                      return Container (
-                        height: 200,
-                        color: CustomPalette.background[600],
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
+                }
 
-                    // no popular times for this place
-                    if (snapshot.data == -1) {
-                      return Container(
-                        child: Text(
-                          FlutterI18n.translate(context, "favorites_nopopulartimes"),
-                          style: TextStyle(
-                              color: CustomPalette.text[600],
-                              fontSize: 18,
-                              fontWeight: FontWeight.w300
-                          ),
-                        ),
-                        padding: EdgeInsets.fromLTRB(15, 0, 15, 20),
-                      );
-                    }
-
-                    // building stats carousel items
-                    PopularTimes data = snapshot.data;
-                    List<Widget> statCards = [];
-                    for (var weekday in data.getOrderedKeys()) {
-                      statCards.add(
-                          Stack (
-                            children: <Widget>[
-                              SimpleBarChart.fromPopularTimes (
-                                  data.stats[weekday]
+                // no popular times to display
+                if (snapshot.data == -1) {
+                  return Container (
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: ExpansionPanelList (
+                      expansionCallback: (index, isExpanded) => expansionCallback(index, isExpanded, place),
+                      children: [ExpansionPanel(
+                          canTapOnHeader: true,
+                          isExpanded: place.isExpanded,
+                          headerBuilder: (context, isExpanded) => headerBuilder(context, isExpanded, place),
+                          body: Container(
+                            child: Text(
+                              FlutterI18n.translate(context, "favorites_nopopulartimes"),
+                              style: TextStyle(
+                                  color: CustomPalette.text[600],
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w300
                               ),
-                              Container (
-                                padding: EdgeInsets.only(left: 15, top: 5),
-                                child: Text(
-                                  FlutterI18n.translate(context, "day_$weekday"),
-                                  style: TextStyle(
-                                      color: CustomPalette.text[500],
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w300
-                                  ),
-                                ),
-                              )
-                            ],
+                            ),
+                            padding: EdgeInsets.fromLTRB(15, 0, 15, 20),
                           )
-                      );
-                    }
+                      )],
+                    )
+                  );
+                }
 
-                    CarouselController carouselController = CarouselController();
+                // building stats carousel items
+                PopularTimes data = snapshot.data;
+                List<Widget> statCards = [];
+                CarouselController carouselController = CarouselController();
 
-                    return Card(
-                      margin: EdgeInsets.all(0),
-                      shape: ContinuousRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ) ,
-                      borderOnForeground: true,
-                      color: CustomPalette.background[600],
-                      child: Container (
-                        height: 200,
-                        child: Stack(
-                          children: <Widget>[
-                            CarouselSlider(
-                              carouselController: carouselController,
-                              options: CarouselOptions(
-                                  enableInfiniteScroll: true,
-                                  enlargeCenterPage: true,
-                                  initialPage: DateTime.now().weekday-1,
-                                  viewportFraction: 1,
-                                  height: 200
+                for (var weekday in data.getOrderedKeys()) {
+                  statCards.add(
+                      Stack (
+                        children: <Widget>[
+                          SimpleBarChart.fromPopularTimes (
+                              data.stats[weekday]
+                          ),
+                          Container (
+                            padding: EdgeInsets.only(left: 15, top: 5),
+                            child: Text(
+                              FlutterI18n.translate(context, "day_$weekday"),
+                              style: TextStyle(
+                                  color: CustomPalette.text[500],
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w300
                               ),
-                              items: statCards,
                             ),
+                          )
+                        ],
+                      )
+                  );
+                }
 
-                            Align(
-                              child: GestureDetector(
-                                onTap: () { carouselController.previousPage(); },
-                                child: IconTheme(
-                                  data: new IconThemeData(
-                                      color: CustomPalette.text[400]),
-                                  child: new Icon(Icons.arrow_back_ios),
-                                ),
-                              ),
-                              alignment: Alignment.centerLeft,
-                            ),
+                return Container (
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: ExpansionPanelList (
+                    expansionCallback: (index, isExpanded) => expansionCallback(index, isExpanded, place),
+                    children: [ExpansionPanel(
+                        canTapOnHeader: true,
+                        isExpanded: place.isExpanded,
+                        headerBuilder: (context, isExpanded) => headerBuilder(context, isExpanded, place),
+                        body: Card(
+                          margin: EdgeInsets.all(0),
+                          shape: ContinuousRectangleBorder(
+                            borderRadius: BorderRadius.zero,
+                          ) ,
+                          borderOnForeground: true,
+                          color: CustomPalette.background[600],
+                          child: Container (
+                              height: 200,
+                              child: Stack(
+                                children: <Widget>[
+                                  CarouselSlider(
+                                    carouselController: carouselController,
+                                    options: CarouselOptions(
+                                        enableInfiniteScroll: true,
+                                        enlargeCenterPage: true,
+                                        initialPage: DateTime.now().weekday-1,
+                                        viewportFraction: 1,
+                                        height: 200
+                                    ),
+                                    items: statCards,
+                                  ),
 
-                            Align(
-                              child: GestureDetector(
-                                onTap: () { carouselController.nextPage(); },
-                                child: IconTheme(
-                                  data: new IconThemeData(
-                                      color: CustomPalette.text[400]),
-                                  child: new Icon(Icons.arrow_forward_ios),
-                                ),
-                              ),
-                              alignment: Alignment.centerRight,
-                            ),
-                          ],
+                                  Align(
+                                    child: GestureDetector(
+                                      onTap: () { carouselController.previousPage(); },
+                                      child: IconTheme(
+                                        data: new IconThemeData(
+                                            color: CustomPalette.text[400]),
+                                        child: new Icon(Icons.arrow_back_ios),
+                                      ),
+                                    ),
+                                    alignment: Alignment.centerLeft,
+                                  ),
+
+                                  Align(
+                                    child: GestureDetector(
+                                      onTap: () { carouselController.nextPage(); },
+                                      child: IconTheme(
+                                        data: new IconThemeData(
+                                            color: CustomPalette.text[400]),
+                                        child: new Icon(Icons.arrow_forward_ios),
+                                      ),
+                                    ),
+                                    alignment: Alignment.centerRight,
+                                  ),
+                                ],
+                              )
+                          ),
                         )
-                      ),
-                    );
-                  }
-                ),
-                isExpanded: item.isExpanded
-              );
-            }).toList(),
+                    )],
+                  ),
+                );
+              }
           )
-        )
       );
-  }
+    }
+
+      return Container(
+            margin: EdgeInsets.all(0),
+            child: Theme(
+                data: Theme.of(context).copyWith(
+                  cardColor: CustomPalette.background[500],
+                ),
+                child: Column (
+                  children: panels,
+                )
+            )
+        );
+    }
 }

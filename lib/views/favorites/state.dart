@@ -229,7 +229,6 @@ class FavoritesState extends State<FavoritesView> {
                 // building stats carousel items
                 PopularTimes data = snapshot.data;
                 List<Widget> statCards = [];
-                CarouselController carouselController = CarouselController();
 
                 for (var weekday in data.getOrderedKeys()) {
                   statCards.add(
@@ -274,7 +273,6 @@ class FavoritesState extends State<FavoritesView> {
                               child: Stack(
                                 children: <Widget>[
                                   CarouselSlider(
-                                    carouselController: carouselController,
                                     options: CarouselOptions(
                                         enableInfiniteScroll: true,
                                         enlargeCenterPage: true,
@@ -287,10 +285,9 @@ class FavoritesState extends State<FavoritesView> {
 
                                   Align(
                                     child: GestureDetector(
-                                      onTap: () { carouselController.previousPage(); },
                                       child: IconTheme(
                                         data: new IconThemeData(
-                                            color: CustomPalette.text[400]),
+                                            color: CustomPalette.background[400]),
                                         child: new Icon(Icons.arrow_back_ios),
                                       ),
                                     ),
@@ -299,10 +296,9 @@ class FavoritesState extends State<FavoritesView> {
 
                                   Align(
                                     child: GestureDetector(
-                                      onTap: () { carouselController.nextPage(); },
                                       child: IconTheme(
                                         data: new IconThemeData(
-                                            color: CustomPalette.text[400]),
+                                            color: CustomPalette.background[400]),
                                         child: new Icon(Icons.arrow_forward_ios),
                                       ),
                                     ),

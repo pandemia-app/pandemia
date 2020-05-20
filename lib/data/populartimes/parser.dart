@@ -2,16 +2,25 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/dayResults.dart';
+import 'package:pandemia/data/populartimes/parserCache.dart';
 import 'package:pandemia/data/populartimes/populartimes.dart';
 
 /// https://stackoverflow.com/questions/30857150/getting-google-maps-link-from-place-id
 /// https://github.com/m-wrzr/populartimes
 class Parser {
+  static ParserCache cache = new ParserCache();
+
   static Future<dynamic> getPopularTimes(Favorite place) async {
+    if (cache.hasStatsForPlace(place)) {
+      print('returning popular times from cache for ${place.name}');
+      return cache.getStatsFromPlace(place);
+    }
+
     var file = await getFile(place);
     try {
       PopularTimes stats = parseResponse(file);
       print('popular times successfully retrieved for ${place.name}');
+      cache.storeStatsForPlace(place, stats);
       return stats;
     } catch (err) {
       print("no popular times for ${place.name}");

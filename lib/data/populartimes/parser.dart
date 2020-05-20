@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:pandemia/data/database/models/Favorite.dart';
+import 'package:pandemia/data/populartimes/dayResults.dart';
 import 'package:pandemia/data/populartimes/populartimes.dart';
 
 /// https://stackoverflow.com/questions/30857150/getting-google-maps-link-from-place-id
@@ -38,16 +39,18 @@ class Parser {
     // crashes if the place does not have popularity stats
     var popularTimes = jsonObject[0][1][0][14][84][0];
 
-    Map<int, List<List<int>>> results = new Map();
+    Map<int, DayResult> results = new Map();
 
     for (var dayResult in popularTimes) {
       var dayIndex = dayResult[0];
       List<List<int>> formattedResult = [];
+      bool isClosedToday = false;
       var stats = dayResult[1];
 
       // if place is not opened on a day, popularity will be null
       // filling stats with 0s
       if (stats == null) {
+        isClosedToday = true;
         for (int i=6; i<24; i++) {
           formattedResult.add([i, 0]);
         }
@@ -58,7 +61,10 @@ class Parser {
       }
 
       // saving weekday <=> popularity association
-      results.putIfAbsent(dayIndex, () => formattedResult);
+      results.putIfAbsent(dayIndex, () => DayResult(
+        times: formattedResult,
+        containsData: !isClosedToday
+      ));
     }
 
     // current popularity might not be available when parsing

@@ -1,12 +1,10 @@
+import 'package:pandemia/data/populartimes/dayResults.dart';
+
 class PopularTimes {
-  Map<int, List<List<int>>> stats;
+  Map<int, DayResult> stats;
   int currentPopularity;
 
   PopularTimes ({this.stats, this.currentPopularity});
-
-  List<List<int>> getTodaysStats () {
-    return stats[DateTime.now().weekday];
-  }
 
   List<int> getOrderedKeys() {
     assert (stats.keys.length == 7);

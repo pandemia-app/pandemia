@@ -46,6 +46,7 @@
   "favorites_pullrefresh_complete": "Results imported.",
   "favorites_nopopulartimes": "No popular times available for this place.",
   "favorites_currentpopularity": "Current popularity:",
+  "favorites_placeclosed": "Place closed this day",
 
   "day_1": "Monday",
   "day_2": "Tuesday",

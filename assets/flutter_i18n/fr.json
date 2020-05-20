@@ -46,6 +46,7 @@
   "favorites_pullrefresh_complete": "Mise à jour terminée !",
   "favorites_nopopulartimes": "Ce lieu ne possède pas de données d'affluence.",
   "favorites_currentpopularity": "Affluence actuelle :",
+  "favorites_placeclosed": "Lieu fermé en ce jour",
 
   "day_1": "Lundi",
   "day_2": "Mardi",

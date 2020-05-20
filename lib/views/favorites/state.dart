@@ -231,24 +231,39 @@ class FavoritesState extends State<FavoritesView> {
                 List<Widget> statCards = [];
 
                 for (var weekday in data.getOrderedKeys()) {
+                  var weekstats = data.stats[weekday];
+                  List<Widget> widgets = [
+                    SimpleBarChart.fromPopularTimes ( weekstats.times ),
+                    Container (
+                      padding: EdgeInsets.only(left: 15, top: 5),
+                      child: Text(
+                        FlutterI18n.translate(context, "day_$weekday"),
+                        style: TextStyle(
+                            color: CustomPalette.text[500],
+                            fontSize: 18,
+                            fontWeight: FontWeight.w300
+                        ),
+                      ),
+                    )
+                  ];
+                  if (!weekstats.containsData) {
+                    widgets.add(
+                      Center (
+                        child: Text(
+                          FlutterI18n.translate(context, "favorites_placeclosed"),
+                          style: TextStyle(
+                              color: CustomPalette.text[500],
+                              fontSize: 18,
+                              fontWeight: FontWeight.w300
+                          ),
+                        ),
+                      )
+                    );
+                  }
+
                   statCards.add(
                       Stack (
-                        children: <Widget>[
-                          SimpleBarChart.fromPopularTimes (
-                              data.stats[weekday]
-                          ),
-                          Container (
-                            padding: EdgeInsets.only(left: 15, top: 5),
-                            child: Text(
-                              FlutterI18n.translate(context, "day_$weekday"),
-                              style: TextStyle(
-                                  color: CustomPalette.text[500],
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w300
-                              ),
-                            ),
-                          )
-                        ],
+                        children: widgets,
                       )
                   );
                 }

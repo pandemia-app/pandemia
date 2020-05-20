@@ -1,5 +1,5 @@
 import 'package:pandemia/data/database/models/Favorite.dart';
-import 'package:pandemia/data/populartimes/populartimes.dart';
+import 'file:///C:/Users/remth/Travail/pandemia/lib/data/populartimes/payloads/populartimes.dart';
 
 /// This cache is used by the popular times parser to avoid making HTTP calls
 /// too often.

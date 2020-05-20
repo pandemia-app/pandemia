@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:pandemia/data/database/models/Favorite.dart';
-import 'package:pandemia/data/populartimes/dayResults.dart';
-import 'package:pandemia/data/populartimes/parserCache.dart';
-import 'package:pandemia/data/populartimes/populartimes.dart';
+import 'package:pandemia/data/populartimes/payloads/dayResults.dart';
+import 'package:pandemia/data/populartimes/parser/parserCache.dart';
+import 'file:///C:/Users/remth/Travail/pandemia/lib/data/populartimes/payloads/populartimes.dart';
 
 /// https://stackoverflow.com/questions/30857150/getting-google-maps-link-from-place-id
 /// https://github.com/m-wrzr/populartimes

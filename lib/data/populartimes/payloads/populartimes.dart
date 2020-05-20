@@ -1,4 +1,4 @@
-import 'package:pandemia/data/populartimes/dayResults.dart';
+import 'package:pandemia/data/populartimes/payloads/dayResults.dart';
 
 class PopularTimes {
   Map<int, DayResult> stats;

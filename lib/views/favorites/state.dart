@@ -9,6 +9,7 @@ import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+/// State of the favorite view.
 class FavoritesState extends State<FavoritesView> {
   AppDatabase db = new AppDatabase();
   final List<Favorite> _data = new List();
@@ -17,6 +18,7 @@ class FavoritesState extends State<FavoritesView> {
   RefreshController _refreshController =
     RefreshController(initialRefresh: false);
 
+  /// Called by favorite place panels once they're loaded.
   void panelIsLoaded () {
     if (isRefreshing) {
       loadedPlaces += 1;
@@ -37,8 +39,6 @@ class FavoritesState extends State<FavoritesView> {
     isRefreshing = true;
     Parser.cache.clear();
     setState(() {});
-    // TODO call this when all panels have fetched their data
-    await Future.delayed(Duration(milliseconds: 2000));
   }
 
   void _onLoading() async{
@@ -49,6 +49,7 @@ class FavoritesState extends State<FavoritesView> {
     _refreshController.loadComplete();
   }
 
+  /// Allows the user to remove a favorite place.
   void _showDialog(Favorite item) {
     showDialog(
       context: context,
@@ -88,6 +89,8 @@ class FavoritesState extends State<FavoritesView> {
         future: db.getFavoritePlaces(),
         builder: (context, AsyncSnapshot<List<Favorite>> snapshot) {
           if (!snapshot.hasData || snapshot.data.length == 0) {
+
+            // the user has no registered favorite place yet
             if (snapshot.connectionState == ConnectionState.done) {
               return Center (
                   child: Stack(
@@ -123,6 +126,7 @@ class FavoritesState extends State<FavoritesView> {
             }
           }
 
+          // saving places in state
           if (_data.length == 0) {
             _data.clear();
             _data.addAll(snapshot.data);
@@ -158,6 +162,7 @@ class FavoritesState extends State<FavoritesView> {
     );
   }
 
+  /// Creates and injects an expansion panel for each favorite place.
   Widget _buildPanel() {
     List<Widget> panels = new List();
 

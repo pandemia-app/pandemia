@@ -1,8 +1,8 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:pandemia/utils/CustomPalette.dart';
 
-import '../CustomPalette.dart';
-
+/// Bar chart used to display popularity statistics.
 class SimpleBarChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
@@ -52,7 +52,7 @@ class SimpleBarChart extends StatelessWidget {
     );
   }
 
-  /// Create one series with sample hard coded data.
+  /// Converts popularity statistics into graph-compatible data.
   static List<charts.Series<CrowdRate, String>> _createDataFromPopularTimes(List<List<int>> times) {
     final data = new List<CrowdRate>();
 

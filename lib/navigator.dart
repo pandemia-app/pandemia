@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 import 'data/state/AppModel.dart';
 import 'main.dart';
 
+/// Main application state, which holds its three views.
+/// Navigation between them is possible thanks to a bottom navigation menu.
 class BottomNavigationWidgetState extends State<MyHomePage> {
   final String title;
   final AppDatabase db = new AppDatabase();
@@ -25,6 +27,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
     FavoritesView()
   ];
 
+  /// Changes the displayed view when a menu item is tapped.
   void _onItemTapped(int index) {
     db.open().then((erg) async {
       var loc = new Location(id: 0, lat: 3.14, lng: 55.42, timestamp: DateTime.now().millisecondsSinceEpoch);
@@ -41,15 +44,6 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
     return Consumer<AppModel>(
         builder: (context, model, child) {
           return Scaffold(
-
-            /*
-      appBar: AppBar(
-        title: const Text('Pandemia #StayAtHome'),
-        backgroundColor: CustomPalette.palette[800],
-        centerTitle: true
-      ),
-      */
-
             body: Center(
               child: _widgetOptions.elementAt(model.tabIndex),
             ),
@@ -68,6 +62,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
     );
   }
 
+  /// Bottom navigation menu items.
   List<BottomNavigationBarItem> getNavigationItems () {
     return [
       BottomNavigationBarItem(

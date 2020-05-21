@@ -4,9 +4,11 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/state/AppModel.dart';
+import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:provider/provider.dart';
-import '../../../utils/CustomPalette.dart';
 
+/// Displays information about a selected place.
+/// Allows the user to register/unregister a place from his favorite ones.
 class PlaceCard extends StatefulWidget {
   final Favorite place;
   final BuildContext mainContext;
@@ -58,6 +60,7 @@ class _PlaceCardState extends State<PlaceCard> {
         .database.isPlaceRegistered(placeId);
   }
 
+  /// Builds the button allowing the user to add/remove a place to his favorites.
   Widget buildFavButton (Favorite place, BuildContext context) {
     return IconButton(
         icon: Icon(icon),

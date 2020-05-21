@@ -11,6 +11,11 @@ import 'package:pandemia/utils/charts/popularityChart.dart';
 import 'package:pandemia/views/favorites/state.dart';
 import 'FavoritePanel.dart';
 
+/// State for the favorite place component.
+/// It is an expansion panel, composed as follows:
+///   * header contains name and address of the place, and its current
+///     popularity (if it exists)
+///   * body contains a graph showing the place popularity (if it exists)
 class FavoritePanelState extends State<FavoritePanel> {
   final Favorite place;
   final Function dialogCallback;
@@ -20,6 +25,9 @@ class FavoritePanelState extends State<FavoritePanel> {
   Future<PopularTimes> future;
   FavoritePanelState(this.place, this.dialogCallback, this.expansionCallback, this.headerBuilder, this.state);
 
+  /// This component is built from popular times data.
+  /// By putting the data call here, we avoid to call the parser each time this
+  /// component needs to be rebuilt.
   @override
   void initState () {
     future = Parser.getPopularTimes(place);
@@ -33,6 +41,7 @@ class FavoritePanelState extends State<FavoritePanel> {
       future = Parser.getPopularTimes(place);
     }
 
+    // is called again when the parser returns data
     return FutureBuilder (
       future: future,
       builder: (context, snapshot) {
@@ -40,7 +49,7 @@ class FavoritePanelState extends State<FavoritePanel> {
         if (snapshot.connectionState == ConnectionState.done)
           state.panelIsLoaded();
 
-        // loading data
+        // if the parser hasn't returned data yet, displays a loader
         if (!snapshot.hasData) {
           return Container (
               padding: EdgeInsets.only(bottom: 20),
@@ -65,7 +74,7 @@ class FavoritePanelState extends State<FavoritePanel> {
         // data has been loaded
         PopularTimes times = snapshot.data;
 
-        // no popular times to display
+        // if this place has no popular times, displays a message
         if (!times.hasData) {
           return Container (
               padding: EdgeInsets.only(bottom: 20),
@@ -110,6 +119,9 @@ class FavoritePanelState extends State<FavoritePanel> {
               ),
             )
           ];
+
+          // if the weekday has no popularity data, tells the user the place is
+          // not operating on this day
           if (!weekstats.containsData) {
             widgets.add(
                 Center (

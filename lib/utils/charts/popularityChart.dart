@@ -2,6 +2,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
+/// Circular chart displaying the current popularity of a place.
 class PopularityChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;

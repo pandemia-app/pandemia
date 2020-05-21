@@ -5,12 +5,14 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'models/Location.dart';
 
+/// Allows the application to store persistent data on the smartphone.
 class AppDatabase {
   Database database;
   final String lName = "locations";
   final String fName = "favorites";
   final String rName = "reports";
 
+  /// Opens the database, and creates tables if needed.
   Future<void> open () async {
     var dbPath = await getDatabasesPath();
     var path = join(dbPath, 'database.db');

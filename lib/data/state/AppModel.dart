@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 
+/// Holds data to be shared across the entire application.
 class AppModel extends ChangeNotifier {
   int tabIndex = 0;
   List<DailyReport> reports = [];

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
+/// Circular chart used to display current pandemia exposition.
 class GaugeChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
@@ -60,7 +61,7 @@ class GaugeChart extends StatelessWidget {
     );
   }
 
-  /// Create one series with sample hard coded data.
+  /// Create data series from the rate.
   static List<charts.Series<GaugeSegment, String>> _createData(int rate) {
     final data = [
       new GaugeSegment('Contamination rate', rate),
@@ -77,6 +78,7 @@ class GaugeChart extends StatelessWidget {
     ];
   }
 
+  /// Picks a message to display to the user.
   String getLabelFromRate(int rate, BuildContext context) {
     assert (rate >= 0 && rate <= 100);
 

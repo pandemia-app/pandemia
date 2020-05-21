@@ -1,3 +1,5 @@
+/// This entity allows the user to store favorite places.
+/// It is used to display popularity stats.
 class Favorite {
   final String id;
   final String name;

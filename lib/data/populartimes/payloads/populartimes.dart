@@ -1,5 +1,8 @@
 import 'package:pandemia/data/populartimes/payloads/dayResults.dart';
 
+/// Container for the popularity statistics data.
+/// "hasData" property indicates if the place has statistics (some places do not,
+/// cities for example).
 class PopularTimes {
   bool hasData;
   Map<int, DayResult> stats;

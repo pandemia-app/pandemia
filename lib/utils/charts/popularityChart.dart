@@ -14,7 +14,7 @@ class PopularityChart extends StatelessWidget {
     return new PopularityChart(
       rate,
       _createData(rate),
-      animate: true,
+      animate: false,
     );
   }
 

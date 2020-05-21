@@ -13,9 +13,9 @@ void main() {
 
     print('Checking popular times of a place that have some');
     var stats = await Parser.getPopularTimes(placeWithStats);
-    expect(stats.length, 18);
-    expect(stats[0][0], 6);
-    expect(stats[17][0], 23);
+    expect(stats.stats.length, 18);
+    expect(stats.stats[0].times[0], 6);
+    expect(stats.stats[17].times[0], 23);
 
     print('Checking popular times of a place that does not have some');
     var result = await Parser.getPopularTimes(placeWithoutStats);

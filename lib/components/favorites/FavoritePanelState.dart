@@ -16,8 +16,9 @@ class FavoritePanelState extends State<FavoritePanel> {
   final Function dialogCallback;
   final Function expansionCallback;
   final Function headerBuilder;
+  final FavoritesState state;
   Future<PopularTimes> future;
-  FavoritePanelState(this.place, this.dialogCallback, this.expansionCallback, this.headerBuilder);
+  FavoritePanelState(this.place, this.dialogCallback, this.expansionCallback, this.headerBuilder, this.state);
 
   @override
   void initState () {
@@ -35,6 +36,10 @@ class FavoritePanelState extends State<FavoritePanel> {
     return FutureBuilder (
       future: future,
       builder: (context, snapshot) {
+        // telling state that this component is loaded
+        if (snapshot.connectionState == ConnectionState.done)
+          state.panelIsLoaded();
+
         // loading data
         if (!snapshot.hasData) {
           return Container (
@@ -57,6 +62,7 @@ class FavoritePanelState extends State<FavoritePanel> {
           );
         }
 
+        // data has been loaded
         PopularTimes times = snapshot.data;
 
         // no popular times to display

@@ -13,8 +13,25 @@ class FavoritesState extends State<FavoritesView> {
   AppDatabase db = new AppDatabase();
   final List<Favorite> _data = new List();
   static bool isRefreshing = false;
+  static int loadedPlaces = 0;
   RefreshController _refreshController =
     RefreshController(initialRefresh: false);
+
+  void panelIsLoaded () {
+    if (isRefreshing) {
+      loadedPlaces += 1;
+    }
+    if (loadedPlaces == _data.length) {
+      new Future.delayed(const Duration(milliseconds: 1), refreshFinished);
+    }
+  }
+
+  void refreshFinished () {
+    _refreshController.refreshCompleted();
+    isRefreshing = false;
+    loadedPlaces = 0;
+    print("all panes are loaded, refreshing is over");
+  }
 
   void _onRefresh() async{
     isRefreshing = true;
@@ -22,8 +39,6 @@ class FavoritesState extends State<FavoritesView> {
     setState(() {});
     // TODO call this when all panels have fetched their data
     await Future.delayed(Duration(milliseconds: 2000));
-    _refreshController.refreshCompleted();
-    isRefreshing = false;
   }
 
   void _onLoading() async{
@@ -178,7 +193,7 @@ class FavoritesState extends State<FavoritesView> {
     for (Favorite place in _data) {
       panels.add(
           FavoritePanel(
-            place, this._showDialog, expansionCallback, headerBuilder
+            place, this._showDialog, expansionCallback, headerBuilder, this
           )
       );
     }

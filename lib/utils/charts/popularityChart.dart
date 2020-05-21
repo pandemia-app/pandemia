@@ -1,6 +1,5 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
 class PopularityChart extends StatelessWidget {

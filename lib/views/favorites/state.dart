@@ -8,6 +8,7 @@ import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/barChart.dart';
+import 'package:pandemia/utils/charts/popularityChart.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -141,6 +142,7 @@ class FavoritesState extends State<FavoritesView> {
     );
   }
 
+  // TODO find a way to show/hide panels without rebuilding widget
   Widget _buildPanel() {
     List<Widget> panels = new List();
 
@@ -276,7 +278,21 @@ class FavoritesState extends State<FavoritesView> {
                     children: [ExpansionPanel(
                         canTapOnHeader: true,
                         isExpanded: place.isExpanded,
-                        headerBuilder: (context, isExpanded) => headerBuilder(context, isExpanded, place),
+                        headerBuilder: (context, isExpanded) => GestureDetector(
+                            onLongPress: () => _showDialog(place),
+                            child: Container (
+                              margin: EdgeInsets.all(0),
+                              child: ListTile(
+                                title: Text(place.name, style: TextStyle(color: CustomPalette.text[200])),
+                                subtitle: Text(place.address,
+                                  style: TextStyle(color: CustomPalette.text[500]),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: isExpanded ? 3 : 1,
+                                ),
+                                leading: PopularityChart.fromRate(times.currentPopularity),
+                              ),
+                            )
+                        ),
                         body: Card(
                           margin: EdgeInsets.all(0),
                           shape: ContinuousRectangleBorder(

@@ -31,4 +31,10 @@ class ParserCache {
     statsCache[place.id] = stats;
     timesCache[place.id] = DateTime.now();
   }
+
+  void clear () {
+    print('clearing parser cache');
+    statsCache.clear();
+    timesCache.clear();
+  }
 }

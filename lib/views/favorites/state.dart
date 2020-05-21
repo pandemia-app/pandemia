@@ -18,9 +18,9 @@ class FavoritesState extends State<FavoritesView> {
     RefreshController(initialRefresh: false);
 
   void _onRefresh() async{
-    // monitor network fetch
+    Parser.cache.clear();
+    setState(() {});
     await Future.delayed(Duration(milliseconds: 2000));
-    // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }
 

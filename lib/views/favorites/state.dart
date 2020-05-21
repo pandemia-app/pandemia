@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
-import 'file:///C:/Users/remth/Travail/pandemia/lib/data/populartimes/parser/parser.dart';
-import 'file:///C:/Users/remth/Travail/pandemia/lib/data/populartimes/payloads/populartimes.dart';
+import 'package:pandemia/data/populartimes/parser/parser.dart';
+import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/barChart.dart';
 import 'package:pandemia/views/favorites/view.dart';
@@ -200,8 +200,10 @@ class FavoritesState extends State<FavoritesView> {
                   );
                 }
 
+                PopularTimes times = snapshot.data;
+
                 // no popular times to display
-                if (snapshot.data == -1) {
+                if (!times.hasData) {
                   return Container (
                     padding: EdgeInsets.only(bottom: 20),
                     child: ExpansionPanelList (
@@ -226,12 +228,11 @@ class FavoritesState extends State<FavoritesView> {
                   );
                 }
 
-                // building stats carousel items
-                PopularTimes data = snapshot.data;
+                // building times carousel items
                 List<Widget> statCards = [];
 
-                for (var weekday in data.getOrderedKeys()) {
-                  var weekstats = data.stats[weekday];
+                for (var weekday in times.getOrderedKeys()) {
+                  var weekstats = times.stats[weekday];
                   List<Widget> widgets = [
                     SimpleBarChart.fromPopularTimes ( weekstats.times ),
                     Container (

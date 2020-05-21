@@ -1,10 +1,11 @@
 import 'package:pandemia/data/populartimes/payloads/dayResults.dart';
 
 class PopularTimes {
+  bool hasData;
   Map<int, DayResult> stats;
   int currentPopularity;
 
-  PopularTimes ({this.stats, this.currentPopularity});
+  PopularTimes ({this.hasData, this.stats, this.currentPopularity});
 
   List<int> getOrderedKeys() {
     assert (stats.keys.length == 7);

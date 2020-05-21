@@ -14,12 +14,12 @@ class ParserCache {
     return statsCache.containsKey(place.id);
   }
 
-  /// Data is considered "outdated" if 120-or-more-seconds old
+  /// Data is considered "outdated" if 300-or-more-seconds old
   bool isDataOutdated (Favorite place) {
     var now = DateTime.now();
     var statsTime = timesCache[place.id];
     var timeDelta = now.difference(statsTime);
-    return timeDelta.inSeconds > 120;
+    return timeDelta.inSeconds > 300;
   }
 
   PopularTimes getStatsFromPlace (Favorite place) {

@@ -51,9 +51,9 @@ class HomeView extends StatelessWidget {
             onLoading: _onLoading,
             child: ListView(
                 children: <Widget>[
-                  MyExpositionCard('exposition for today'),
-                  ExpositionProgressionCard('exposition progression'),
-                  VisitedPlacesCard("places i've visited today")
+                  MyExpositionCard(),
+                  ExpositionProgressionCard(),
+                  VisitedPlacesCard()
                 ]
             ),
         )

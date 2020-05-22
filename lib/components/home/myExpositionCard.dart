@@ -10,8 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MyExpositionCard extends StatelessWidget {
-  MyExpositionCard(String title);
-
+  @override
   Widget build(BuildContext context) {
     return Container (
         margin: EdgeInsets.fromLTRB(0, 0, 0, 10),

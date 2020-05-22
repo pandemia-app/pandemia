@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class VisitedPlacesCard extends StatelessWidget {
   static String _mapStyle;
   final LatLng _center = const LatLng(50.6311652, 3.0477402);
-  VisitedPlacesCard(String title) {
+  VisitedPlacesCard() {
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
     });

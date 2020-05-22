@@ -2,15 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:intl/intl.dart';
-import 'package:pandemia/components/card.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/lineChart.dart';
 import 'package:provider/provider.dart';
 
-class ExpositionProgressionCard extends CustomCard {
-  ExpositionProgressionCard(String title) : super('');
+class ExpositionProgressionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,7 @@ class ExpositionProgressionCard extends CustomCard {
 
         return new Container (
           height: 400,
-          color: cardColor,
+          color: CustomPalette.background[600],
           child: Stack (
             children: <Widget>[
               Container (

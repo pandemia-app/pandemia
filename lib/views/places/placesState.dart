@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pandemia/components/places/search/placeCard.dart';
+import 'package:pandemia/components/places/search/searchBar.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/views/places/places.dart';
-import 'package:pandemia/views/places/search/placeCard.dart';
-import 'package:pandemia/views/places/search/searchBar.dart';
 
 class PlacesState extends State<PlacesView> {
   GoogleMapController mapController;

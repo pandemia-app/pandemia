@@ -5,11 +5,11 @@ import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/favorites/view.dart';
-import 'package:pandemia/views/home.dart';
+import 'package:pandemia/views/home/home.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:provider/provider.dart';
-import 'data/state/AppModel.dart';
-import 'main.dart';
+import '../../data/state/AppModel.dart';
+import '../../main.dart';
 
 class BottomNavigationWidgetState extends State<MyHomePage> {
   final String title;

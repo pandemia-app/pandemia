@@ -34,6 +34,12 @@ class PlacesState extends State<PlacesView> {
     };
   }
 
+  void getAllPlacesInViewport () async {
+    print('getting all places in viewport');
+    var bounds = await mapController.getVisibleRegion();
+    print(bounds);
+  }
+
   @override
   Widget build(BuildContext context) {
     searchBar.fatherContext = context;
@@ -49,6 +55,7 @@ class PlacesState extends State<PlacesView> {
           children: <Widget>[
             GoogleMap(
               onMapCreated: _onMapCreated,
+              onCameraIdle: () => getAllPlacesInViewport(),
               zoomControlsEnabled: false,
               initialCameraPosition: CameraPosition(
                 target: _center,

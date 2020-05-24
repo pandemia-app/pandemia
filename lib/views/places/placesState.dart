@@ -12,6 +12,7 @@ class PlacesState extends State<PlacesView> {
   String _mapStyle;
   final LatLng _center = const LatLng(50.6311652, 3.0477402);
   final searchBar = new SearchBar();
+  List<Polyline> searchZones = [];
   Favorite fPlace;
 
   void _onMapCreated(GoogleMapController controller) {
@@ -37,7 +38,26 @@ class PlacesState extends State<PlacesView> {
   void getAllPlacesInViewport () async {
     print('getting all places in viewport');
     var bounds = await mapController.getVisibleRegion();
-    print(bounds);
+    // print(bounds);
+
+    setState(() {
+      searchZones.add(Polyline(
+        polylineId: PolylineId(DateTime.now().toIso8601String()),
+        color: Colors.blue,
+        patterns: [
+          PatternItem.dash(20.0),
+          PatternItem.gap(10)
+        ],
+        width: 5,
+        points: [
+          bounds.northeast,
+          new LatLng(bounds.southwest.latitude, bounds.northeast.longitude),
+          bounds.southwest,
+          new LatLng(bounds.northeast.latitude, bounds.southwest.longitude),
+          bounds.northeast,
+        ],
+      ));
+    });
   }
 
   @override
@@ -56,6 +76,7 @@ class PlacesState extends State<PlacesView> {
             GoogleMap(
               onMapCreated: _onMapCreated,
               onCameraIdle: () => getAllPlacesInViewport(),
+              polylines: searchZones.toSet(),
               zoomControlsEnabled: false,
               initialCameraPosition: CameraPosition(
                 target: _center,

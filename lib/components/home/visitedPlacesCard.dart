@@ -7,6 +7,7 @@ import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 
+/// Map card showing places the user visited today.
 class VisitedPlacesCard extends StatelessWidget {
   static String _mapStyle;
   final LatLng _center = const LatLng(50.6311652, 3.0477402);

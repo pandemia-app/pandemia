@@ -8,8 +8,9 @@ import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/lineChart.dart';
 import 'package:provider/provider.dart';
 
+/// Card displaying the user exposition progression over days.
+/// It gets exposition data stored in the app model, and displays it as a graph.
 class ExpositionProgressionCard extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Consumer<AppModel>(

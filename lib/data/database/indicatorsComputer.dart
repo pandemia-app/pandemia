@@ -6,6 +6,7 @@ import 'package:pandemia/data/state/AppModel.dart';
 import 'package:provider/provider.dart';
 var database = new AppDatabase();
 
+/// This is responsible for generating daily pandemia reports.
 class IndicatorsComputer {
   // since generateRandomReport is called several times (because of builds),
   // we need to be able to block further calls

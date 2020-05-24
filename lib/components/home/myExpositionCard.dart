@@ -9,6 +9,9 @@ import 'package:pandemia/utils/charts/gaugeChart.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+/// Widget showing current day's exposition using the last report.
+/// It displays the exposition rate as a circular graph with an associated
+/// message.
 class MyExpositionCard extends StatelessWidget {
   MyExpositionCard(String title);
 

@@ -7,6 +7,7 @@ import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+/// Allows users to search for places from words.
 // ignore: must_be_immutable
 class SearchBar extends StatelessWidget {
   GoogleMapController mapController;
@@ -53,6 +54,8 @@ class SearchBar extends StatelessWidget {
     );
   }
 
+  /// Requests information from Google Places API to find place and associated
+  /// information.
   void findPlaceFromString (String address) async {
     String key = AppModel.apiKey;
     const _host = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';

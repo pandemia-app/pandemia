@@ -43,5 +43,16 @@
   "favorites_pullrefresh_idle": "Tirer pour mettre à jour les informations",
   "favorites_pullrefresh_release": "Lâchez pour mettre à jour les informations",
   "favorites_pullrefresh_refreshing": "Mise à jour en cours...",
-  "favorites_pullrefresh_complete": "Mise à jour terminée !"
+  "favorites_pullrefresh_complete": "Mise à jour terminée !",
+  "favorites_nopopulartimes": "Ce lieu ne possède pas de données d'affluence.",
+  "favorites_currentpopularity": "Affluence actuelle :",
+  "favorites_placeclosed": "Lieu fermé en ce jour",
+
+  "day_1": "Lundi",
+  "day_2": "Mardi",
+  "day_3": "Mercredi",
+  "day_4": "Jeudi",
+  "day_5": "Vendredi",
+  "day_6": "Samedi",
+  "day_7": "Dimanche"
 }

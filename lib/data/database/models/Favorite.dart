@@ -1,3 +1,5 @@
+/// This entity allows the user to store favorite places.
+/// It is used to display popularity stats.
 class Favorite {
   final String id;
   final String name;
@@ -18,5 +20,9 @@ class Favorite {
   @override
   String toString() {
     return 'Favorite{name: $name, address: $address}';
+  }
+
+  String getIdentifier() {
+    return '$name $address';
   }
 }

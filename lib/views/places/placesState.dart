@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/components/places/search/placeCard.dart';
 import 'package:pandemia/components/places/search/searchBar.dart';
+import 'package:pandemia/components/places/type/placeType.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/places/places.dart';
@@ -97,22 +98,26 @@ class PlacesState extends State<PlacesView> {
 
             DraggableScrollableSheet(
               builder: (BuildContext context, ScrollController scrollController) {
-                return Container(
-                  color: CustomPalette.background[400],
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemCount: 25,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        title: Text('Item $index'),
+                List<Widget> typesItems = [];
+                for (PlaceType t in PlaceType.all()) {
+                  typesItems.add(
+                      ListTile(
+                        title: Text(t.key),
                         leading: Radio(
                           groupValue: 'place_type_group',
-                          value: '$index',
-                          onChanged: (_) => print('$index'),
+                          value: t.key,
+                          onChanged: (_) => print(t.key),
                         ),
-                      );
-                    },
-                  ),
+                      )
+                  );
+                }
+
+                return Container(
+                  color: CustomPalette.background[400],
+                  child: ListView(
+                    controller: scrollController,
+                    children: typesItems,
+                  )
                 );
               },
             )

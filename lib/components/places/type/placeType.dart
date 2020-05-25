@@ -1,122 +1,145 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+
 class PlaceType {
-  PlaceType({this.key});
+  PlaceType({this.key, this.translation});
   final String key;
+  final String translation;
 
-  static List<PlaceType> all () {
+  static List<String> keys () {
       return [
-        PlaceType (key: "accounting"),
-        PlaceType (key: "airport"),
-        PlaceType (key: "amusement_park"),
-        PlaceType (key: "aquarium"),
-        PlaceType (key: "art_gallery"),
-        PlaceType (key: "atm"),
+        "accounting",
+        "airport",
+        "amusement_park",
+        "aquarium",
+        "art_gallery",
+        "atm",
 
-        PlaceType (key: "bakery"),
-        PlaceType (key: "bank"),
-        PlaceType (key: "bar"),
-        PlaceType (key: "beauty_salon"),
-        PlaceType (key: "bicycle_store"),
-        PlaceType (key: "book_store"),
-        PlaceType (key: "bowling_alley"),
-        PlaceType (key: "bus_station"),
+        "bakery",
+        "bank",
+        "bar",
+        "beauty_salon",
+        "bicycle_store",
+        "book_store",
+        "bowling_alley",
+        "bus_station",
 
-        PlaceType (key: "cafe"),
-        PlaceType (key: "campground"),
-        PlaceType (key: "car_dealer"),
-        PlaceType (key: "car_rental"),
-        PlaceType (key: "car_repair"),
-        PlaceType (key: "car_wash"),
-        PlaceType (key: "casino"),
-        PlaceType (key: "cemetery"),
-        PlaceType (key: "church"),
-        PlaceType (key: "city_hall"),
-        PlaceType (key: "clothing_store"),
-        PlaceType (key: "convenience_store"),
-        PlaceType (key: "courthouse"),
+        "cafe",
+        "campground",
+        "car_dealer",
+        "car_rental",
+        "car_repair",
+        "car_wash",
+        "casino",
+        "cemetery",
+        "church",
+        "city_hall",
+        "clothing_store",
+        "convenience_store",
+        "courthouse",
 
-        PlaceType (key: "dentist"),
-        PlaceType (key: "department_store"),
-        PlaceType (key: "doctor"),
-        PlaceType (key: "drugstore"),
+        "dentist",
+        "department_store",
+        "doctor",
+        "drugstore",
 
-        PlaceType (key: "electrician"),
-        PlaceType (key: "electronics_store"),
-        PlaceType (key: "embassy"),
+        "electrician",
+        "electronics_store",
+        "embassy",
 
-        PlaceType (key: "fire_station"),
-        PlaceType (key: "florist"),
-        PlaceType (key: "funeral_home"),
-        PlaceType (key: "furniture_store"),
+        "fire_station",
+        "florist",
+        "funeral_home",
+        "furniture_store",
 
-        PlaceType (key: "gas_station"),
-        PlaceType (key: "gym"),
+        "gas_station",
+        "gym",
 
-        PlaceType (key: "hair_care"),
-        PlaceType (key: "hardware_store"),
-        PlaceType (key: "hindu_temple"),
-        PlaceType (key: "home_goods_store"),
-        PlaceType (key: "hospital"),
+        "hair_care",
+        "hardware_store",
+        "hindu_temple",
+        "home_goods_store",
+        "hospital",
 
-        PlaceType (key: "insurance_agency"),
-        PlaceType (key: "jewelry_store"),
+        "insurance_agency",
+        "jewelry_store",
 
-        PlaceType (key: "laundry"),
-        PlaceType (key: "lawyer"),
-        PlaceType (key: "library"),
-        PlaceType (key: "light_rail_station"),
-        PlaceType (key: "liquor_store"),
-        PlaceType (key: "local_government_office"),
-        PlaceType (key: "locksmith"),
-        PlaceType (key: "lodging"),
+        "laundry",
+        "lawyer",
+        "library",
+        "light_rail_station",
+        "liquor_store",
+        "local_government_office",
+        "locksmith",
+        "lodging",
 
-        PlaceType (key: "meal_delivery"),
-        PlaceType (key: "meal_takeaway"),
-        PlaceType (key: "mosque"),
-        PlaceType (key: "movie_rental"),
-        PlaceType (key: "movie_theater"),
-        PlaceType (key: "moving_company"),
-        PlaceType (key: "museum"),
+        "meal_delivery",
+        "meal_takeaway",
+        "mosque",
+        "movie_rental",
+        "movie_theater",
+        "moving_company",
+        "museum",
 
-        PlaceType (key: "night_club"),
+        "night_club",
 
-        PlaceType (key: "painter"),
-        PlaceType (key: "park"),
-        PlaceType (key: "parking"),
-        PlaceType (key: "pet_store"),
-        PlaceType (key: "pharmacy"),
-        PlaceType (key: "physiotherapist"),
-        PlaceType (key: "plumber"),
-        PlaceType (key: "police"),
-        PlaceType (key: "post_office"),
-        PlaceType (key: "primary_school"),
+        "painter",
+        "park",
+        "parking",
+        "pet_store",
+        "pharmacy",
+        "physiotherapist",
+        "plumber",
+        "police",
+        "post_office",
+        "primary_school",
 
-        PlaceType (key: "real_estate_agency"),
-        PlaceType (key: "restaurant"),
-        PlaceType (key: "roofing_contractor"),
-        PlaceType (key: "rv_park"),
+        "real_estate_agency",
+        "restaurant",
+        "roofing_contractor",
+        "rv_park",
 
-        PlaceType (key: "school"),
-        PlaceType (key: "secondary_school"),
-        PlaceType (key: "shoe_store"),
-        PlaceType (key: "shopping_mall"),
-        PlaceType (key: "spa"),
-        PlaceType (key: "stadium"),
-        PlaceType (key: "storage"),
-        PlaceType (key: "store"),
-        PlaceType (key: "subway_station"),
-        PlaceType (key: "supermarket"),
-        PlaceType (key: "synagogue"),
+        "school",
+        "secondary_school",
+        "shoe_store",
+        "shopping_mall",
+        "spa",
+        "stadium",
+        "storage",
+        "store",
+        "subway_station",
+        "supermarket",
+        "synagogue",
 
-        PlaceType (key: "taxi_stand"),
-        PlaceType (key: "tourist_attraction"),
-        PlaceType (key: "train_station"),
-        PlaceType (key: "transit_station"),
-        PlaceType (key: "travel_agency"),
+        "taxi_stand",
+        "tourist_attraction",
+        "train_station",
+        "transit_station",
+        "travel_agency",
 
-        PlaceType (key: "university"),
-        PlaceType (key: "veterinary_care"),
-        PlaceType (key: "zoo"),
+        "university",
+        "veterinary_care",
+        "zoo",
       ];
+  }
+
+  static List<PlaceType> getSortedTypes (BuildContext context) {
+    List<String> types = [];
+    Map<String, String> typesTranslations = new Map();
+    List<PlaceType> placeTypes = [];
+
+    for (var key in PlaceType.keys()) {
+      typesTranslations.putIfAbsent(FlutterI18n.translate(context, "places_typepicker_type_$key"), () => key);
+    }
+
+    for (var translation in typesTranslations.keys.toList()..sort()) {
+      placeTypes.add(PlaceType(
+        translation: translation,
+        key: typesTranslations[translation]
+      ));
+    }
+
+    return placeTypes;
   }
 }
 

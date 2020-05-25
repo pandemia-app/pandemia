@@ -116,13 +116,10 @@ class PlacesState extends State<PlacesView> {
                     ),
                   ),
                 )];
-                for (PlaceType t in PlaceType.all()) {
+                for (PlaceType t in PlaceType.getSortedTypes(context)) {
                   typesItems.add(
                       ListTile(
-                        title: Text(
-                            FlutterI18n.translate(context,
-                                "places_typepicker_type_${t.key}"),
-                            style: TextStyle(color: CustomPalette.text[300])),
+                        title: Text(t.translation, style: TextStyle(color: CustomPalette.text[300])),
                         leading: Radio(
                           groupValue: 'place_type_group',
                           value: t.key,

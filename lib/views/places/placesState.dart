@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/components/places/search/placeCard.dart';
 import 'package:pandemia/components/places/search/searchBar.dart';
@@ -99,14 +100,14 @@ class PlacesState extends State<PlacesView> {
             DraggableScrollableSheet(
               initialChildSize: 0.09,
               minChildSize: 0.09,
-              builder: (BuildContext context, ScrollController scrollController) {
+              builder: (BuildContext localContext, ScrollController scrollController) {
                 List<Widget> typesItems = [ListTile(
                   title: Center(
                     child: Column (
                       children: <Widget>[
                         Icon(Icons.keyboard_arrow_up, color: CustomPalette.text[700]),
                         Container (
-                          child: Text("Filter by place type", style: TextStyle(
+                          child: Text(FlutterI18n.translate(context, "places_typepicker_title"), style: TextStyle(
                               color: CustomPalette.text[300])),
                           padding: EdgeInsets.only(bottom: 10),
                         ),
@@ -118,7 +119,10 @@ class PlacesState extends State<PlacesView> {
                 for (PlaceType t in PlaceType.all()) {
                   typesItems.add(
                       ListTile(
-                        title: Text(t.key, style: TextStyle(color: CustomPalette.text[300])),
+                        title: Text(
+                            FlutterI18n.translate(context,
+                                "places_typepicker_type_${t.key}"),
+                            style: TextStyle(color: CustomPalette.text[300])),
                         leading: Radio(
                           groupValue: 'place_type_group',
                           value: t.key,

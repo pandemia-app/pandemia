@@ -124,7 +124,6 @@ class PlaceType {
   }
 
   static List<PlaceType> getSortedTypes (BuildContext context) {
-    List<String> types = [];
     Map<String, String> typesTranslations = new Map();
     List<PlaceType> placeTypes = [];
 

@@ -17,6 +17,7 @@ class PlacesState extends State<PlacesView> {
   final searchBar = new SearchBar();
   List<Polyline> searchZones = [];
   Favorite fPlace;
+  String selectedType = "";
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -36,6 +37,16 @@ class PlacesState extends State<PlacesView> {
         fPlace = null;
       });
     };
+  }
+
+  void setPlaceType (String placeKey) {
+    setState(() {
+      selectedType = placeKey;
+    });
+    print('place type is set to $placeKey');
+
+    // refreshing view with new place type
+    getAllPlacesInViewport();
   }
 
   void getAllPlacesInViewport () async {
@@ -105,10 +116,11 @@ class PlacesState extends State<PlacesView> {
                   title: Center(
                     child: Column (
                       children: <Widget>[
-                        Icon(Icons.keyboard_arrow_up, color: CustomPalette.text[700]),
+                        Icon(Icons.maximize, color: CustomPalette.text[700]),
                         Container (
                           child: Text(FlutterI18n.translate(context, "places_typepicker_title"), style: TextStyle(
                               color: CustomPalette.text[300])),
+                          margin: EdgeInsets.all(0),
                           padding: EdgeInsets.only(bottom: 10),
                         ),
                         Divider (color: CustomPalette.text[300], thickness: 0.5,)
@@ -119,11 +131,14 @@ class PlacesState extends State<PlacesView> {
                 for (PlaceType t in PlaceType.getSortedTypes(context)) {
                   typesItems.add(
                       ListTile(
+                        onTap: () => setPlaceType(t.key),
+                        dense: true,
+                        enabled: true,
                         title: Text(t.translation, style: TextStyle(color: CustomPalette.text[300])),
                         leading: Radio(
-                          groupValue: 'place_type_group',
+                          groupValue: selectedType,
                           value: t.key,
-                          onChanged: (_) => print(t.key),
+                          onChanged: (key) => setPlaceType(key)
                         ),
                       )
                   );

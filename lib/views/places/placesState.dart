@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/components/places/search/placeCard.dart';
 import 'package:pandemia/components/places/search/searchBar.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
+import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/places/places.dart';
 
 class PlacesState extends State<PlacesView> {
@@ -92,6 +93,28 @@ class PlacesState extends State<PlacesView> {
             Align(
               alignment: Alignment.bottomCenter,
               child: PlaceCard(place: fPlace, mainContext: context)
+            ),
+
+            DraggableScrollableSheet(
+              builder: (BuildContext context, ScrollController scrollController) {
+                return Container(
+                  color: CustomPalette.background[400],
+                  child: ListView.builder(
+                    controller: scrollController,
+                    itemCount: 25,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text('Item $index'),
+                        leading: Radio(
+                          groupValue: 'place_type_group',
+                          value: '$index',
+                          onChanged: (_) => print('$index'),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
             )
           ],
         )

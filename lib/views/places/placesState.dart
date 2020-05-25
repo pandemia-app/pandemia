@@ -97,12 +97,28 @@ class PlacesState extends State<PlacesView> {
             ),
 
             DraggableScrollableSheet(
+              initialChildSize: 0.09,
+              minChildSize: 0.09,
               builder: (BuildContext context, ScrollController scrollController) {
-                List<Widget> typesItems = [];
+                List<Widget> typesItems = [ListTile(
+                  title: Center(
+                    child: Column (
+                      children: <Widget>[
+                        Icon(Icons.keyboard_arrow_up, color: CustomPalette.text[700]),
+                        Container (
+                          child: Text("Filter by place type", style: TextStyle(
+                              color: CustomPalette.text[300])),
+                          padding: EdgeInsets.only(bottom: 10),
+                        ),
+                        Divider (color: CustomPalette.text[300], thickness: 0.5,)
+                      ],
+                    ),
+                  ),
+                )];
                 for (PlaceType t in PlaceType.all()) {
                   typesItems.add(
                       ListTile(
-                        title: Text(t.key),
+                        title: Text(t.key, style: TextStyle(color: CustomPalette.text[300])),
                         leading: Radio(
                           groupValue: 'place_type_group',
                           value: t.key,

@@ -52,26 +52,6 @@ class PlacesState extends State<PlacesView> {
   void getAllPlacesInViewport () async {
     print('getting all places in viewport');
     var bounds = await mapController.getVisibleRegion();
-    // print(bounds);
-
-    setState(() {
-      searchZones.add(Polyline(
-        polylineId: PolylineId(DateTime.now().toIso8601String()),
-        color: Colors.blue,
-        patterns: [
-          PatternItem.dash(20.0),
-          PatternItem.gap(10)
-        ],
-        width: 5,
-        points: [
-          bounds.northeast,
-          new LatLng(bounds.southwest.latitude, bounds.northeast.longitude),
-          bounds.southwest,
-          new LatLng(bounds.northeast.latitude, bounds.southwest.longitude),
-          bounds.northeast,
-        ],
-      ));
-    });
   }
 
   @override

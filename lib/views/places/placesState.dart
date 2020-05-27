@@ -168,14 +168,18 @@ class PlacesState extends State<PlacesView> {
                 for (PlaceType t in PlaceType.getSortedTypes(context)) {
                   typesItems.add(
                       ListTile(
-                        onTap: () => setPlaceType(t.key, context),
+                        onTap: () {
+                          markers.clear();
+                          setPlaceType(t.key, context);},
                         dense: true,
                         enabled: true,
                         title: Text(t.translation, style: TextStyle(color: CustomPalette.text[300])),
                         leading: Radio(
                           groupValue: selectedType,
                           value: t.key,
-                          onChanged: (key) => setPlaceType(key, context)
+                          onChanged: (key) {
+                            markers.clear();
+                            setPlaceType(key, context);}
                         ),
                       )
                   );

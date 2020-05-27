@@ -93,6 +93,19 @@ class PlacesState extends State<PlacesView> {
     http.Response response = await http.get (uri);
     final responseJson = json.decode(response.body);
     var results = responseJson['results'];
+
+    // display a message if no results were found
+    if (results.length == 0) {
+      Fluttertoast.showToast(
+          msg: FlutterI18n.translate(context, "places_searchzone_noresult"),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 2,
+          fontSize: 16.0
+      );
+    }
+
+    // adds a marker for each place
     for (var result in results) {
       final MarkerId markerId = MarkerId(result['id']);
       final Marker marker = Marker(

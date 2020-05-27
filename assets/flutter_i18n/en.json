@@ -33,6 +33,7 @@
   "places_place_added_toast":  "Place added to favorites.",
   "places_place_removed_toast": "Place removed from favorites.",
   "places_searchzone_toobig": "Current search zone is too big.\nTry to zoom in a little!",
+  "places_searchzone_noresult": "No matching place found here.",
 
   "places_typepicker_title": "Filter by place type",
   "places_typepicker_type_accounting": "Accounting",

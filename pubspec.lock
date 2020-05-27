@@ -130,13 +130,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_plugin_android_lifecycle:
-    dependency: transitive
-    description:
-      name: flutter_plugin_android_lifecycle
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.7"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -157,10 +150,12 @@ packages:
   google_maps_flutter:
     dependency: "direct main"
     description:
-      name: google_maps_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.26+2"
+      path: "packages/google_maps_flutter"
+      ref: implement_google_maps_flutter_heatmap
+      resolved-ref: "7e3bffa70073e3de1281b2591d94924d836c3554"
+      url: "git://github.com/arok/plugins.git"
+    source: git
+    version: "0.5.21+16"
   html:
     dependency: "direct main"
     description:

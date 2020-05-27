@@ -45,7 +45,6 @@ class VisitedPlacesCard extends StatelessWidget {
                                   target: _center,
                                   zoom: 13.75,
                                 ),
-                                zoomControlsEnabled: false,
                                 myLocationButtonEnabled: false,
                                 buildingsEnabled: false,
                                 compassEnabled: false,

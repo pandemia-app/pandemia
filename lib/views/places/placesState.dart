@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +23,7 @@ class PlacesState extends State<PlacesView> {
   List<Polyline> searchZones = [];
   Favorite fPlace;
   String selectedType = "supermarket";
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  Map<HeatmapId, Heatmap> heatmaps = <HeatmapId, Heatmap>{};
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) {
     mapController = controller;
@@ -111,18 +110,20 @@ class PlacesState extends State<PlacesView> {
 
     // adds a marker for each place
     for (var result in results) {
-      final MarkerId markerId = MarkerId(result['id']);
-      final Marker marker = Marker(
-        markerId: markerId,
-        position: LatLng(
-          result['geometry']['location']['lat'],
-          result['geometry']['location']['lng'],
-        ),
-        infoWindow: InfoWindow(title: result['name']),
-      );
-
+      final HeatmapId id = HeatmapId(result['id']);
       setState(() {
-        markers[markerId] = marker;
+        heatmaps[id] = Heatmap (
+          heatmapId: id,
+          points: [
+            WeightedLatLng(
+              point: LatLng(
+                result['geometry']['location']['lat'],
+                result['geometry']['location']['lng'],
+              ),
+              intensity: 100
+            )
+          ]
+        );
       });
     }
   }
@@ -143,9 +144,8 @@ class PlacesState extends State<PlacesView> {
             GoogleMap(
               onMapCreated: (controller) => _onMapCreated(controller, context),
               onCameraIdle: () => getAllPlacesInViewport(context),
-              markers: Set<Marker>.of(markers.values),
               polylines: searchZones.toSet(),
-              zoomControlsEnabled: false,
+              heatmaps: Set<Heatmap>.of(heatmaps.values),
               initialCameraPosition: CameraPosition(
                 target: _center,
                 zoom: 13.75,
@@ -181,7 +181,7 @@ class PlacesState extends State<PlacesView> {
                   typesItems.add(
                       ListTile(
                         onTap: () {
-                          markers.clear();
+                          heatmaps.clear();
                           setPlaceType(t.key, context);},
                         dense: true,
                         enabled: true,
@@ -190,7 +190,7 @@ class PlacesState extends State<PlacesView> {
                           groupValue: selectedType,
                           value: t.key,
                           onChanged: (key) {
-                            markers.clear();
+                            heatmaps.clear();
                             setPlaceType(key, context);}
                         ),
                       )

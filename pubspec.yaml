@@ -20,7 +20,11 @@ dependencies:
   flutter:
     sdk: flutter
   charts_flutter: ^0.9.0
-  google_maps_flutter: ^0.5.26+2
+  google_maps_flutter:
+    git:
+      url: git://github.com/arok/plugins.git
+      ref: implement_google_maps_flutter_heatmap
+      path: packages/google_maps_flutter
   latlong: ^0.6.1
   intl: ^0.16.0
   sqflite:

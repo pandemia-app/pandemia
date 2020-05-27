@@ -24,6 +24,7 @@ class PlacesState extends State<PlacesView> {
   Favorite fPlace;
   String selectedType = "supermarket";
   Map<HeatmapId, Heatmap> heatmaps = <HeatmapId, Heatmap>{};
+  bool loadingPlaces = true;
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) {
     mapController = controller;
@@ -88,6 +89,10 @@ class PlacesState extends State<PlacesView> {
       return;
     }
 
+    setState(() {
+      loadingPlaces = true;
+    });
+
     String key = AppModel.apiKey;
     const host = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
     final uri = Uri.parse('$host?location=${middle.latitude},${middle.longitude}&radius=$meters&type=$selectedType&key=$key');
@@ -126,6 +131,10 @@ class PlacesState extends State<PlacesView> {
         );
       });
     }
+
+    setState(() {
+      loadingPlaces = false;
+    });
   }
 
   @override
@@ -161,7 +170,8 @@ class PlacesState extends State<PlacesView> {
               initialChildSize: 0.09,
               minChildSize: 0.09,
               builder: (BuildContext localContext, ScrollController scrollController) {
-                List<Widget> typesItems = [ListTile(
+                List<Widget> typesItems = [
+                  ListTile(
                   title: Center(
                     child: Column (
                       children: <Widget>[
@@ -211,6 +221,14 @@ class PlacesState extends State<PlacesView> {
                 alignment: Alignment.bottomCenter,
                 child: PlaceCard(place: fPlace, mainContext: context)
             ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Visibility (
+                visible: loadingPlaces,
+                child: LinearProgressIndicator(),
+              )
+            )
           ],
         )
       ),

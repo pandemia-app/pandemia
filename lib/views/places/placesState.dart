@@ -140,11 +140,6 @@ class PlacesState extends State<PlacesView> {
               child: searchBar,
             ),
 
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: PlaceCard(place: fPlace, mainContext: context)
-            ),
-
             DraggableScrollableSheet(
               initialChildSize: 0.09,
               minChildSize: 0.09,
@@ -193,7 +188,12 @@ class PlacesState extends State<PlacesView> {
                   )
                 );
               },
-            )
+            ),
+
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: PlaceCard(place: fPlace, mainContext: context)
+            ),
           ],
         )
       ),

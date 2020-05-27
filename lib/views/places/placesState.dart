@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong/latlong.dart' as latlong;
 import 'package:pandemia/components/places/search/placeCard.dart';
 import 'package:pandemia/components/places/search/searchBar.dart';
 import 'package:pandemia/components/places/type/placeType.dart';
@@ -18,6 +20,7 @@ class PlacesState extends State<PlacesView> {
   List<Polyline> searchZones = [];
   Favorite fPlace;
   String selectedType = "supermarket";
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -39,20 +42,44 @@ class PlacesState extends State<PlacesView> {
     };
   }
 
-  void setPlaceType (String placeKey) {
+  void setPlaceType (String placeKey, BuildContext context) {
     setState(() {
       selectedType = placeKey;
     });
     print('place type is set to $placeKey');
 
     // refreshing view with new place type
-    getAllPlacesInViewport();
+    getAllPlacesInViewport(context);
   }
 
-  void getAllPlacesInViewport () async {
+  void getAllPlacesInViewport (BuildContext context) async {
     print('getting all places in viewport');
     var bounds = await mapController.getVisibleRegion();
-    print(selectedType);
+
+    // computing middle location
+    var middle = new LatLng(
+        (bounds.northeast.latitude + bounds.southwest.latitude) / 2,
+        (bounds.northeast.longitude + bounds.southwest.longitude) / 2
+    );
+    LatLng edgeMarker = new LatLng(middle.latitude, bounds.northeast.longitude);
+
+    // computing search radius
+    final latlong.Distance distance = new latlong.Distance();
+    final double meters = distance(
+        new latlong.LatLng(middle.latitude, middle.longitude),
+        new latlong.LatLng(edgeMarker.latitude, edgeMarker.longitude));
+
+    // checking maximum distance
+    if (meters > 50000) {
+      Fluttertoast.showToast(
+          msg: FlutterI18n.translate(context, "places_searchzone_toobig"),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 2,
+          fontSize: 16.0
+      );
+      return;
+    }
   }
 
   @override
@@ -70,7 +97,8 @@ class PlacesState extends State<PlacesView> {
           children: <Widget>[
             GoogleMap(
               onMapCreated: _onMapCreated,
-              onCameraIdle: () => getAllPlacesInViewport(),
+              onCameraIdle: () => getAllPlacesInViewport(context),
+              markers: Set<Marker>.of(markers.values),
               polylines: searchZones.toSet(),
               zoomControlsEnabled: false,
               initialCameraPosition: CameraPosition(
@@ -112,14 +140,14 @@ class PlacesState extends State<PlacesView> {
                 for (PlaceType t in PlaceType.getSortedTypes(context)) {
                   typesItems.add(
                       ListTile(
-                        onTap: () => setPlaceType(t.key),
+                        onTap: () => setPlaceType(t.key, context),
                         dense: true,
                         enabled: true,
                         title: Text(t.translation, style: TextStyle(color: CustomPalette.text[300])),
                         leading: Radio(
                           groupValue: selectedType,
                           value: t.key,
-                          onChanged: (key) => setPlaceType(key)
+                          onChanged: (key) => setPlaceType(key, context)
                         ),
                       )
                   );

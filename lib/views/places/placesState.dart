@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,8 +11,10 @@ import 'package:pandemia/components/places/search/placeCard.dart';
 import 'package:pandemia/components/places/search/searchBar.dart';
 import 'package:pandemia/components/places/type/placeType.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
+import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/places/places.dart';
+import 'package:http/http.dart' as http;
 
 class PlacesState extends State<PlacesView> {
   GoogleMapController mapController;
@@ -79,6 +83,30 @@ class PlacesState extends State<PlacesView> {
           fontSize: 16.0
       );
       return;
+    }
+
+    String key = AppModel.apiKey;
+    const host = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
+    final uri = Uri.parse('$host?location=${middle.latitude},${middle.longitude}&radius=$meters&type=$selectedType&key=$key');
+    print('hitting $uri');
+
+    http.Response response = await http.get (uri);
+    final responseJson = json.decode(response.body);
+    var results = responseJson['results'];
+    for (var result in results) {
+      final MarkerId markerId = MarkerId(result['id']);
+      final Marker marker = Marker(
+        markerId: markerId,
+        position: LatLng(
+          result['geometry']['location']['lat'],
+          result['geometry']['location']['lng'],
+        ),
+        infoWindow: InfoWindow(title: result['name']),
+      );
+
+      setState(() {
+        markers[markerId] = marker;
+      });
     }
   }
 

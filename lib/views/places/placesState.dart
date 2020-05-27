@@ -26,9 +26,10 @@ class PlacesState extends State<PlacesView> {
   String selectedType = "supermarket";
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  void _onMapCreated(GoogleMapController controller) {
+  void _onMapCreated(GoogleMapController controller, BuildContext context) {
     mapController = controller;
     controller.setMapStyle(_mapStyle);
+    getAllPlacesInViewport(context);
     searchBar.mapController = controller;
     searchBar.callback = (dynamic place) {
       print(place);
@@ -57,6 +58,9 @@ class PlacesState extends State<PlacesView> {
   }
 
   void getAllPlacesInViewport (BuildContext context) async {
+    // abort if called before mapController is ready
+    if (mapController == null) return;
+
     print('getting all places in viewport');
     var bounds = await mapController.getVisibleRegion();
 
@@ -137,7 +141,7 @@ class PlacesState extends State<PlacesView> {
           fit: StackFit.passthrough,
           children: <Widget>[
             GoogleMap(
-              onMapCreated: _onMapCreated,
+              onMapCreated: (controller) => _onMapCreated(controller, context),
               onCameraIdle: () => getAllPlacesInViewport(context),
               markers: Set<Marker>.of(markers.values),
               polylines: searchZones.toSet(),

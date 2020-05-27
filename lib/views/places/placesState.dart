@@ -17,7 +17,7 @@ class PlacesState extends State<PlacesView> {
   final searchBar = new SearchBar();
   List<Polyline> searchZones = [];
   Favorite fPlace;
-  String selectedType = "";
+  String selectedType = "supermarket";
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -52,6 +52,7 @@ class PlacesState extends State<PlacesView> {
   void getAllPlacesInViewport () async {
     print('getting all places in viewport');
     var bounds = await mapController.getVisibleRegion();
+    print(selectedType);
   }
 
   @override

@@ -10,6 +10,7 @@ import 'package:pandemia/components/places/search/placeCard.dart';
 import 'package:pandemia/components/places/search/searchBar.dart';
 import 'package:pandemia/components/places/type/placeType.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
+import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/places/places.dart';
@@ -129,6 +130,24 @@ class PlacesState extends State<PlacesView> {
             )
           ]
         );
+      });
+
+      // refresh data with popularity stats
+      Parser.getPopularTimes(new Favorite(name: result['name'], address: result['vicinity'])).then((value) {
+        setState(() {
+          heatmaps[id] = Heatmap(
+              heatmapId: id,
+              points: [
+                WeightedLatLng(
+                    point: LatLng(
+                      result['geometry']['location']['lat'],
+                      result['geometry']['location']['lng'],
+                    ),
+                    intensity: value.hasData ? value.currentPopularity : 0
+                )
+              ]
+          );
+        });
       });
     }
 

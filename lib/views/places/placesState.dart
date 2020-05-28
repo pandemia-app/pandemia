@@ -14,6 +14,7 @@ import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/GeoComputer.dart';
+import 'package:pandemia/utils/PlacesCounter.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:http/http.dart' as http;
 
@@ -118,49 +119,61 @@ class PlacesState extends State<PlacesView> {
           timeInSecForIosWeb: 2,
           fontSize: 16.0
       );
+      setState(() {
+        loadingPlaces = false;
+      });
     }
+
+    // this counter allows to adds all points at once, when all places data have
+    // been loaded.
+    PlacesCounter counter = new PlacesCounter();
+    counter.setPlacesCount(results.length);
+    Map<String, WeightedLatLng> pointsCache = <String, WeightedLatLng>{};
 
     // adds a marker for each place
     for (var result in results) {
-      setState(() {
-        heatmapPoints[result['id']] =
-            WeightedLatLng(
-              point: LatLng(
-                result['geometry']['location']['lat'],
-                result['geometry']['location']['lng'],
-              )
-            );
-      });
+      pointsCache[result['id']] =
+          WeightedLatLng(
+            point: LatLng(
+              result['geometry']['location']['lat'],
+              result['geometry']['location']['lng'],
+            )
+          );
 
       // refresh data with popularity stats
       Parser.getPopularTimes(new Favorite(name: result['name'], address: result['vicinity'])).then((value) {
         if (value.hasData) {
-          addPopularityPoints(
+          var placePointsCache = getPopularityPoints(
               LatLng(
                 result['geometry']['location']['lat'],
                 result['geometry']['location']['lng'],
               ),
               result['id'], value.currentPopularity);
+          pointsCache.addAll(placePointsCache);
+        }
+
+        if (counter.addLoadedPlace()) {
+          setState(() {
+            heatmapPoints.addAll(pointsCache);
+            loadingPlaces = false;
+          });
         }
       });
     }
-
-    setState(() {
-      loadingPlaces = false;
-    });
   }
 
-  void addPopularityPoints (LatLng center, String placeId, int popularity) {
+  Map<String, WeightedLatLng> getPopularityPoints (LatLng center, String placeId, int popularity) {
     var computer = new GeoComputer();
+    Map<String, WeightedLatLng> pointsCache = <String, WeightedLatLng>{};
     List<LatLng> points = computer.createRandomPoints(center, placeId, popularity);
     int index = 0;
 
     for (LatLng point in points) {
       final String id = '$placeId${index++}';
-      setState(() {
-        heatmapPoints[id] = WeightedLatLng( point: point );
-      });
+      pointsCache[id] = WeightedLatLng( point: point );
     }
+
+    return pointsCache;
   }
 
   @override

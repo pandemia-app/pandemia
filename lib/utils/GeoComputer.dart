@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class GeoComputer {
   // https://stackoverflow.com/questions/43195899/how-to-generate-random-coordinates-within-a-circle-with-specified-radius
-  double OneDegree = 6371 * 2 * pi / 360 * 1000; // 1° latitude in meters
+  double degree = 6371 * 2 * pi / 360 * 1000; // 1° latitude in meters
 
   List<double> randomPointInDisk (double maxRadius) {
     Random random = Random.secure();
@@ -24,8 +24,8 @@ class GeoComputer {
 
       points.add(
           new LatLng(
-              center.latitude + dy / OneDegree,
-              center.longitude + dx / OneDegree));
+              center.latitude + dy / degree,
+              center.longitude + dx / degree));
     }
     return points;
   }

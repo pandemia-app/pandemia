@@ -22,7 +22,6 @@ class PlacesState extends State<PlacesView> {
   String _mapStyle;
   final LatLng _center = const LatLng(50.6311652, 3.0477402);
   final searchBar = new SearchBar();
-  List<Polyline> searchZones = [];
   Favorite fPlace;
   String selectedType = "supermarket";
   Map<String, WeightedLatLng> heatmapPoints = <String, WeightedLatLng>{};
@@ -180,7 +179,6 @@ class PlacesState extends State<PlacesView> {
             GoogleMap(
               onMapCreated: (controller) => _onMapCreated(controller, context),
               onCameraIdle: () => getAllPlacesInViewport(context),
-              polylines: searchZones.toSet(),
               heatmaps: Set<Heatmap>.of([
                 Heatmap (
                   heatmapId: HeatmapId(DateTime.now().toIso8601String()),

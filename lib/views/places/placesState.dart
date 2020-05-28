@@ -78,6 +78,12 @@ class PlacesState extends State<PlacesView> {
         new latlong.LatLng(middle.latitude, middle.longitude),
         new latlong.LatLng(edgeMarker.latitude, edgeMarker.longitude));
 
+    // aborting if distance computation failed
+    if (middle.longitude == 0.0 && middle.latitude == 0.0 || meters == 0.0) {
+      print('aborting');
+      return;
+    }
+
     // checking maximum distance
     if (meters > 50000) {
       Fluttertoast.showToast(

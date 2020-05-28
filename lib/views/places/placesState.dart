@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -71,13 +72,21 @@ class PlacesState extends State<PlacesView> {
         (bounds.northeast.latitude + bounds.southwest.latitude) / 2,
         (bounds.northeast.longitude + bounds.southwest.longitude) / 2
     );
-    LatLng edgeMarker = new LatLng(middle.latitude, bounds.northeast.longitude);
+    LatLng eastMarker = new LatLng(middle.latitude, bounds.northeast.longitude);
+    LatLng northMarker = new LatLng(bounds.northeast.latitude, middle.longitude);
 
-    // computing search radius
+    // search radius is the maximum value of two distances :
+    // 1) from screen middle to screen northern location
+    // 2) from screen middle to screen eastern location
     final latlong.Distance distance = new latlong.Distance();
-    final double meters = distance(
+    final double eastDistance = distance(
         new latlong.LatLng(middle.latitude, middle.longitude),
-        new latlong.LatLng(edgeMarker.latitude, edgeMarker.longitude));
+        new latlong.LatLng(eastMarker.latitude, eastMarker.longitude));
+    final double northDistance = distance (
+        new latlong.LatLng(middle.latitude, middle.longitude),
+        new latlong.LatLng(northMarker.latitude, northMarker.longitude)
+    );
+    double meters = max (eastDistance, northDistance);
 
     // aborting if distance computation failed
     if (middle.longitude == 0.0 && middle.latitude == 0.0 || meters == 0.0) {

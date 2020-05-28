@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +14,7 @@ import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
+import 'package:pandemia/utils/GeoComputer.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:http/http.dart' as http;
 
@@ -131,8 +133,7 @@ class PlacesState extends State<PlacesView> {
               point: LatLng(
                 result['geometry']['location']['lat'],
                 result['geometry']['location']['lng'],
-              ),
-              intensity: 100
+              )
             )
           ]
         );
@@ -140,26 +141,37 @@ class PlacesState extends State<PlacesView> {
 
       // refresh data with popularity stats
       Parser.getPopularTimes(new Favorite(name: result['name'], address: result['vicinity'])).then((value) {
-        setState(() {
-          heatmaps[id] = Heatmap(
-              heatmapId: id,
-              points: [
-                WeightedLatLng(
-                    point: LatLng(
-                      result['geometry']['location']['lat'],
-                      result['geometry']['location']['lng'],
-                    ),
-                    intensity: value.hasData ? value.currentPopularity : 0
-                )
-              ]
-          );
-        });
+        if (value.hasData) {
+          addPopularityPoints(
+              LatLng(
+                result['geometry']['location']['lat'],
+                result['geometry']['location']['lng'],
+              ),
+              result['id'], value.currentPopularity);
+        }
       });
     }
 
     setState(() {
       loadingPlaces = false;
     });
+  }
+
+  void addPopularityPoints (LatLng center, String placeId, int popularity) {
+    var computer = new GeoComputer();
+    List<LatLng> points = computer.createRandomPoints(center, placeId, (popularity*0.5).floor());
+    int index = 0;
+
+    for (LatLng point in points) {
+      final HeatmapId id = HeatmapId('$placeId${index++}');
+      // TODO find a less intensive way of adding points to the map
+      heatmaps[id] = Heatmap(
+          heatmapId: id,
+          points: [
+            WeightedLatLng( point: point )
+          ]
+      );
+    }
   }
 
   @override

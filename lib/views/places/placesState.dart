@@ -27,6 +27,7 @@ class PlacesState extends State<PlacesView> {
   Favorite fPlace;
   String selectedType = "supermarket";
   Map<HeatmapId, Heatmap> heatmaps = <HeatmapId, Heatmap>{};
+  Map<HeatmapId, Heatmap> popularityMaps = <HeatmapId, Heatmap>{};
   bool loadingPlaces = true;
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) {
@@ -161,17 +162,22 @@ class PlacesState extends State<PlacesView> {
     var computer = new GeoComputer();
     List<LatLng> points = computer.createRandomPoints(center, placeId, (popularity*0.5).floor());
     int index = 0;
+    popularityMaps.clear();
 
     for (LatLng point in points) {
       final HeatmapId id = HeatmapId('$placeId${index++}');
       // TODO find a less intensive way of adding points to the map
-      heatmaps[id] = Heatmap(
+      popularityMaps[id] = Heatmap(
           heatmapId: id,
           points: [
             WeightedLatLng( point: point )
           ]
       );
     }
+
+    setState(() {
+      heatmaps.addAll(popularityMaps);
+    });
   }
 
   @override

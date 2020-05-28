@@ -25,8 +25,7 @@ class PlacesState extends State<PlacesView> {
   List<Polyline> searchZones = [];
   Favorite fPlace;
   String selectedType = "supermarket";
-  Map<HeatmapId, Heatmap> heatmaps = <HeatmapId, Heatmap>{};
-  Map<HeatmapId, Heatmap> popularityMaps = <HeatmapId, Heatmap>{};
+  Map<String, WeightedLatLng> heatmapPoints = <String, WeightedLatLng>{};
   bool loadingPlaces = true;
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) {
@@ -124,19 +123,14 @@ class PlacesState extends State<PlacesView> {
 
     // adds a marker for each place
     for (var result in results) {
-      final HeatmapId id = HeatmapId(result['id']);
       setState(() {
-        heatmaps[id] = Heatmap (
-          heatmapId: id,
-          points: [
+        heatmapPoints[result['id']] =
             WeightedLatLng(
               point: LatLng(
                 result['geometry']['location']['lat'],
                 result['geometry']['location']['lng'],
               )
-            )
-          ]
-        );
+            );
       });
 
       // refresh data with popularity stats
@@ -159,24 +153,15 @@ class PlacesState extends State<PlacesView> {
 
   void addPopularityPoints (LatLng center, String placeId, int popularity) {
     var computer = new GeoComputer();
-    List<LatLng> points = computer.createRandomPoints(center, placeId, (popularity*0.5).floor());
+    List<LatLng> points = computer.createRandomPoints(center, placeId, popularity);
     int index = 0;
-    popularityMaps.clear();
 
     for (LatLng point in points) {
-      final HeatmapId id = HeatmapId('$placeId${index++}');
-      // TODO find a less intensive way of adding points to the map
-      popularityMaps[id] = Heatmap(
-          heatmapId: id,
-          points: [
-            WeightedLatLng( point: point )
-          ]
-      );
+      final String id = '$placeId${index++}';
+      setState(() {
+        heatmapPoints[id] = WeightedLatLng( point: point );
+      });
     }
-
-    setState(() {
-      heatmaps.addAll(popularityMaps);
-    });
   }
 
   @override
@@ -196,7 +181,12 @@ class PlacesState extends State<PlacesView> {
               onMapCreated: (controller) => _onMapCreated(controller, context),
               onCameraIdle: () => getAllPlacesInViewport(context),
               polylines: searchZones.toSet(),
-              heatmaps: Set<Heatmap>.of(heatmaps.values),
+              heatmaps: Set<Heatmap>.of([
+                Heatmap (
+                  heatmapId: HeatmapId(DateTime.now().toIso8601String()),
+                  points: heatmapPoints.values.length == 0 ? [WeightedLatLng(point: LatLng(0, 0))] : heatmapPoints.values.toList()
+                )
+              ]),
               initialCameraPosition: CameraPosition(
                 target: _center,
                 zoom: 13.75,
@@ -233,7 +223,7 @@ class PlacesState extends State<PlacesView> {
                   typesItems.add(
                       ListTile(
                         onTap: () {
-                          heatmaps.clear();
+                          heatmapPoints.clear();
                           setPlaceType(t.key, context);},
                         dense: true,
                         enabled: true,
@@ -242,7 +232,7 @@ class PlacesState extends State<PlacesView> {
                           groupValue: selectedType,
                           value: t.key,
                           onChanged: (key) {
-                            heatmaps.clear();
+                            heatmapPoints.clear();
                             setPlaceType(key, context);}
                         ),
                       )

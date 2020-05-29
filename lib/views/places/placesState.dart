@@ -175,8 +175,19 @@ class PlacesState extends State<PlacesView> {
   Map<String, WeightedLatLng> getPopularityPoints (LatLng center, String placeId, int popularity) {
     var computer = new GeoComputer();
     Map<String, WeightedLatLng> pointsCache = <String, WeightedLatLng>{};
-    // zoom level can vary from 21 to ~9.9
-    List<LatLng> points = computer.createRandomPoints(center, placeId, popularity);
+
+    // zoom level can vary from ~9.9 (at minimum zoom) to 21
+    // zoom bias varies from 10 to 1
+    // the smaller the zoom level, the bigger zones radiuses
+    List<double> zoomBiasValues = [10, 9.25, 8.5, 7.75, 7, 6.25, 5.5, 4.75, 4, 3.25, 2.5, 1.75, 1];
+    int zoomIndex = zoomLevel.floor() - 9;
+
+    // restricting zoom index on big screen resolutions
+    if (zoomIndex < 9) zoomIndex = 0;
+    if (zoomIndex > 21) zoomIndex = 12;
+    double radius = popularity * zoomBiasValues[zoomIndex];
+
+    List<LatLng> points = computer.createRandomPoints(center, radius, placeId, popularity);
     int index = 0;
 
     for (LatLng point in points) {

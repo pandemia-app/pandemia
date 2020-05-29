@@ -20,10 +20,10 @@ class GeoComputer {
   /// Generates a list of random points around a place.
   /// The count of generated points for a given place is directly correlated to
   /// its current popularity.
-  List<LatLng> createRandomPoints (LatLng center, String placeId, int popularity) {
+  List<LatLng> createRandomPoints (LatLng center, double radius, String placeId, int popularity) {
     List<LatLng> points = new List();
     for (int i=0; i<popularity; i++) {
-      List<double> randomCoordinates = randomPointInDisk(popularity.toDouble());
+      List<double> randomCoordinates = randomPointInDisk(radius);
       double dx = randomCoordinates.first;
       double dy = randomCoordinates.last;
 

@@ -28,6 +28,7 @@ class PlacesState extends State<PlacesView> {
   String selectedType = "supermarket";
   Map<String, WeightedLatLng> heatmapPoints = <String, WeightedLatLng>{};
   bool loadingPlaces = true;
+  double zoomLevel = 13.75;
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) {
     mapController = controller;
@@ -174,6 +175,7 @@ class PlacesState extends State<PlacesView> {
   Map<String, WeightedLatLng> getPopularityPoints (LatLng center, String placeId, int popularity) {
     var computer = new GeoComputer();
     Map<String, WeightedLatLng> pointsCache = <String, WeightedLatLng>{};
+    // zoom level can vary from 21 to ~9.9
     List<LatLng> points = computer.createRandomPoints(center, placeId, popularity);
     int index = 0;
 
@@ -199,6 +201,7 @@ class PlacesState extends State<PlacesView> {
           fit: StackFit.passthrough,
           children: <Widget>[
             GoogleMap(
+              onCameraMove: (position) => zoomLevel = position.zoom,
               onMapCreated: (controller) => _onMapCreated(controller, context),
               onCameraIdle: () => getAllPlacesInViewport(context),
               heatmaps: Set<Heatmap>.of([
@@ -209,7 +212,7 @@ class PlacesState extends State<PlacesView> {
               ]),
               initialCameraPosition: CameraPosition(
                 target: _center,
-                zoom: 13.75,
+                zoom: zoomLevel,
               ),
             ),
 

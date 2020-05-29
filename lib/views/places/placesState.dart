@@ -1,12 +1,10 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:latlong/latlong.dart' as latlong;
 import 'package:pandemia/components/places/search/placeCard.dart';
 import 'package:pandemia/components/places/search/searchBar.dart';
 import 'package:pandemia/components/places/type/placeType.dart';
@@ -51,6 +49,17 @@ class PlacesState extends State<PlacesView> {
     };
   }
 
+  dynamic getNearbyPlacesFromPlacesAPI (LatLng middle, double radius) async {
+    String key = AppModel.apiKey;
+    const host = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
+    final uri = Uri.parse('$host?location=${middle.latitude},${middle.longitude}&radius=$radius&type=$selectedType&key=$key');
+    print('hitting $uri');
+
+    http.Response response = await http.get (uri);
+    final responseJson = json.decode(response.body);
+    return responseJson['results'];
+  }
+
   void setPlaceType (String placeKey, BuildContext context) {
     setState(() {
       selectedType = placeKey;
@@ -67,36 +76,18 @@ class PlacesState extends State<PlacesView> {
 
     print('getting all places in viewport');
     var bounds = await mapController.getVisibleRegion();
-
-    // computing middle location
-    var middle = new LatLng(
-        (bounds.northeast.latitude + bounds.southwest.latitude) / 2,
-        (bounds.northeast.longitude + bounds.southwest.longitude) / 2
-    );
-    LatLng eastMarker = new LatLng(middle.latitude, bounds.northeast.longitude);
-    LatLng northMarker = new LatLng(bounds.northeast.latitude, middle.longitude);
-
-    // search radius is the maximum value of two distances :
-    // 1) from screen middle to screen northern location
-    // 2) from screen middle to screen eastern location
-    final latlong.Distance distance = new latlong.Distance();
-    final double eastDistance = distance(
-        new latlong.LatLng(middle.latitude, middle.longitude),
-        new latlong.LatLng(eastMarker.latitude, eastMarker.longitude));
-    final double northDistance = distance (
-        new latlong.LatLng(middle.latitude, middle.longitude),
-        new latlong.LatLng(northMarker.latitude, northMarker.longitude)
-    );
-    double meters = max (eastDistance, northDistance);
+    GeoComputer computer = new GeoComputer();
+    LatLng middle = computer.getBoundsCenterLocation(bounds);
+    double radius = computer.getSearchRadius(bounds);
 
     // aborting if distance computation failed
-    if (middle.longitude == 0.0 && middle.latitude == 0.0 || meters == 0.0) {
+    if (middle.longitude == 0.0 && middle.latitude == 0.0 || radius == 0.0) {
       print('aborting');
       return;
     }
 
     // checking maximum distance
-    if (meters > 50000) {
+    if (radius > 50000) {
       Fluttertoast.showToast(
           msg: FlutterI18n.translate(context, "places_searchzone_toobig"),
           toastLength: Toast.LENGTH_LONG,
@@ -111,14 +102,7 @@ class PlacesState extends State<PlacesView> {
       loadingPlaces = true;
     });
 
-    String key = AppModel.apiKey;
-    const host = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
-    final uri = Uri.parse('$host?location=${middle.latitude},${middle.longitude}&radius=$meters&type=$selectedType&key=$key');
-    print('hitting $uri');
-
-    http.Response response = await http.get (uri);
-    final responseJson = json.decode(response.body);
-    var results = responseJson['results'];
+    dynamic results = await getNearbyPlacesFromPlacesAPI(middle, radius);
 
     // display a message if no results were found
     if (results.length == 0) {
@@ -153,12 +137,12 @@ class PlacesState extends State<PlacesView> {
       // refresh data with popularity stats
       Parser.getPopularTimes(new Favorite(name: result['name'], address: result['vicinity'])).then((value) {
         if (value.hasData) {
-          var placePointsCache = getPopularityPoints(
+          var placePointsCache = computer.generatePopularityPoints(
               LatLng(
                 result['geometry']['location']['lat'],
                 result['geometry']['location']['lng'],
               ),
-              result['id'], value.currentPopularity);
+              result['id'], value.currentPopularity, zoomLevel);
           pointsCache.addAll(placePointsCache);
         }
 
@@ -170,32 +154,6 @@ class PlacesState extends State<PlacesView> {
         }
       });
     }
-  }
-
-  Map<String, WeightedLatLng> getPopularityPoints (LatLng center, String placeId, int popularity) {
-    var computer = new GeoComputer();
-    Map<String, WeightedLatLng> pointsCache = <String, WeightedLatLng>{};
-
-    // zoom level can vary from ~9.9 (at minimum zoom) to 21
-    // zoom bias varies from 10 to 1
-    // the smaller the zoom level, the bigger zones radiuses
-    List<double> zoomBiasValues = [10, 9.25, 8.5, 7.75, 7, 6.25, 5.5, 4.75, 4, 3.25, 2.5, 1.75, 1];
-    int zoomIndex = zoomLevel.floor() - 9;
-
-    // restricting zoom index on big screen resolutions
-    if (zoomIndex < 9) zoomIndex = 0;
-    if (zoomIndex > 21) zoomIndex = 12;
-    double radius = popularity * zoomBiasValues[zoomIndex];
-
-    List<LatLng> points = computer.createRandomPoints(center, radius, placeId, popularity);
-    int index = 0;
-
-    for (LatLng point in points) {
-      final String id = '$placeId${index++}';
-      pointsCache[id] = WeightedLatLng( point: point );
-    }
-
-    return pointsCache;
   }
 
   @override

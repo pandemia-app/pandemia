@@ -19,3 +19,7 @@ An interactive mockup of the application can be found at `resources/mockup.pdf`.
 
 To inject variables into the application, run `dart tool/env.dart` before launching the actual
 application; this will generate a .env file containing all needed keys.
+
+## Run tests
+
+To run given tests, run `flutter test ./test/[TEST_FILENAME]`

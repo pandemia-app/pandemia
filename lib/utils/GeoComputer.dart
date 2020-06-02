@@ -53,7 +53,7 @@ class GeoComputer {
   /// Generates a list of random points around a place.
   /// The count of generated points for a given place is directly correlated to
   /// its current popularity.
-  List<LatLng> createRandomPoints (LatLng center, double radius, String placeId, int popularity) {
+  List<LatLng> createRandomPoints (LatLng center, double radius, int popularity) {
     List<LatLng> points = new List();
     for (int i=0; i<popularity; i++) {
       List<double> randomCoordinates = randomPointInDisk(radius);
@@ -86,7 +86,7 @@ class GeoComputer {
     if (zoomIndex > 21) zoomIndex = 12;
     double radius = popularity * zoomBiasValues[zoomIndex];
 
-    List<LatLng> points = createRandomPoints(center, radius, placeId, popularity);
+    List<LatLng> points = createRandomPoints(center, radius, popularity);
     int index = 0;
 
     for (LatLng point in points) {

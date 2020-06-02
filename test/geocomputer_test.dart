@@ -1,9 +1,11 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong/latlong.dart' as latlong;
 import 'package:pandemia/utils/GeoComputer.dart';
 import 'package:test/test.dart';
 
 void main() {
   GeoComputer computer;
+  final latlong.Distance distance = new latlong.Distance();
   setUp(() async {
     computer = new GeoComputer();
   });
@@ -77,6 +79,38 @@ void main() {
       );
       double radius = computer.getSearchRadius(bounds);
       expect(radius, 237961);
+    });
+  });
+
+  group('Random location generation', () {
+    test('should generate 0 locations', () {
+      List<LatLng> points = computer.createRandomPoints(LatLng(50.605181, 3.149249), 40, 0);
+      expect(points.length, 0);
+    });
+
+    test('should generate 420 locations precisely', () {
+      List<LatLng> points = computer.createRandomPoints(LatLng(50.605181, 3.149249), 40, 420);
+      expect(points.length, 420);
+    });
+
+    test('should generate 10000 points inside a given circular zone', () {
+      LatLng center = LatLng(50.605181, 3.149249);
+      double radius = 42;
+      List<LatLng> points = computer.createRandomPoints(center, radius, 10000);
+      expect(points.length, 10000);
+
+      for (LatLng point in points) {
+        expect(
+          distance (
+            latlong.LatLng(center.latitude, center.longitude),
+            latlong.LatLng(point.latitude, point.longitude)
+          ),
+            allOf([
+              isNonNegative,
+              lessThan(radius)
+            ])
+        );
+      }
     });
   });
 }

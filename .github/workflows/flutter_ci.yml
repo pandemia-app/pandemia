@@ -14,6 +14,8 @@ jobs:
       with:
         java-version: '12.x'
     - uses: subosito/flutter-action@v1
+      with:
+        flutter-version: '1.17.1'
     - name: Generating .env file
       run: dart tool/env.dart
     - run: flutter pub get
@@ -31,7 +33,7 @@ jobs:
         java-version: '12.x'
     - uses: subosito/flutter-action@v1
       with:
-        channel: 'stable'
+        flutter-version: '1.17.1'
     - run: flutter pub get
 
     - name: Generating .env file
@@ -56,7 +58,7 @@ jobs:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
         with:
-          channel: 'stable'
+          flutter-version: '1.17.1'
       - name: Upgrade flutter
         run: |
           flutter channel master

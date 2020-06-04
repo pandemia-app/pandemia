@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+/// Allows users to search for places from words.
 // ignore: must_be_immutable
 class SearchBar extends StatelessWidget {
   GoogleMapController mapController;
   final TextEditingController _controller = new TextEditingController();
+  BuildContext fatherContext;
   Function closeCallback;
   Function callback;
   SearchBar ({this.mapController});
@@ -42,7 +45,7 @@ class SearchBar extends StatelessWidget {
                     borderSide: BorderSide(width: 1,color: CustomPalette.text[400]),
                   ),
                   labelStyle: TextStyle(color: CustomPalette.text[400]),
-                  labelText: 'Search place...',
+                  labelText: FlutterI18n.translate(fatherContext, "places_searchbar_label"),
               ),
 
           onSubmitted: (s) => findPlaceFromString(s),
@@ -51,6 +54,8 @@ class SearchBar extends StatelessWidget {
     );
   }
 
+  /// Requests information from Google Places API to find place and associated
+  /// information.
   void findPlaceFromString (String address) async {
     String key = AppModel.apiKey;
     const _host = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';

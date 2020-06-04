@@ -1,22 +1,15 @@
-import 'dart:math';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:pandemia/data/database/database.dart';
+import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
+/// Chart used to display exposition progression.
 class TimeSeriesChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
 
   TimeSeriesChart(this.seriesList, {this.animate});
-
-  /// Creates a [TimeSeriesChart] with sample data and no transition.
-  factory TimeSeriesChart.withSampleData() {
-    return new TimeSeriesChart(
-      _generateRandomData(),
-      animate: true,
-    );
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,29 +63,43 @@ class TimeSeriesChart extends StatelessWidget {
     );
   }
 
-  /// generates random data from time t to today's date
-  static List<charts.Series<TimeExposition, DateTime>> _generateRandomData() {
-    var tDate = DateTime.parse("2020-03-30");
-    var days = new DateTime.now().difference(tDate).inDays;
-    var random = new Random.secure();
+  static Future<List<TimeExposition>> reportsData() async {
+    var database = new AppDatabase();
+    var reports = await database.getReports();
     var data = new List<TimeExposition>();
-    
-    for (var i=0; i<days; i++) {
-      data.add(
-          new TimeExposition(
-              tDate.add(new Duration(days: i)),
-              random.nextInt(100)));
+
+    print('${reports.length} reports found while generating graph');
+
+    for (var i=0, len=reports.length; i<len; i++) {
+      data.add(new TimeExposition(
+          new DateTime(reports[i].timestamp), reports[i].expositionRate));
     }
 
-    return [
+    return data;
+  }
+
+  factory TimeSeriesChart.fromReports (List<DailyReport> reports) {
+    List<TimeExposition> series = [];
+
+    for (var i=0, len=reports.length; i<len; i++) {
+      series.add(new TimeExposition(
+          new DateTime.fromMillisecondsSinceEpoch(reports[i].timestamp), reports[i].expositionRate));
+    }
+
+    List<charts.Series<TimeExposition, DateTime>> data = [
       new charts.Series<TimeExposition, DateTime>(
-        id: 'Progression',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (TimeExposition exposition, _) => exposition.time,
-        measureFn: (TimeExposition exposition, _) => exposition.value,
-        data: data
+          id: 'Progression',
+          colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+          domainFn: (TimeExposition exposition, _) => exposition.time,
+          measureFn: (TimeExposition exposition, _) => exposition.value,
+          data: series
       )
     ];
+
+    return new TimeSeriesChart(
+      data,
+      animate: true,
+    );
   }
 }
 

@@ -36,6 +36,7 @@ class PlacesState extends State<PlacesView> {
 
   @override
   Widget build(BuildContext context) {
+    searchBar.fatherContext = context;
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
     });
@@ -62,7 +63,7 @@ class PlacesState extends State<PlacesView> {
 
             Align(
               alignment: Alignment.bottomCenter,
-              child: PlaceCard(place: fPlace)
+              child: PlaceCard(place: fPlace, mainContext: context)
             )
           ],
         )

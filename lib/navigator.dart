@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pandemia/views/home.dart';
@@ -8,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'data/state/AppModel.dart';
 import 'main.dart';
 
+/// Main application state, which holds its three views.
+/// Navigation between them is possible thanks to a bottom navigation menu.
 class BottomNavigationWidgetState extends State<MyHomePage> {
   final String title;
   BottomNavigationWidgetState({Key key, this.title}) : super ();
@@ -21,6 +24,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
     FavoritesView()
   ];
 
+  /// Changes the displayed view when a menu item is tapped.
   void _onItemTapped(int index) {
     Provider.of<AppModel>(context, listen: false).setTabIndex(index);
   }
@@ -30,35 +34,13 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
     return Consumer<AppModel>(
         builder: (context, model, child) {
           return Scaffold(
-
-            /*
-      appBar: AppBar(
-        title: const Text('Pandemia #StayAtHome'),
-        backgroundColor: CustomPalette.palette[800],
-        centerTitle: true
-      ),
-      */
-
             body: Center(
               child: _widgetOptions.elementAt(model.tabIndex),
             ),
 
             backgroundColor: CustomPalette.background[700],
             bottomNavigationBar: BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  title: Text('Home'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  title: Text('Places'),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.star),
-                  title: Text('Favorites'),
-                ),
-              ],
+              items: getNavigationItems(),
               currentIndex: model.tabIndex,
               backgroundColor: CustomPalette.background[500],
               unselectedItemColor: CustomPalette.text[600],
@@ -68,5 +50,23 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
           );
         }
     );
+  }
+
+  /// Bottom navigation menu items.
+  List<BottomNavigationBarItem> getNavigationItems () {
+    return [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        title: Text(FlutterI18n.translate(context, "navigator_home")),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.search),
+        title: Text(FlutterI18n.translate(context, "navigator_places")),
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.star),
+        title: Text(FlutterI18n.translate(context, "navigator_favorites")),
+      ),
+    ];
   }
 }

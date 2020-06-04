@@ -1,3 +1,4 @@
+/// Locations gathered by the user's smartphone.
 class Location {
   final int id;
   final double lat;

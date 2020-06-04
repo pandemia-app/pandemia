@@ -15,18 +15,24 @@ class GeoSwitch extends StatefulWidget {
 
 class GeoSwitchState extends State<GeoSwitch> {
   bool _value = false;
+
   void toggle () {
+    _setNewValue(!_value);
+  }
+
+  void _setNewValue (bool value) {
     setState(() {
-      _value = !_value;
+      _value = value;
     });
+    _checkPermissions();
+  }
+
+  void _checkPermissions () {
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return Switch(value: _value, onChanged: (bool newValue) {
-      setState(() {
-        _value = newValue;
-      });
-    });
+    return Switch(value: _value, onChanged: (bool newValue) => _setNewValue(newValue));
   }
 }

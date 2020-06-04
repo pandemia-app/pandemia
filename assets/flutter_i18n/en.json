@@ -15,6 +15,7 @@
   "home_info_data_text1": "Pandemia is a standalone application; it does not send your data to third parties. If geolocation is enabled, locations are stored on your smartphone, and nowhere else.",
   "home_info_location_title": "Location",
   "home_info_location_text": "If you activate your smartphone's geolocation, we use locations to improve our calculations' results.",
+  "home_info_location_permanentlydenied": "You permanently denied location permission to Pandemia; to fix it, update the app settings.",
   "home_info_disclaimer_title": "Disclaimer",
   "home_info_disclaimer_text": "Pandemia-computed information does not replace screening tests, but can help you decide whether to be tested by health services.",
   "home_info_source_title": "Source code",

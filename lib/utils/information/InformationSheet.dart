@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:pandemia/utils/information/GeoSwitch.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Displays a text sheet displaying information about the application.
@@ -48,9 +49,7 @@ class InformationSheet {
                   subtitle: Text(
                       FlutterI18n.translate(_context, "home_info_location_text")
                   ),
-                  trailing: Switch(value: _value, onChanged: (bool newValue) {
-                    _value = newValue;
-                  }),
+                  trailing: GeoSwitch(),
                 ),
                 new ListTile(
                   leading: new Icon(Icons.warning),

@@ -5,8 +5,8 @@ import 'package:pandemia/components/home/expositionProgressionCard.dart';
 import 'package:pandemia/components/home/myExpositionCard.dart';
 import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
-import 'file:///D:/workspace/pandemia/lib/utils/information/InformationSheet.dart';
 import 'package:pandemia/data/database/indicatorsComputer.dart';
+import 'package:pandemia/utils/information/InformationSheet.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /// Home view of the application, showing current exposition rate, exposition

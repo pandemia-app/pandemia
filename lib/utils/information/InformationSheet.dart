@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 class InformationSheet {
   BuildContext _context;
   EdgeInsets _padding = EdgeInsets.symmetric(horizontal: 20, vertical: 10);
-  bool _value = true;
+  GeoSwitch _switch = new GeoSwitch();
   InformationSheet(this._context);
 
   void show () {
@@ -41,6 +41,7 @@ class InformationSheet {
                   ),
                 ),
                 new ListTile(
+                  onTap: () => _switch.toggle(),
                   leading: new Icon(Icons.location_on),
                   contentPadding: _padding,
                   title: new Text(
@@ -49,7 +50,7 @@ class InformationSheet {
                   subtitle: Text(
                       FlutterI18n.translate(_context, "home_info_location_text")
                   ),
-                  trailing: GeoSwitch(),
+                  trailing: _switch,
                 ),
                 new ListTile(
                   leading: new Icon(Icons.warning),

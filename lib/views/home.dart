@@ -94,8 +94,21 @@ class HomeView extends StatelessWidget {
                       FlutterI18n.translate(context, "home_info_data_title")
                   ),
                   subtitle: Text(
-                    FlutterI18n.translate(context, "home_info_data_text1") + '\n' +
-                        FlutterI18n.translate(context, "home_info_data_text2"),
+                    FlutterI18n.translate(context, "home_info_data_text1")
+                  ),
+                ),
+                new ListTile(
+                  leading: Stack(
+                    children: <Widget>[
+                      new Icon(Icons.location_on)
+                    ],
+                  ),
+                  contentPadding: padding,
+                  title: new Text(
+                      FlutterI18n.translate(context, "home_info_location_title")
+                  ),
+                  subtitle: Text(
+                      FlutterI18n.translate(context, "home_info_location_text")
                   ),
                 ),
                 new ListTile(

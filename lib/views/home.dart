@@ -68,6 +68,7 @@ class HomeView extends StatelessWidget {
   /// Displays a text sheet displaying information about the application.
   void _settingModalBottomSheet (context) {
     var padding = EdgeInsets.symmetric(horizontal: 20, vertical: 10);
+    var value = true;
 
     showModalBottomSheet(
         context: context,
@@ -98,11 +99,7 @@ class HomeView extends StatelessWidget {
                   ),
                 ),
                 new ListTile(
-                  leading: Stack(
-                    children: <Widget>[
-                      new Icon(Icons.location_on)
-                    ],
-                  ),
+                  leading: new Icon(Icons.location_on),
                   contentPadding: padding,
                   title: new Text(
                       FlutterI18n.translate(context, "home_info_location_title")
@@ -110,6 +107,9 @@ class HomeView extends StatelessWidget {
                   subtitle: Text(
                       FlutterI18n.translate(context, "home_info_location_text")
                   ),
+                  trailing: Switch(value: value, onChanged: (bool newValue) {
+                    value = newValue;
+                  }),
                 ),
                 new ListTile(
                   leading: new Icon(Icons.warning),

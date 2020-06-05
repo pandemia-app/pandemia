@@ -57,5 +57,7 @@
   "day_4": "Jeudi",
   "day_5": "Vendredi",
   "day_6": "Samedi",
-  "day_7": "Dimanche"
+  "day_7": "Dimanche",
+
+  "location_service_disabled": "La géolocalisation est activée, mais pas le service associé ; merci de l'activer dans les paramètres de votre smartphone."
 }

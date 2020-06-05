@@ -16,6 +16,7 @@
   "home_info_location_title": "Géolocalisation",
   "home_info_location_text": "Si vous activez la géolocalisation de votre smartphone, nous utilisons les positions remontées par celui-ci pour améliorer les résultats de nos calculs.",
   "home_info_location_permanentlydenied": "Vous avez refusé de façon permanente la géolocalisation à Pandemia; vous pouvez cependant accorder cette permission dans les paramètres de votre téléphone.",
+  "home_info_location_removepermission": "Cette permission doit être retirée dans les paramètres du téléphone.",
   "home_info_disclaimer_title": "Avertissement",
   "home_info_disclaimer_text": "Les informations calculées par Pandemia ne remplacent en aucun cas un test de dépistage, mais elles peuvent contribuer à identifier la nécessité de se faire dépister auprès de professionnels de santé.",
   "home_info_source_title": "Sources",

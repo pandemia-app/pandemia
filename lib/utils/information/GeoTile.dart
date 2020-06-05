@@ -36,6 +36,7 @@ class GeoTileState extends State<GeoTile> {
   }
 
   void _checkPermissions () async {
+    // requesting the location permission
     if (_value) {
       var permissionRequest = await Permission.locationAlways.request();
       if (!permissionRequest.isGranted) {
@@ -53,6 +54,17 @@ class GeoTileState extends State<GeoTile> {
           _value = false;
         });
       }
+
+    // removing the location permission
+    } else {
+      Fluttertoast.showToast(
+          msg: FlutterI18n.translate(_context, "home_info_location_removepermission"),
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 4,
+          fontSize: 16.0
+      );
+      Timer(Duration(seconds: 2), () => openAppSettings());
     }
   }
 

@@ -9,6 +9,7 @@ import 'package:pandemia/data/database/models/Location.dart';
 class Geolocator {
   static const String _isolateName = "LocatorIsolate";
   static ReceivePort port = ReceivePort();
+  static AppDatabase db = new AppDatabase();
 
   static void launch () {
     init().then((value) {
@@ -28,20 +29,20 @@ class Geolocator {
 
   static Future<void> init () async {
     IsolateNameServer.registerPortWithName(port.sendPort, _isolateName);
-    AppDatabase db = new AppDatabase();
-    port.listen((dynamic data) {
-      db.insertLocation(
-          new Location(
-              lat: data.latitude,
-              lng: data.longitude,
-              timestamp: new DateTime.fromMillisecondsSinceEpoch(data.time.toInt())));
-      print('received new location at ${DateTime.fromMillisecondsSinceEpoch(data.time.toInt())}');
-    });
+    port.listen((dynamic data) async {});
     await BackgroundLocator.initialize();
   }
 
   static void callback(LocationDto locationDto) async {
     final SendPort send = IsolateNameServer.lookupPortByName(_isolateName);
     send?.send(locationDto);
+    DateTime timestamp = new DateTime.fromMillisecondsSinceEpoch(locationDto.time.toInt());
+    AppDatabase db = new AppDatabase();
+    await db.insertLocation(
+        new Location(
+            lat: locationDto.latitude,
+            lng: locationDto.longitude,
+            timestamp: timestamp));
+    print('received new location at $timestamp');
   }
 }

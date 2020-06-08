@@ -28,6 +28,7 @@ class AppDatabase {
         "CREATE TABLE $rName (id INTEGER, expositionRate INTEGER, broadcastRate INTEGER)"
       );
     });
+    print('database is now ${this.database.isOpen ? 'opened' : 'closed'}');
   }
 
   Future<void> insertLocation(Location loc) async {

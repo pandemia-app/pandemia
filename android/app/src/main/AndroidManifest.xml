@@ -1,17 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.inria.pandemia">
-    <!-- io.flutter.app.FlutterApplication is an android.app.Application that
-         calls FlutterMain.startInitialization(this); in its onCreate method.
-         In most cases you can leave this as-is, but you if you want to provide
-         additional functionality it is fine to subclass or reimplement
-         FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <application
-        android:name="io.flutter.app.FlutterApplication"
-        android:label="pandemia"
+        android:name=".Application"
+        android:label="Pandemia"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDuaGx_aNhUjq99-4brKJqYOCTEC36sPr4"/>

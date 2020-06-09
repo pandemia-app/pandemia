@@ -5,6 +5,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:pandemia/navigator.dart';
 import 'package:pandemia/utils/geolocation/Geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'data/state/AppModel.dart';
 
@@ -12,8 +13,17 @@ final AppDatabase db = new AppDatabase();
 
 void main() async {
   await DotEnv().load('lib/.env.generated');
-  db.open();
-  Geolocator.launch();
+
+  // checking location permission + status before launching location gathering
+  Permission.locationAlways.status.then((permissionStatus) {
+    if (permissionStatus.isGranted) {
+      Permission.locationAlways.serviceStatus.then((serviceStatus) {
+        if (serviceStatus.isEnabled) {
+          Geolocator.launch();
+        }
+      });
+    }
+  });
 
   runApp(
     ChangeNotifierProvider(

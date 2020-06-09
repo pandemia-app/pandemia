@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pandemia/utils/geolocation/Geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 /// List tile allowing the user to update its location policy.
@@ -53,6 +54,8 @@ class GeoTileState extends State<GeoTile> {
         setState(() {
           _value = false;
         });
+      } else {
+        Geolocator.launch();
       }
 
     // removing the location permission
@@ -65,6 +68,7 @@ class GeoTileState extends State<GeoTile> {
           fontSize: 16.0
       );
       Timer(Duration(seconds: 2), () => openAppSettings());
+      Geolocator.stop();
     }
   }
 

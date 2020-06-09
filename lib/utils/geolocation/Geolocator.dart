@@ -45,4 +45,9 @@ class Geolocator {
             timestamp: timestamp));
     print('received new location at $timestamp');
   }
+
+  static void stop () {
+    IsolateNameServer.removePortNameMapping(_isolateName);
+    BackgroundLocator.unRegisterLocationUpdate();
+  }
 }

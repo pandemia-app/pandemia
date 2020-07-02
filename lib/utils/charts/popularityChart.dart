@@ -44,10 +44,13 @@ class PopularityChart extends StatelessWidget {
 
   static List<charts.Series<GaugeSegment, String>> _createData(int rate) {
     var value = rate > 100 ? 100 : rate;
-    final data = [
-      new GaugeSegment('Popularity', value),
-      new GaugeSegment('Space', 100 - value),
-    ];
+    final data =
+      value == 100 ?
+      [new GaugeSegment('Popularity', value)] :
+      [
+        new GaugeSegment('Popularity', value),
+        new GaugeSegment('Space', 100 - value),
+      ];
 
     return [
       new charts.Series<GaugeSegment, String>(

@@ -22,29 +22,23 @@ class PopularityChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container (
-      width: 30,
-      height: 30,
-      child: Stack (
-        children: <Widget>[
-          Container (
-            width: 30,
-            height: 30,
-            transform: Matrix4.translationValues(7, 0, 0),
-            child: Text("$rate%", style: TextStyle(fontSize: 14, color: CustomPalette.text[400])),
-          ),
-
-          Container (
-            width: 30,
-            height: 40,
-            transform: Matrix4.translationValues(-10, 0, 0),
-            child: charts.PieChart(
-                seriesList,
-                animate: animate,
-                defaultRenderer: new charts.ArcRendererConfig(
-                    arcWidth: 2, startAngle: pi, arcLength: 2*pi)),
-          ),
-        ],
-      ),
+      child: Column (
+          children: <Widget>[
+            Container (
+              transform: Matrix4.translationValues(0, 10, 0),
+              child: Text("$rate%", style: TextStyle(fontSize: 12, color: CustomPalette.text[400],)),
+            ),
+            Container (
+              width: 40,
+              height: 40,
+              transform: Matrix4.translationValues(-10, -5, 0),
+              child: charts.PieChart(
+                  seriesList,
+                  animate: animate,
+                  defaultRenderer: new charts.ArcRendererConfig(
+                      arcWidth: 2, startAngle: pi, arcLength: 2*pi)),
+            )
+          ]),
     );
   }
 

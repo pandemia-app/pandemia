@@ -135,7 +135,7 @@ class PlacesState extends State<PlacesView> {
           );
 
       // refresh data with popularity stats
-      Parser.getPopularTimes(new Favorite(name: result['name'], address: result['vicinity'])).then((value) {
+      Parser.getPopularTimes(new Favorite(name: result['name'], address: result['vicinity'], id: result['place_id'])).then((value) {
         if (value.hasData) {
           var placePointsCache = computer.generatePopularityPoints(
               LatLng(

@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
@@ -32,6 +34,24 @@ class FavoritePanelState extends State<FavoritePanel> {
   void initState () {
     future = Parser.getPopularTimes(place);
     super.initState();
+  }
+
+  _onSelectionChanged(charts.SelectionModel model) {
+    final CrowdRate selectedDatum = model.selectedDatum[0].datum as CrowdRate;
+    if (selectedDatum.rate != 0) {
+      String message = FlutterI18n.translate(context, "favorites_usual_popularity_text1") +
+          " ${selectedDatum.rate}% " + FlutterI18n.translate(context, "favorites_usual_popularity_text2") +
+          " ${selectedDatum.hour} " + FlutterI18n.translate(context, "favorites_usual_popularity_text3") +
+          " ${int.parse(selectedDatum.hour.substring(0, selectedDatum.hour.length-1))+1}h.";
+
+      Fluttertoast.showToast(
+          msg: message,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 2,
+          fontSize: 16.0
+      );
+    }
   }
 
   @override
@@ -106,7 +126,7 @@ class FavoritePanelState extends State<FavoritePanel> {
         for (var weekday in times.getOrderedKeys()) {
           var weekstats = times.stats[weekday];
           List<Widget> widgets = [
-            SimpleBarChart.fromPopularTimes ( weekstats.times ),
+            SimpleBarChart.fromPopularTimes ( weekstats.times, _onSelectionChanged ),
             Container (
               padding: EdgeInsets.only(left: 15, top: 5),
               child: Text(

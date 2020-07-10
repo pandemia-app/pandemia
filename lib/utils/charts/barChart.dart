@@ -22,6 +22,11 @@ class SimpleBarChart extends StatelessWidget {
     return new charts.BarChart(
       seriesList,
       animate: animate,
+      behaviors: [
+        new charts.InitialSelection(selectedDataConfig: [
+          new charts.SeriesDatumConfig<String>("Crowds", "${DateTime.now().hour}h")
+        ])
+      ],
       primaryMeasureAxis:
         new charts.NumericAxisSpec(renderSpec: new charts.NoneRenderSpec()),
       domainAxis: new charts.OrdinalAxisSpec(

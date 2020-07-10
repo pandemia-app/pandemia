@@ -1,4 +1,5 @@
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 
@@ -38,6 +39,9 @@ class SimpleBarChart extends StatelessWidget {
           tickProviderSpec:
             new charts.StaticOrdinalTickProviderSpec(
                 <charts.TickSpec<String>>[
+                  new charts.TickSpec('1h'),
+                  new charts.TickSpec('3h'),
+                  new charts.TickSpec('5h'),
                   new charts.TickSpec('7h'),
                   new charts.TickSpec('9h'),
                   new charts.TickSpec('11h'),

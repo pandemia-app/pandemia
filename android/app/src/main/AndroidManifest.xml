@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.inria.pandemia">
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -8,6 +9,12 @@
         android:name=".Application"
         android:label="Pandemia"
         android:icon="@mipmap/ic_launcher">
+        <receiver android:name="rekab.app.background_locator.BootBroadcastReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDuaGx_aNhUjq99-4brKJqYOCTEC36sPr4"/>
         <activity

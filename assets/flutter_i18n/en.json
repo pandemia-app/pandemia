@@ -59,5 +59,7 @@
   "day_6": "Saturday",
   "day_7": "Sunday",
 
-  "location_service_disabled": "Geolocation has been activated but the location service is not running; please enable it in your smartphone's settings."
+  "location_service_disabled": "Geolocation has been activated but the location service is not running; please enable it in your smartphone's settings.",
+  "location_notification_title": "Registering locations",
+  "location_notification_text": "Tap to check your virus exposition."
 }

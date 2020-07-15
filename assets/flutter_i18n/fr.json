@@ -59,5 +59,7 @@
   "day_6": "Samedi",
   "day_7": "Dimanche",
 
-  "location_service_disabled": "La géolocalisation est activée, mais pas le service associé ; merci de l'activer dans les paramètres de votre smartphone."
+  "location_service_disabled": "La géolocalisation est activée, mais pas le service associé ; merci de l'activer dans les paramètres de votre smartphone.",
+  "location_notification_title": "Registering locations",
+  "location_notification_text": "Touchez la notification pour vérifier votre exposition au virus."
 }

@@ -14,63 +14,83 @@ class InformationSheet {
     showModalBottomSheet(
         context: _context,
         isScrollControlled: true,
+        backgroundColor: Colors.transparent,
         builder: (BuildContext bc) {
-          return Container(
-            child: new Wrap(
-              children: <Widget>[
-                new ListTile(
-                  leading: new Icon(Icons.info_outline),
-                  title: new Text(
-                    FlutterI18n.translate(_context, "home_info_operation_title"),
-                  ),
-                  contentPadding: _padding,
-                  subtitle: Text(
-                    FlutterI18n.translate(_context, "home_info_operation_text1") + '\n' +
-                        FlutterI18n.translate(_context, "home_info_operation_text2"),
-                  ),
-                ),
-                new ListTile(
-                  leading: new Icon(Icons.data_usage),
-                  contentPadding: _padding,
-                  title: new Text(
-                      FlutterI18n.translate(_context, "home_info_data_title")
-                  ),
-                  subtitle: Text(
-                      FlutterI18n.translate(_context, "home_info_data_text1")
-                  ),
-                ),
-                GeoTile (),
-                new ListTile(
-                  leading: new Icon(Icons.warning),
-                  contentPadding: _padding,
-                  title: new Text(
-                      FlutterI18n.translate(_context, "home_info_disclaimer_title")
-                  ),
-                  subtitle: Text(
-                      FlutterI18n.translate(_context, "home_info_disclaimer_text")
-                  ),
-                ),
-                new ListTile(
-                  onTap: _openRepositoryURL,
-                  leading: new Icon(Icons.code),
-                  contentPadding: _padding,
-                  title: new Text(
-                      FlutterI18n.translate(_context, "home_info_source_title")
-                  ),
-                  subtitle: Text.rich(
-                      TextSpan(
-                        text: FlutterI18n.translate(_context, "home_info_source_text") + " ",
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: 'https://github.com/pandemia-app/pandemia',
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              )),
+          return FractionallySizedBox(
+            heightFactor: 0.9,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only( topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+              ),
+              child: DraggableScrollableSheet(
+                initialChildSize: 1,
+                minChildSize: 0.9,
+                builder:
+                    (BuildContext context, ScrollController scrollController) {
+                  return SingleChildScrollView(
+                    controller: scrollController,
+                    child: Container(
+                      child: new Wrap(
+                        children: <Widget>[
+                          new ListTile(
+                            leading: new Icon(Icons.info_outline),
+                            title: new Text(
+                              FlutterI18n.translate(_context, "home_info_operation_title"),
+                            ),
+                            contentPadding: _padding,
+                            subtitle: Text(
+                              FlutterI18n.translate(_context, "home_info_operation_text1") + '\n' +
+                                  FlutterI18n.translate(_context, "home_info_operation_text2"),
+                            ),
+                          ),
+                          new ListTile(
+                            leading: new Icon(Icons.data_usage),
+                            contentPadding: _padding,
+                            title: new Text(
+                                FlutterI18n.translate(_context, "home_info_data_title")
+                            ),
+                            subtitle: Text(
+                                FlutterI18n.translate(_context, "home_info_data_text1")
+                            ),
+                          ),
+                          GeoTile (),
+                          new ListTile(
+                            leading: new Icon(Icons.warning),
+                            contentPadding: _padding,
+                            title: new Text(
+                                FlutterI18n.translate(_context, "home_info_disclaimer_title")
+                            ),
+                            subtitle: Text(
+                                FlutterI18n.translate(_context, "home_info_disclaimer_text")
+                            ),
+                          ),
+                          new ListTile(
+                            onTap: _openRepositoryURL,
+                            leading: new Icon(Icons.code),
+                            contentPadding: _padding,
+                            title: new Text(
+                                FlutterI18n.translate(_context, "home_info_source_title")
+                            ),
+                            subtitle: Text.rich(
+                                TextSpan(
+                                  text: FlutterI18n.translate(_context, "home_info_source_text") + " ",
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'https://github.com/pandemia-app/pandemia',
+                                        style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                        )),
+                                  ],
+                                )
+                            ),
+                          ),
                         ],
-                      )
-                  ),
-                ),
-              ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           );
         }

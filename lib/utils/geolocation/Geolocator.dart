@@ -16,8 +16,8 @@ class Geolocator {
       BackgroundLocator.registerLocationUpdate(
         Geolocator.callback,
         settings: LocationSettings(
-          notificationIcon: 'ic_launcher',
           notificationTitle: "Pandemia",
+          notificationIcon: 'ic_virus_outline_black',
           notificationMsg: "Registering locations",
           autoStop: false,
           wakeLockTime: 20,

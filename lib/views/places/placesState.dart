@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/components/places/search/placeCard.dart';
 import 'package:pandemia/components/places/search/searchBar.dart';
+import 'package:pandemia/components/places/type/PlaceTypeSheet.dart';
 import 'package:pandemia/components/places/type/placeType.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/parser/parser.dart';
@@ -190,56 +191,10 @@ class PlacesState extends State<PlacesView> {
               child: searchBar,
             ),
 
-            DraggableScrollableSheet(
-              initialChildSize: 0.09,
-              minChildSize: 0.09,
-              builder: (BuildContext localContext, ScrollController scrollController) {
-                List<Widget> typesItems = [
-                  ListTile(
-                  title: Center(
-                    child: Column (
-                      children: <Widget>[
-                        Icon(Icons.maximize, color: CustomPalette.text[700]),
-                        Container (
-                          child: Text(FlutterI18n.translate(context, "places_typepicker_title"), style: TextStyle(
-                              color: CustomPalette.text[300])),
-                          margin: EdgeInsets.all(0),
-                          padding: EdgeInsets.only(bottom: 10),
-                        ),
-                        Divider (color: CustomPalette.text[300], thickness: 0.5,)
-                      ],
-                    ),
-                  ),
-                )];
-                for (PlaceType t in PlaceType.getSortedTypes(context)) {
-                  typesItems.add(
-                      ListTile(
-                        onTap: () {
-                          heatmapPoints.clear();
-                          setPlaceType(t.key, context);},
-                        dense: true,
-                        enabled: true,
-                        title: Text(t.translation, style: TextStyle(color: CustomPalette.text[300])),
-                        leading: Radio(
-                          groupValue: selectedType,
-                          value: t.key,
-                          onChanged: (key) {
-                            heatmapPoints.clear();
-                            setPlaceType(key, context);}
-                        ),
-                      )
-                  );
-                }
-
-                return Container(
-                  color: CustomPalette.background[400],
-                  child: ListView(
-                    controller: scrollController,
-                    children: typesItems,
-                  )
-                );
-              },
-            ),
+            PlaceTypeSheet(onTypeUpdated: (String key) {
+                heatmapPoints.clear();
+                setPlaceType(key, context);
+            }, context: context),
 
             Align(
                 alignment: Alignment.bottomCenter,

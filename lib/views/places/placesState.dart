@@ -195,12 +195,12 @@ class PlacesState extends State<PlacesView> {
 
             Align(
               alignment: Alignment.topCenter,
-              child: searchBar,
-            ),
-
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: PlaceCard(place: fPlace, mainContext: context)
+              child: Column (
+                children: <Widget>[
+                  searchBar,
+                  PlaceCard(place: fPlace, mainContext: context)
+                ],
+              ),
             ),
 
             Align(

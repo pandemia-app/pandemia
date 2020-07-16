@@ -157,8 +157,15 @@ class PlacesState extends State<PlacesView> {
     }
   }
 
+  PlaceTypeSheet typeSelector;
+
   @override
   Widget build(BuildContext context) {
+    typeSelector = PlaceTypeSheet(onTypeUpdated: (String key) {
+      heatmapPoints.clear();
+      setPlaceType(key, context);
+    }, context: context);
+
     searchBar.fatherContext = context;
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
@@ -191,11 +198,6 @@ class PlacesState extends State<PlacesView> {
               child: searchBar,
             ),
 
-            PlaceTypeSheet(onTypeUpdated: (String key) {
-                heatmapPoints.clear();
-                setPlaceType(key, context);
-            }, context: context),
-
             Align(
                 alignment: Alignment.bottomCenter,
                 child: PlaceCard(place: fPlace, mainContext: context)
@@ -209,7 +211,12 @@ class PlacesState extends State<PlacesView> {
               )
             )
           ],
-        )
+        ),
+
+        floatingActionButton: FloatingActionButton (
+          onPressed: () => typeSelector.show(selectedType),
+          child: Icon(Icons.filter_list),
+        ),
       ),
     );
   }

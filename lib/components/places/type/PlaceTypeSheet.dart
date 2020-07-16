@@ -29,12 +29,11 @@ class PlaceTypeSheet {
                   title: Center(
                     child: Column (
                       children: <Widget>[
-                        Icon(Icons.maximize, color: CustomPalette.text[700]),
                         Container (
                           child: Text(FlutterI18n.translate(context, "places_typepicker_title"), style: TextStyle(
                               color: CustomPalette.text[300])),
                           margin: EdgeInsets.all(0),
-                          padding: EdgeInsets.only(bottom: 10),
+                          padding: EdgeInsets.only(bottom: 10, top: 15),
                         ),
                         Divider (color: CustomPalette.text[300], thickness: 0.5,)
                       ],

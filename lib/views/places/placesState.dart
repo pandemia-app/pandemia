@@ -12,6 +12,7 @@ import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/cache/PopularityPointsCache.dart';
 import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/state/AppModel.dart';
+import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/GeoComputer.dart';
 import 'package:pandemia/utils/PlacesCounter.dart';
 import 'package:pandemia/views/places/places.dart';
@@ -211,6 +212,21 @@ class PlacesState extends State<PlacesView> {
                 visible: loadingPlaces,
                 child: LinearProgressIndicator(),
               )
+            ),
+
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Container (
+                child: Text(
+                  FlutterI18n.translate(context, "places_typepicker_type_$selectedType"),
+                  style: TextStyle(
+                      color: CustomPalette.text[600],
+                      fontSize: 20,
+                      fontWeight: FontWeight.w300
+                  ),
+                ),
+                padding: EdgeInsets.only(left: 5, bottom: 32),
+              ),
             )
           ],
         ),

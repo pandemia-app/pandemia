@@ -6,12 +6,14 @@ import 'package:pandemia/utils/CustomPalette.dart';
 class SimpleBarChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
+  final Function onTouchCallback;
 
-  SimpleBarChart(this.seriesList, {this.animate});
+  SimpleBarChart(this.seriesList, this.onTouchCallback, {this.animate});
 
-  factory SimpleBarChart.fromPopularTimes(List<List<int>> times) {
+  factory SimpleBarChart.fromPopularTimes(List<List<int>> times, Function onTouchCallback) {
     return new SimpleBarChart(
       _createDataFromPopularTimes(times),
+      onTouchCallback,
       animate: true
     );
   }
@@ -21,6 +23,17 @@ class SimpleBarChart extends StatelessWidget {
     return new charts.BarChart(
       seriesList,
       animate: animate,
+      behaviors: [
+        new charts.InitialSelection(selectedDataConfig: [
+          new charts.SeriesDatumConfig<String>("Crowds", "${DateTime.now().hour}h")
+        ])
+      ],
+      selectionModels: [
+        new charts.SelectionModelConfig(
+          type: charts.SelectionModelType.info,
+          changedListener: this.onTouchCallback
+        )
+      ],
       primaryMeasureAxis:
         new charts.NumericAxisSpec(renderSpec: new charts.NoneRenderSpec()),
       domainAxis: new charts.OrdinalAxisSpec(
@@ -38,6 +51,9 @@ class SimpleBarChart extends StatelessWidget {
           tickProviderSpec:
             new charts.StaticOrdinalTickProviderSpec(
                 <charts.TickSpec<String>>[
+                  new charts.TickSpec('1h'),
+                  new charts.TickSpec('3h'),
+                  new charts.TickSpec('5h'),
                   new charts.TickSpec('7h'),
                   new charts.TickSpec('9h'),
                   new charts.TickSpec('11h'),

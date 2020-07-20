@@ -47,6 +47,9 @@
   "favorites_nopopulartimes": "No popular times available for this place.",
   "favorites_currentpopularity": "Current popularity:",
   "favorites_placeclosed": "Place closed this day",
+  "favorites_usual_popularity_text1": "This place usual popularity is",
+  "favorites_usual_popularity_text2": "between",
+  "favorites_usual_popularity_text3": "and",
 
   "day_1": "Monday",
   "day_2": "Tuesday",

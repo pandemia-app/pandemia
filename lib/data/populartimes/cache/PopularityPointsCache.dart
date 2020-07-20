@@ -5,16 +5,18 @@ import 'package:pandemia/utils/GeoComputer.dart';
 class PopularityPointsCache {
   Map<String, Map<String, WeightedLatLng>> points = new Map();
   Map<String, double> zoomLevels = new Map();
+  Map<String, int> popularities = new Map();
   GeoComputer computer = new GeoComputer();
 
   /// Returns points for a given place.
-  /// Regenerates points if the zoom level has been changed since last request.
+  /// Regenerates points if the zoom level or place popularity changed since last request.
   Map<String, WeightedLatLng> getPoints (String placeId, LatLng placePosition, int placeCurrentPopularity, double zoomLevel) {
-    if (this.points[placeId] == null || this.zoomLevels[placeId] != zoomLevel) {
+    if (this.points[placeId] == null || this.zoomLevels[placeId] != zoomLevel || this.popularities[placeId] != placeCurrentPopularity) {
       points[placeId] = computer.generatePopularityPoints(placePosition, placeId, placeCurrentPopularity, zoomLevel);
     }
 
     zoomLevels[placeId] = zoomLevel;
+    popularities[placeId] = placeCurrentPopularity;
 
     return points[placeId];
   }

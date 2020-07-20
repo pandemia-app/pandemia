@@ -9,6 +9,7 @@ import 'package:pandemia/components/places/search/placeCard.dart';
 import 'package:pandemia/components/places/search/searchBar.dart';
 import 'package:pandemia/components/places/type/PlaceTypeSheet.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
+import 'package:pandemia/data/populartimes/cache/PopularityPointsCache.dart';
 import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/GeoComputer.dart';
@@ -24,6 +25,7 @@ class PlacesState extends State<PlacesView> {
   Favorite fPlace;
   String selectedType = "supermarket";
   Map<String, WeightedLatLng> heatmapPoints = <String, WeightedLatLng>{};
+  PopularityPointsCache cache = new PopularityPointsCache();
   bool loadingPlaces = true;
   double zoomLevel = 13.75;
 
@@ -136,13 +138,15 @@ class PlacesState extends State<PlacesView> {
       // refresh data with popularity stats
       Parser.getPopularTimes(new Favorite(name: result['name'], address: result['vicinity'], id: result['place_id'])).then((value) {
         if (value.hasData) {
-          var placePointsCache = computer.generatePopularityPoints(
-              LatLng(
-                result['geometry']['location']['lat'],
-                result['geometry']['location']['lng'],
-              ),
-              result['id'], value.currentPopularity, zoomLevel);
-          pointsCache.addAll(placePointsCache);
+          pointsCache.addAll(
+            cache.getPoints(
+                result['id'],
+                LatLng(
+                  result['geometry']['location']['lat'],
+                  result['geometry']['location']['lng'],
+                ),
+                value.currentPopularity, zoomLevel)
+          );
         }
 
         if (counter.addLoadedPlace()) {

@@ -147,6 +147,9 @@
   "favorites_nopopulartimes": "Ce lieu ne possède pas de données d'affluence.",
   "favorites_currentpopularity": "Affluence actuelle :",
   "favorites_placeclosed": "Lieu fermé en ce jour",
+  "favorites_usual_popularity_text1": "Lieu habituellement rempli à",
+  "favorites_usual_popularity_text2": "entre",
+  "favorites_usual_popularity_text3": "et",
 
   "day_1": "Lundi",
   "day_2": "Mardi",
@@ -154,5 +157,5 @@
   "day_4": "Jeudi",
   "day_5": "Vendredi",
   "day_6": "Samedi",
-  "day_7": "Dimanche"
+  "day_7": "Dimanche",
 }

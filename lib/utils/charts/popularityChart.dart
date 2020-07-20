@@ -46,10 +46,10 @@ class PopularityChart extends StatelessWidget {
     var value = rate > 100 ? 100 : rate;
     final data =
       value == 100 ?
-      [new GaugeSegment('Popularity', value)] :
+      [new GaugeSegment('Popularity', value, charts.MaterialPalette.red.shadeDefault)] :
       [
-        new GaugeSegment('Popularity', value),
-        new GaugeSegment('Space', 100 - value),
+        new GaugeSegment('Popularity', value, charts.MaterialPalette.blue.shadeDefault),
+        new GaugeSegment('Space', 100 - value, charts.MaterialPalette.blue.makeShades(5)[3]),
       ];
 
     return [
@@ -57,6 +57,7 @@ class PopularityChart extends StatelessWidget {
         id: 'Segments',
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
+        colorFn: (GaugeSegment segment, _) => segment.color,
         data: data,
       )
     ];
@@ -67,6 +68,7 @@ class PopularityChart extends StatelessWidget {
 class GaugeSegment {
   final String segment;
   final int size;
+  final charts.Color color;
 
-  GaugeSegment(this.segment, this.size);
+  GaugeSegment(this.segment, this.size, this.color);
 }

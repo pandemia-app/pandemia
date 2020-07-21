@@ -23,11 +23,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Location Needed</string>
+	<string>Pandemia needs access to location to compute a better estimation of your exposition to the virus.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Location Needed</string>
+	<string>Pandemia needs access to location to compute a better estimation of your exposition to the virus.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location Needed</string>
+	<string>Pandemia needs access to location to compute a better estimation of your exposition to the virus.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

@@ -112,7 +112,7 @@ class PlacesState extends State<PlacesView> {
 
     // adds a marker for each place
     for (var result in results) {
-      pointsCache[result['id']] =
+      pointsCache[result['place_id']] =
           WeightedLatLng(
             point: LatLng(
               result['geometry']['location']['lat'],
@@ -125,7 +125,7 @@ class PlacesState extends State<PlacesView> {
         if (value.hasData) {
           pointsCache.addAll(
             cache.getPoints(
-                result['id'],
+                result['place_id'],
                 LatLng(
                   result['geometry']['location']['lat'],
                   result['geometry']['location']['lng'],

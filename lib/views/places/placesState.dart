@@ -26,7 +26,7 @@ class PlacesState extends State<PlacesView> {
   final LatLng _center = const LatLng(47.204780651359876, 0.08437223732471466);
   final searchBar = new SearchBar();
   Favorite fPlace;
-  String selectedType = "supermarket";
+  String selectedType = "";
   Map<String, WeightedLatLng> heatmapPoints = <String, WeightedLatLng>{};
   PopularityPointsCache cache = new PopularityPointsCache();
   bool loadingPlaces = true;
@@ -89,7 +89,7 @@ class PlacesState extends State<PlacesView> {
 
   void getAllPlacesInViewport (BuildContext context) async {
     // abort if called before mapController is ready
-    if (mapController == null) return;
+    if (mapController == null || selectedType == "") return;
 
     print('getting all places in viewport');
     var bounds = await mapController.getVisibleRegion();
@@ -225,16 +225,24 @@ class PlacesState extends State<PlacesView> {
 
             Align(
               alignment: Alignment.bottomLeft,
-              child: Container (
-                child: Text(
-                  FlutterI18n.translate(context, "places_typepicker_type_$selectedType"),
-                  style: TextStyle(
-                      color: CustomPalette.text[600],
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300
-                  ),
-                ),
-                padding: EdgeInsets.only(left: 5, bottom: 32),
+              child: Builder(
+                builder: (BuildContext _context) {
+                  if (selectedType == "") {
+                    return Container();
+                  } else {
+                    return Container (
+                      child: Text(
+                        FlutterI18n.translate(context, "places_typepicker_type_$selectedType"),
+                        style: TextStyle(
+                            color: CustomPalette.text[600],
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300
+                        ),
+                      ),
+                      padding: EdgeInsets.only(left: 5, bottom: 32),
+                    );
+                  }
+                },
               ),
             )
           ],

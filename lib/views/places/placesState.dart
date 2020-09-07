@@ -90,13 +90,7 @@ class PlacesState extends State<PlacesView> {
 
     // checking maximum distance
     if (radius > 50000) {
-      Fluttertoast.showToast(
-          msg: FlutterI18n.translate(context, "places_searchzone_toobig"),
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 2,
-          fontSize: 16.0
-      );
+      showSearchZoneTooBigToast();
       return;
     }
 
@@ -107,18 +101,8 @@ class PlacesState extends State<PlacesView> {
     dynamic results = await getNearbyPlacesFromPlacesAPI(middle, radius);
 
     // display a message if no results were found
-    if (results.length == 0) {
-      Fluttertoast.showToast(
-          msg: FlutterI18n.translate(context, "places_searchzone_noresult"),
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 2,
-          fontSize: 16.0
-      );
-      setState(() {
-        loadingPlaces = false;
-      });
-    }
+    if (results.length == 0)
+      showNoResultsToast();
 
     // this counter allows to adds all points at once, when all places data have
     // been loaded.
@@ -239,5 +223,28 @@ class PlacesState extends State<PlacesView> {
         ),
       ),
     );
+  }
+
+  void showSearchZoneTooBigToast() {
+    Fluttertoast.showToast(
+        msg: FlutterI18n.translate(context, "places_searchzone_toobig"),
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 2,
+        fontSize: 16.0
+    );
+  }
+
+  void showNoResultsToast() {
+    Fluttertoast.showToast(
+        msg: FlutterI18n.translate(context, "places_searchzone_noresult"),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 2,
+        fontSize: 16.0
+    );
+    setState(() {
+      loadingPlaces = false;
+    });
   }
 }

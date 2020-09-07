@@ -21,14 +21,14 @@ import 'package:http/http.dart' as http;
 class PlacesState extends State<PlacesView> {
   GoogleMapController mapController;
   String _mapStyle;
-  final LatLng _center = const LatLng(50.6311652, 3.0477402);
+  final LatLng _center = const LatLng(47.204780651359876, 0.08437223732471466);
   final searchBar = new SearchBar();
   Favorite fPlace;
   String selectedType = "supermarket";
   Map<String, WeightedLatLng> heatmapPoints = <String, WeightedLatLng>{};
   PopularityPointsCache cache = new PopularityPointsCache();
   bool loadingPlaces = true;
-  double zoomLevel = 13.75;
+  double zoomLevel = 5.6872239112854;
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) {
     mapController = controller;
@@ -233,6 +233,9 @@ class PlacesState extends State<PlacesView> {
         timeInSecForIosWeb: 2,
         fontSize: 16.0
     );
+    setState(() {
+      loadingPlaces = false;
+    });
   }
 
   void showNoResultsToast() {

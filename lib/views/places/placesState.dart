@@ -54,10 +54,11 @@ class PlacesState extends State<PlacesView> {
     };
 
     // moving to user position
-    controller.moveCamera(CameraUpdate.newLatLng(LatLng(
+    controller.moveCamera(CameraUpdate.newLatLngZoom(LatLng(
       _preferences.getDouble('favoriteMapLat') != null ? _preferences.getDouble('favoriteMapLat') : _center.latitude,
       _preferences.getDouble('favoriteMapLng') != null ? _preferences.getDouble('favoriteMapLng') : _center.longitude
-    )));
+    ),
+        _preferences.getDouble('favoriteMapZoom') != null ? _preferences.getDouble('favoriteMapZoom') : zoomLevel));
   }
 
   dynamic getNearbyPlacesFromPlacesAPI (LatLng middle, double radius) async {
@@ -178,6 +179,7 @@ class PlacesState extends State<PlacesView> {
                 zoomLevel = position.zoom;
                 _preferences.setDouble('favoriteMapLat', position.target.latitude);
                 _preferences.setDouble('favoriteMapLng', position.target.longitude);
+                _preferences.setDouble('favoriteMapZoom', position.zoom);
               },
               onMapCreated: (controller) => _onMapCreated(controller, context),
               onCameraIdle: () => getAllPlacesInViewport(context),

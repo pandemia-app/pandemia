@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -186,6 +187,8 @@ class PlacesState extends State<PlacesView> {
               heatmaps: Set<Heatmap>.of([
                 Heatmap (
                   heatmapId: HeatmapId(DateTime.now().toIso8601String()),
+                  radius: Platform.isIOS ? 100 : 30,
+                  opacity: Platform.isIOS ? 1 : 0.7,
                   points: heatmapPoints.values.length == 0 ? [WeightedLatLng(point: LatLng(0, 0))] : heatmapPoints.values.toList()
                 )
               ]),

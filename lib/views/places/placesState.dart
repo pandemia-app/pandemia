@@ -60,6 +60,10 @@ class PlacesState extends State<PlacesView> {
       _preferences.getDouble('favoriteMapLng') != null ? _preferences.getDouble('favoriteMapLng') : _center.longitude
     ),
         _preferences.getDouble('favoriteMapZoom') != null ? _preferences.getDouble('favoriteMapZoom') : zoomLevel));
+
+    setPlaceType(
+        _preferences.getString("favoritePlaceType") != null ? _preferences.getString("favoritePlaceType") : "supermarket",
+        context);
   }
 
   dynamic getNearbyPlacesFromPlacesAPI (LatLng middle, double radius) async {
@@ -161,6 +165,7 @@ class PlacesState extends State<PlacesView> {
   Widget build(BuildContext context) {
     typeSelector = PlaceTypeSheet(onTypeUpdated: (String key) {
       heatmapPoints.clear();
+      _preferences.setString('favoritePlaceType', key);
       setPlaceType(key, context);
     }, context: context);
 

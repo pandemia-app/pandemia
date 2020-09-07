@@ -17,6 +17,7 @@ import 'package:pandemia/utils/GeoComputer.dart';
 import 'package:pandemia/utils/PlacesCounter.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PlacesState extends State<PlacesView> {
   GoogleMapController mapController;
@@ -29,8 +30,10 @@ class PlacesState extends State<PlacesView> {
   PopularityPointsCache cache = new PopularityPointsCache();
   bool loadingPlaces = true;
   double zoomLevel = 5.6872239112854;
+  SharedPreferences _preferences;
 
-  void _onMapCreated(GoogleMapController controller, BuildContext context) {
+  void _onMapCreated(GoogleMapController controller, BuildContext context) async {
+    _preferences = await SharedPreferences.getInstance();
     mapController = controller;
     controller.setMapStyle(_mapStyle);
     getAllPlacesInViewport(context);
@@ -49,6 +52,12 @@ class PlacesState extends State<PlacesView> {
         fPlace = null;
       });
     };
+
+    // moving to user position
+    controller.moveCamera(CameraUpdate.newLatLng(LatLng(
+      _preferences.getDouble('favoriteMapLat') != null ? _preferences.getDouble('favoriteMapLat') : _center.latitude,
+      _preferences.getDouble('favoriteMapLng') != null ? _preferences.getDouble('favoriteMapLng') : _center.longitude
+    )));
   }
 
   dynamic getNearbyPlacesFromPlacesAPI (LatLng middle, double radius) async {
@@ -165,7 +174,11 @@ class PlacesState extends State<PlacesView> {
           fit: StackFit.passthrough,
           children: <Widget>[
             GoogleMap(
-              onCameraMove: (position) => zoomLevel = position.zoom,
+              onCameraMove: (position) {
+                zoomLevel = position.zoom;
+                _preferences.setDouble('favoriteMapLat', position.target.latitude);
+                _preferences.setDouble('favoriteMapLng', position.target.longitude);
+              },
               onMapCreated: (controller) => _onMapCreated(controller, context),
               onCameraIdle: () => getAllPlacesInViewport(context),
               heatmaps: Set<Heatmap>.of([

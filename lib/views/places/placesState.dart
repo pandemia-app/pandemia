@@ -159,7 +159,8 @@ class PlacesState extends State<PlacesView> {
   PlaceTypeSheet typeSelector;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     typeSelector = PlaceTypeSheet(onTypeUpdated: (String key) {
       heatmapPoints.clear();
       _preferences.setString('favoritePlaceType', key);
@@ -170,6 +171,10 @@ class PlacesState extends State<PlacesView> {
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,

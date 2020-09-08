@@ -17,7 +17,6 @@ import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/data/state/MapModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
-import 'package:pandemia/utils/GeoComputer.dart';
 import 'package:pandemia/utils/PlacesCounter.dart';
 import 'package:pandemia/utils/Preferences.dart';
 import 'package:pandemia/utils/placesMap/PlacesMapController.dart';
@@ -25,11 +24,9 @@ import 'package:pandemia/utils/placesMap/SearchZone.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PlacesState extends State<PlacesView> {
   PlacesMapController _controller;
-  GoogleMapController _mapController;
   String _mapStyle;
   final searchBar = new SearchBar();
   Favorite fPlace;
@@ -46,7 +43,6 @@ class PlacesState extends State<PlacesView> {
   void _onMapCreated(GoogleMapController controller, BuildContext context) async {
     await Preferences.init();
     _controller = new PlacesMapController(controller: controller);
-    _mapController = controller;
     controller.setMapStyle(_mapStyle);
     searchBar.mapController = controller;
     searchBar.callback = (dynamic place) {

@@ -5,4 +5,9 @@ class CircularSearchZone {
   final double radius;
 
   CircularSearchZone({this.center, this.radius});
+
+  /// Checks if the viewport can be used.
+  bool isValid () {
+    return center.longitude != 0.0 && center.latitude != 0.0 || radius != 0.0;
+  }
 }

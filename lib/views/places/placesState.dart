@@ -91,8 +91,7 @@ class PlacesState extends State<PlacesView> {
     print('getting all places in viewport');
 
     CircularSearchZone viewport = await _controller.getCurrentSearchZone();
-    // aborting if distance computation failed
-    if (viewport.center.longitude == 0.0 && viewport.center.latitude == 0.0 || viewport.radius == 0.0) {
+    if (!viewport.isValid()) {
       print('aborting');
       return;
     }

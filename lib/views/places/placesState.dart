@@ -119,7 +119,11 @@ class PlacesState extends State<PlacesView> {
     // display a message if no results were found
     if (results.length == 0)
       showNoResultsToast();
+    else
+      createHeatmapPoints(results);
+  }
 
+  void createHeatmapPoints (dynamic results) {
     // this counter allows to adds all points at once, when all places data have
     // been loaded.
     PlacesCounter counter = new PlacesCounter();
@@ -130,23 +134,23 @@ class PlacesState extends State<PlacesView> {
     for (var result in results) {
       pointsCache[result['place_id']] =
           WeightedLatLng(
-            point: LatLng(
-              result['geometry']['location']['lat'],
-              result['geometry']['location']['lng'],
-            )
+              point: LatLng(
+                result['geometry']['location']['lat'],
+                result['geometry']['location']['lng'],
+              )
           );
 
       // refresh data with popularity stats
       Parser.getPopularTimes(new Favorite(name: result['name'], address: result['vicinity'], id: result['place_id'])).then((value) {
         if (value.hasData) {
           pointsCache.addAll(
-            cache.getPoints(
-                result['place_id'],
-                LatLng(
-                  result['geometry']['location']['lat'],
-                  result['geometry']['location']['lng'],
-                ),
-                value.currentPopularity, zoomLevel)
+              cache.getPoints(
+                  result['place_id'],
+                  LatLng(
+                    result['geometry']['location']['lat'],
+                    result['geometry']['location']['lng'],
+                  ),
+                  value.currentPopularity, zoomLevel)
           );
         }
 

@@ -198,6 +198,8 @@ class PlacesState extends State<PlacesView> {
                   heatmapId: HeatmapId(DateTime.now().toIso8601String()),
                   radius: Platform.isIOS ? 100 : 30,
                   opacity: Platform.isIOS ? 1 : 0.7,
+                  gradient: HeatmapGradient(colors: [Colors.green, Colors.red],
+                      startPoints: Platform.isIOS ? [0.05, 0.08] : [0.2, 0.8]),
                   points: heatmapPoints.values.length == 0 ? [WeightedLatLng(point: LatLng(0, 0))] : heatmapPoints.values.toList()
                 )
               ]),

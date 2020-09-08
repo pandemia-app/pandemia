@@ -30,7 +30,7 @@ class PlacesState extends State<PlacesView> {
   Map<String, WeightedLatLng> heatmapPoints = <String, WeightedLatLng>{};
   PopularityPointsCache cache = new PopularityPointsCache();
   bool loadingPlaces = true;
-  double zoomLevel = 5.6872239112854;
+  double zoomLevel = 0;
 
   SharedPreferences _preferences;
   LatLng _defaultCenter = const LatLng(47.204780651359876, 0.08437223732471466);
@@ -263,7 +263,7 @@ class PlacesState extends State<PlacesView> {
   void showSearchZoneTooBigToast() {
     Fluttertoast.showToast(
         msg: FlutterI18n.translate(context, "places_searchzone_toobig"),
-        toastLength: Toast.LENGTH_LONG,
+        toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 2,
         fontSize: 16.0

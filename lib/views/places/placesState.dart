@@ -17,6 +17,7 @@ import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/GeoComputer.dart';
 import 'package:pandemia/utils/PlacesCounter.dart';
+import 'package:pandemia/utils/Preferences.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,14 +33,13 @@ class PlacesState extends State<PlacesView> {
   bool loadingPlaces = true;
   double zoomLevel = 0;
 
-  SharedPreferences _preferences;
   LatLng _defaultCenter = const LatLng(47.204780651359876, 0.08437223732471466);
   double _defaultZoomLevel = 5.6872239112854;
   String _defaultPlaceType = "supermarket";
 
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) async {
-    _preferences = await SharedPreferences.getInstance();
+    await Preferences.init();
     _mapController = controller;
     controller.setMapStyle(_mapStyle);
     searchBar.mapController = controller;
@@ -60,13 +60,13 @@ class PlacesState extends State<PlacesView> {
 
   void _initCamera () {
     _mapController.moveCamera(CameraUpdate.newLatLngZoom(LatLng(
-        _preferences.getDouble('favoriteMapLat') != null ? _preferences.getDouble('favoriteMapLat') : _defaultCenter.latitude,
-        _preferences.getDouble('favoriteMapLng') != null ? _preferences.getDouble('favoriteMapLng') : _defaultCenter.longitude
+        Preferences.storage.getDouble('favoriteMapLat') != null ? Preferences.storage.getDouble('favoriteMapLat') : _defaultCenter.latitude,
+        Preferences.storage.getDouble('favoriteMapLng') != null ? Preferences.storage.getDouble('favoriteMapLng') : _defaultCenter.longitude
     ),
-        _preferences.getDouble('favoriteMapZoom') != null ? _preferences.getDouble('favoriteMapZoom') : _defaultZoomLevel));
+        Preferences.storage.getDouble('favoriteMapZoom') != null ? Preferences.storage.getDouble('favoriteMapZoom') : _defaultZoomLevel));
 
     setPlaceType(
-        _preferences.getString("favoritePlaceType") != null ? _preferences.getString("favoritePlaceType") : _defaultPlaceType,
+        Preferences.storage.getString("favoritePlaceType") != null ? Preferences.storage.getString("favoritePlaceType") : _defaultPlaceType,
         context);
   }
 
@@ -165,7 +165,7 @@ class PlacesState extends State<PlacesView> {
     super.initState();
     typeSelector = PlaceTypeSheet(onTypeUpdated: (String key) {
       heatmapPoints.clear();
-      _preferences.setString('favoritePlaceType', key);
+      Preferences.storage.setString('favoritePlaceType', key);
       setPlaceType(key, context);
     }, context: context);
 
@@ -187,9 +187,9 @@ class PlacesState extends State<PlacesView> {
             GoogleMap(
               onCameraMove: (position) {
                 zoomLevel = position.zoom;
-                _preferences.setDouble('favoriteMapLat', position.target.latitude);
-                _preferences.setDouble('favoriteMapLng', position.target.longitude);
-                _preferences.setDouble('favoriteMapZoom', position.zoom);
+                Preferences.storage.setDouble('favoriteMapLat', position.target.latitude);
+                Preferences.storage.setDouble('favoriteMapLng', position.target.longitude);
+                Preferences.storage.setDouble('favoriteMapZoom', position.zoom);
               },
               onMapCreated: (controller) => _onMapCreated(controller, context),
               onCameraIdle: () => getAllPlacesInViewport(context),

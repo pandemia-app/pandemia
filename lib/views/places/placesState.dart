@@ -18,11 +18,13 @@ import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/GeoComputer.dart';
 import 'package:pandemia/utils/PlacesCounter.dart';
 import 'package:pandemia/utils/Preferences.dart';
+import 'package:pandemia/utils/placesMap/PlacesMapController.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlacesState extends State<PlacesView> {
+  PlacesMapController _controller;
   GoogleMapController _mapController;
   String _mapStyle;
   final searchBar = new SearchBar();
@@ -32,14 +34,12 @@ class PlacesState extends State<PlacesView> {
   PopularityPointsCache cache = new PopularityPointsCache();
   bool loadingPlaces = true;
   double zoomLevel = 0;
-
-  LatLng _defaultCenter = const LatLng(47.204780651359876, 0.08437223732471466);
-  double _defaultZoomLevel = 5.6872239112854;
   String _defaultPlaceType = "supermarket";
 
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) async {
     await Preferences.init();
+    _controller = new PlacesMapController(controller: controller);
     _mapController = controller;
     controller.setMapStyle(_mapStyle);
     searchBar.mapController = controller;
@@ -55,16 +55,7 @@ class PlacesState extends State<PlacesView> {
         fPlace = null;
       });
     };
-    _initCamera();
-  }
-
-  void _initCamera () {
-    _mapController.moveCamera(CameraUpdate.newLatLngZoom(LatLng(
-        Preferences.storage.getDouble('favoriteMapLat') != null ? Preferences.storage.getDouble('favoriteMapLat') : _defaultCenter.latitude,
-        Preferences.storage.getDouble('favoriteMapLng') != null ? Preferences.storage.getDouble('favoriteMapLng') : _defaultCenter.longitude
-    ),
-        Preferences.storage.getDouble('favoriteMapZoom') != null ? Preferences.storage.getDouble('favoriteMapZoom') : _defaultZoomLevel));
-
+    _controller.initCamera();
     setPlaceType(
         Preferences.storage.getString("favoritePlaceType") != null ? Preferences.storage.getString("favoritePlaceType") : _defaultPlaceType,
         context);
@@ -206,7 +197,7 @@ class PlacesState extends State<PlacesView> {
               myLocationButtonEnabled: false,
               myLocationEnabled: false,
               initialCameraPosition: CameraPosition(
-                target: _defaultCenter,
+                target: PlacesMapController.defaultCenter,
                 zoom: zoomLevel,
               ),
             ),

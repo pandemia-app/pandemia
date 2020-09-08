@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/state/AppModel.dart';
+import 'package:pandemia/data/state/MapModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:http/http.dart' as http;
+import 'package:pandemia/utils/placesMap/SearchZone.dart';
+import 'package:provider/provider.dart';
 import 'dart:convert';
 
 /// Allows users to search for places from words.
+// TODO convert this class into a stateful widget
 // ignore: must_be_immutable
 class SearchBar extends StatelessWidget {
   GoogleMapController mapController;
@@ -60,8 +64,12 @@ class SearchBar extends StatelessWidget {
     String key = AppModel.apiKey;
     const _host = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';
     var encoded = Uri.encodeComponent(address);
+    CircularSearchZone zone = Provider.of<MapModel>(fatherContext).currentZone;
     // TODO filter place types (prevent registering cities, for example, for they cannot provide popular times)
-    final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery&fields=name,place_id,formatted_address,geometry&key=$key');
+    final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery'
+        '&fields=name,place_id,formatted_address,geometry'
+        '&locationbias=circle:${zone.radius}@${zone.center.latitude},${zone.center.longitude}'
+        '&key=$key');
     print('hitting $uri');
 
     http.Response response = await http.get (uri);

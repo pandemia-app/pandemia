@@ -15,6 +15,7 @@ import 'package:pandemia/data/populartimes/cache/PopularityPointsCache.dart';
 import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
 import 'package:pandemia/data/state/AppModel.dart';
+import 'package:pandemia/data/state/MapModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/GeoComputer.dart';
 import 'package:pandemia/utils/PlacesCounter.dart';
@@ -23,6 +24,7 @@ import 'package:pandemia/utils/placesMap/PlacesMapController.dart';
 import 'package:pandemia/utils/placesMap/SearchZone.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlacesState extends State<PlacesView> {
@@ -104,7 +106,8 @@ class PlacesState extends State<PlacesView> {
     if (!viewport.isValid()) {
       print('aborting');
       return;
-    }
+    } else
+      Provider.of<MapModel>(context).currentZone = viewport;
 
     // checking maximum distance
     if (viewport.radius > 50000) {

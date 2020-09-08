@@ -10,4 +10,9 @@ class CircularSearchZone {
   bool isValid () {
     return center.longitude != 0.0 && center.latitude != 0.0 || radius != 0.0;
   }
+
+  @override
+  String toString() {
+    return "CircularSearchZone(center: $center, radius: $radius)";
+  }
 }

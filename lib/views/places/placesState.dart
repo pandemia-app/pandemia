@@ -19,6 +19,7 @@ import 'package:pandemia/utils/GeoComputer.dart';
 import 'package:pandemia/utils/PlacesCounter.dart';
 import 'package:pandemia/utils/Preferences.dart';
 import 'package:pandemia/utils/placesMap/PlacesMapController.dart';
+import 'package:pandemia/utils/placesMap/SearchZone.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,10 +62,10 @@ class PlacesState extends State<PlacesView> {
         context);
   }
 
-  Future<List<PlacesAPIResult>> getNearbyPlacesFromPlacesAPI (LatLng middle, double radius) async {
+  Future<List<PlacesAPIResult>> getNearbyPlacesFromPlacesAPI (CircularSearchZone viewport) async {
     String key = AppModel.apiKey;
     const host = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
-    final uri = Uri.parse('$host?location=${middle.latitude},${middle.longitude}&radius=$radius&type=$selectedType&key=$key');
+    final uri = Uri.parse('$host?location=${viewport.center.latitude},${viewport.center.longitude}&radius=${viewport.radius}&type=$selectedType&key=$key');
     print('hitting $uri');
 
     http.Response response = await http.get (uri);
@@ -86,22 +87,18 @@ class PlacesState extends State<PlacesView> {
 
   void getAllPlacesInViewport (BuildContext context) async {
     // abort if called before mapController is ready
-    if (_mapController == null || selectedType == "") return;
-
+    if (_controller.controller == null || selectedType == "") return;
     print('getting all places in viewport');
-    var bounds = await _mapController.getVisibleRegion();
-    GeoComputer computer = new GeoComputer();
-    LatLng middle = computer.getBoundsCenterLocation(bounds);
-    double radius = computer.getSearchRadius(bounds);
 
+    CircularSearchZone viewport = await _controller.getCurrentSearchZone();
     // aborting if distance computation failed
-    if (middle.longitude == 0.0 && middle.latitude == 0.0 || radius == 0.0) {
+    if (viewport.center.longitude == 0.0 && viewport.center.latitude == 0.0 || viewport.radius == 0.0) {
       print('aborting');
       return;
     }
 
     // checking maximum distance
-    if (radius > 50000) {
+    if (viewport.radius > 50000) {
       showSearchZoneTooBigToast();
       return;
     }
@@ -110,7 +107,7 @@ class PlacesState extends State<PlacesView> {
       loadingPlaces = true;
     });
 
-    List<PlacesAPIResult> results = await getNearbyPlacesFromPlacesAPI(middle, radius);
+    List<PlacesAPIResult> results = await getNearbyPlacesFromPlacesAPI(viewport);
 
     // display a message if no results were found
     if (results.length == 0)

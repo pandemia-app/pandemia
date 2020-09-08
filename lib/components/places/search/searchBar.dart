@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/data/state/MapModel.dart';
@@ -78,8 +79,14 @@ class SearchBar extends StatelessWidget {
 
     switch (candidates.length) {
       case 0:
-        // TODO display error message
-        print('no matching place found');
+        // TODO translations
+        Fluttertoast.showToast(
+            msg: FlutterI18n.translate(fatherContext, "No matching place found."),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            fontSize: 16.0
+        );
         break;
       case 1:
         var place = candidates[0];
@@ -108,5 +115,4 @@ class SearchBar extends StatelessWidget {
         break;
     }
   }
-
 }

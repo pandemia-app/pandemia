@@ -22,7 +22,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PlacesState extends State<PlacesView> {
-  GoogleMapController mapController;
+  GoogleMapController _mapController;
   String _mapStyle;
   final searchBar = new SearchBar();
   Favorite fPlace;
@@ -40,7 +40,7 @@ class PlacesState extends State<PlacesView> {
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) async {
     _preferences = await SharedPreferences.getInstance();
-    mapController = controller;
+    _mapController = controller;
     controller.setMapStyle(_mapStyle);
     searchBar.mapController = controller;
     searchBar.callback = (dynamic place) {
@@ -55,11 +55,13 @@ class PlacesState extends State<PlacesView> {
         fPlace = null;
       });
     };
+    _initCamera();
+  }
 
-    // moving to user position
-    controller.moveCamera(CameraUpdate.newLatLngZoom(LatLng(
-      _preferences.getDouble('favoriteMapLat') != null ? _preferences.getDouble('favoriteMapLat') : _defaultCenter.latitude,
-      _preferences.getDouble('favoriteMapLng') != null ? _preferences.getDouble('favoriteMapLng') : _defaultCenter.longitude
+  void _initCamera () {
+    _mapController.moveCamera(CameraUpdate.newLatLngZoom(LatLng(
+        _preferences.getDouble('favoriteMapLat') != null ? _preferences.getDouble('favoriteMapLat') : _defaultCenter.latitude,
+        _preferences.getDouble('favoriteMapLng') != null ? _preferences.getDouble('favoriteMapLng') : _defaultCenter.longitude
     ),
         _preferences.getDouble('favoriteMapZoom') != null ? _preferences.getDouble('favoriteMapZoom') : _defaultZoomLevel));
 
@@ -93,10 +95,10 @@ class PlacesState extends State<PlacesView> {
 
   void getAllPlacesInViewport (BuildContext context) async {
     // abort if called before mapController is ready
-    if (mapController == null || selectedType == "") return;
+    if (_mapController == null || selectedType == "") return;
 
     print('getting all places in viewport');
-    var bounds = await mapController.getVisibleRegion();
+    var bounds = await _mapController.getVisibleRegion();
     GeoComputer computer = new GeoComputer();
     LatLng middle = computer.getBoundsCenterLocation(bounds);
     double radius = computer.getSearchRadius(bounds);

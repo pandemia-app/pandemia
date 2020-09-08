@@ -37,15 +37,12 @@ class PlacesState extends State<PlacesView> {
     _preferences = await SharedPreferences.getInstance();
     mapController = controller;
     controller.setMapStyle(_mapStyle);
-    getAllPlacesInViewport(context);
     searchBar.mapController = controller;
     searchBar.callback = (dynamic place) {
-      print(place);
       setState(() {
         fPlace =
             Favorite(address: place['formatted_address'], name: place['name'],
             id: place['place_id']);
-        print(fPlace);
       });
     };
     searchBar.closeCallback = () {

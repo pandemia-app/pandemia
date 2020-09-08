@@ -92,6 +92,7 @@ class SearchBar extends StatelessWidget {
                     northeast: new LatLng(
                         viewport['northeast']['lat'], viewport['northeast']['lng']))
                 , 0));
+        place['location'] = location;
         callback(place);
         break;
       default:

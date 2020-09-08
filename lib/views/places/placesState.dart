@@ -31,6 +31,7 @@ class PlacesState extends State<PlacesView> {
   String _mapStyle;
   final searchBar = new SearchBar();
   Favorite fPlace;
+  Marker _marker;
   String selectedType = "";
   Map<String, WeightedLatLng> heatmapPoints = <String, WeightedLatLng>{};
   PopularityPointsCache cache = new PopularityPointsCache();
@@ -52,6 +53,11 @@ class PlacesState extends State<PlacesView> {
         fPlace =
             Favorite(address: place['formatted_address'], name: place['name'],
             id: place['place_id']);
+        _marker = Marker(
+            markerId: MarkerId(DateTime.now().toIso8601String()),
+            position: place['location'],
+            consumeTapEvents: true,
+        );
         Timer(Duration(seconds: 2), () { _isFocusingPlace = false; });
       });
     };
@@ -180,6 +186,7 @@ class PlacesState extends State<PlacesView> {
                 if (!_isFocusingPlace) {
                   setState(() {
                     fPlace = null;
+                    _marker = null;
                   });
                 }
 
@@ -190,6 +197,7 @@ class PlacesState extends State<PlacesView> {
               },
               onMapCreated: (controller) => _onMapCreated(controller, context),
               onCameraIdle: () => getAllPlacesInViewport(context),
+              markers: _marker == null ? null : Set<Marker>.of([_marker]),
               heatmaps: Set<Heatmap>.of([
                 Heatmap (
                   heatmapId: HeatmapId(DateTime.now().toIso8601String()),

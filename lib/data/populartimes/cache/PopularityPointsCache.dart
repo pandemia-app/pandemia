@@ -1,4 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
 import 'package:pandemia/utils/GeoComputer.dart';
 
 /// Stores points representing the current popularity of a given place.
@@ -10,9 +11,10 @@ class PopularityPointsCache {
 
   /// Returns points for a given place.
   /// Regenerates points if the zoom level or place popularity changed since last request.
-  Map<String, WeightedLatLng> getPoints (String placeId, LatLng placePosition, int placeCurrentPopularity, double zoomLevel) {
+  Map<String, WeightedLatLng> getPoints (PlacesAPIResult place, int placeCurrentPopularity, double zoomLevel) {
+    String placeId = place.placeId;
     if (this.points[placeId] == null || this.zoomLevels[placeId] != zoomLevel || this.popularities[placeId] != placeCurrentPopularity) {
-      points[placeId] = computer.generatePopularityPoints(placePosition, placeId, placeCurrentPopularity, zoomLevel);
+      points[placeId] = computer.generatePopularityPoints(place.location, placeId, placeCurrentPopularity, zoomLevel);
     }
 
     zoomLevels[placeId] = zoomLevel;

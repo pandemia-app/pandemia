@@ -12,6 +12,7 @@ import 'package:pandemia/components/places/type/PlaceTypeSheet.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/cache/PopularityPointsCache.dart';
 import 'package:pandemia/data/populartimes/parser/parser.dart';
+import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/GeoComputer.dart';
@@ -67,7 +68,7 @@ class PlacesState extends State<PlacesView> {
         context);
   }
 
-  dynamic getNearbyPlacesFromPlacesAPI (LatLng middle, double radius) async {
+  Future<List<PlacesAPIResult>> getNearbyPlacesFromPlacesAPI (LatLng middle, double radius) async {
     String key = AppModel.apiKey;
     const host = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
     final uri = Uri.parse('$host?location=${middle.latitude},${middle.longitude}&radius=$radius&type=$selectedType&key=$key');
@@ -75,7 +76,9 @@ class PlacesState extends State<PlacesView> {
 
     http.Response response = await http.get (uri);
     final responseJson = json.decode(response.body);
-    return responseJson['results'];
+    return (responseJson['results'] as List<dynamic>)
+        .map((e) => PlacesAPIResult.fromJSON(e)
+    ).toList();
   }
 
   void setPlaceType (String placeKey, BuildContext context) {
@@ -114,7 +117,7 @@ class PlacesState extends State<PlacesView> {
       loadingPlaces = true;
     });
 
-    dynamic results = await getNearbyPlacesFromPlacesAPI(middle, radius);
+    List<PlacesAPIResult> results = await getNearbyPlacesFromPlacesAPI(middle, radius);
 
     // display a message if no results were found
     if (results.length == 0)
@@ -123,7 +126,7 @@ class PlacesState extends State<PlacesView> {
       createHeatmapPoints(results);
   }
 
-  void createHeatmapPoints (dynamic results) {
+  void createHeatmapPoints (List<PlacesAPIResult> results) {
     // this counter allows to adds all points at once, when all places data have
     // been loaded.
     PlacesCounter counter = new PlacesCounter();
@@ -132,24 +135,16 @@ class PlacesState extends State<PlacesView> {
 
     // adds a marker for each place
     for (var result in results) {
-      pointsCache[result['place_id']] =
-          WeightedLatLng(
-              point: LatLng(
-                result['geometry']['location']['lat'],
-                result['geometry']['location']['lng'],
-              )
-          );
+      pointsCache[result.placeId] =
+          WeightedLatLng( point: result.location );
 
       // refresh data with popularity stats
-      Parser.getPopularTimes(new Favorite(name: result['name'], address: result['vicinity'], id: result['place_id'])).then((value) {
+      Parser.getPopularTimes(new Favorite(name: result.name, address: result.address, id: result.placeId)).then((value) {
         if (value.hasData) {
           pointsCache.addAll(
               cache.getPoints(
-                  result['place_id'],
-                  LatLng(
-                    result['geometry']['location']['lat'],
-                    result['geometry']['location']['lng'],
-                  ),
+                  result.placeId,
+                  result.location,
                   value.currentPopularity, zoomLevel)
           );
         }

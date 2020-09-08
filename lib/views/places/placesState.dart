@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
@@ -36,6 +37,7 @@ class PlacesState extends State<PlacesView> {
   bool loadingPlaces = true;
   double zoomLevel = 0;
   String _defaultPlaceType = "supermarket";
+  bool _isFocusingPlace = false;
 
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) async {
@@ -45,10 +47,12 @@ class PlacesState extends State<PlacesView> {
     controller.setMapStyle(_mapStyle);
     searchBar.mapController = controller;
     searchBar.callback = (dynamic place) {
+      _isFocusingPlace = true;
       setState(() {
         fPlace =
             Favorite(address: place['formatted_address'], name: place['name'],
             id: place['place_id']);
+        Timer(Duration(seconds: 2), () { _isFocusingPlace = false; });
       });
     };
     searchBar.closeCallback = () {
@@ -173,6 +177,12 @@ class PlacesState extends State<PlacesView> {
           children: <Widget>[
             GoogleMap(
               onCameraMove: (position) {
+                if (!_isFocusingPlace) {
+                  setState(() {
+                    fPlace = null;
+                  });
+                }
+
                 zoomLevel = position.zoom;
                 Preferences.storage.setDouble('favoriteMapLat', position.target.latitude);
                 Preferences.storage.setDouble('favoriteMapLng', position.target.longitude);

@@ -23,7 +23,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PlacesState extends State<PlacesView> {
   GoogleMapController mapController;
   String _mapStyle;
-  final LatLng _center = const LatLng(47.204780651359876, 0.08437223732471466);
   final searchBar = new SearchBar();
   Favorite fPlace;
   String selectedType = "";
@@ -31,7 +30,12 @@ class PlacesState extends State<PlacesView> {
   PopularityPointsCache cache = new PopularityPointsCache();
   bool loadingPlaces = true;
   double zoomLevel = 5.6872239112854;
+
   SharedPreferences _preferences;
+  LatLng _defaultCenter = const LatLng(47.204780651359876, 0.08437223732471466);
+  double _defaultZoomLevel = 5.6872239112854;
+  String _defaultPlaceType = "supermarket";
+
 
   void _onMapCreated(GoogleMapController controller, BuildContext context) async {
     _preferences = await SharedPreferences.getInstance();
@@ -53,13 +57,13 @@ class PlacesState extends State<PlacesView> {
 
     // moving to user position
     controller.moveCamera(CameraUpdate.newLatLngZoom(LatLng(
-      _preferences.getDouble('favoriteMapLat') != null ? _preferences.getDouble('favoriteMapLat') : _center.latitude,
-      _preferences.getDouble('favoriteMapLng') != null ? _preferences.getDouble('favoriteMapLng') : _center.longitude
+      _preferences.getDouble('favoriteMapLat') != null ? _preferences.getDouble('favoriteMapLat') : _defaultCenter.latitude,
+      _preferences.getDouble('favoriteMapLng') != null ? _preferences.getDouble('favoriteMapLng') : _defaultCenter.longitude
     ),
-        _preferences.getDouble('favoriteMapZoom') != null ? _preferences.getDouble('favoriteMapZoom') : zoomLevel));
+        _preferences.getDouble('favoriteMapZoom') != null ? _preferences.getDouble('favoriteMapZoom') : _defaultZoomLevel));
 
     setPlaceType(
-        _preferences.getString("favoritePlaceType") != null ? _preferences.getString("favoritePlaceType") : "supermarket",
+        _preferences.getString("favoritePlaceType") != null ? _preferences.getString("favoritePlaceType") : _defaultPlaceType,
         context);
   }
 
@@ -202,7 +206,7 @@ class PlacesState extends State<PlacesView> {
               myLocationButtonEnabled: false,
               myLocationEnabled: false,
               initialCameraPosition: CameraPosition(
-                target: _center,
+                target: _defaultCenter,
                 zoom: zoomLevel,
               ),
             ),

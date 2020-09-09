@@ -66,6 +66,7 @@ class PlacesState extends State<PlacesView> {
         closeCallback: () {
           setState(() {
             fPlace = null;
+            _marker = null;
           });
         },
         fatherContext: context,

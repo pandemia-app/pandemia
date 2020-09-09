@@ -12,15 +12,19 @@ import 'package:provider/provider.dart';
 import 'dart:convert';
 
 /// Allows users to search for places from words.
-// TODO convert this class into a stateful widget
-// ignore: must_be_immutable
-class SearchBar extends StatelessWidget {
-  GoogleMapController mapController;
-  final TextEditingController _controller = new TextEditingController();
-  BuildContext fatherContext;
-  Function closeCallback;
-  Function callback;
-  SearchBar ({this.mapController});
+class SearchBar extends StatefulWidget {
+  final GoogleMapController mapController;
+  final BuildContext fatherContext;
+  final Function closeCallback;
+  final Function callback;
+  SearchBar({this.mapController, this.fatherContext, this.closeCallback, this.callback});
+
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  final TextEditingController _textController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +32,15 @@ class SearchBar extends StatelessWidget {
       child: Container (
         margin: EdgeInsets.all(10),
         child: TextField(
-          controller: _controller,
+          controller: _textController,
             style: TextStyle(color: CustomPalette.text[400]),
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () {
                     Future.delayed(Duration(milliseconds: 50)).then((_) {
-                      _controller.clear();
+                      _textController.clear();
                       FocusScope.of(context).unfocus();
-                      closeCallback();
+                      widget.closeCallback();
                     });
                     },
                   icon: Icon(Icons.clear, color: CustomPalette.text[400]),
@@ -50,7 +54,7 @@ class SearchBar extends StatelessWidget {
                     borderSide: BorderSide(width: 1,color: CustomPalette.text[400]),
                   ),
                   labelStyle: TextStyle(color: CustomPalette.text[400]),
-                  labelText: FlutterI18n.translate(fatherContext, "places_searchbar_label"),
+                  labelText: FlutterI18n.translate(widget.fatherContext, "places_searchbar_label"),
               ),
 
           onSubmitted: (s) => findPlaceFromString(s),
@@ -65,7 +69,7 @@ class SearchBar extends StatelessWidget {
     String key = AppModel.apiKey;
     const _host = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';
     var encoded = Uri.encodeComponent(address);
-    CircularSearchZone zone = Provider.of<MapModel>(fatherContext).currentZone;
+    CircularSearchZone zone = Provider.of<MapModel>(widget.fatherContext).currentZone;
     // TODO filter place types (prevent registering cities, for example, for they cannot provide popular times)
     final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery'
         '&fields=name,place_id,formatted_address,geometry'
@@ -81,7 +85,7 @@ class SearchBar extends StatelessWidget {
       case 0:
         // TODO translations
         Fluttertoast.showToast(
-            msg: FlutterI18n.translate(fatherContext, "No matching place found."),
+            msg: FlutterI18n.translate(widget.fatherContext, "No matching place found."),
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 2,
@@ -97,9 +101,9 @@ class SearchBar extends StatelessWidget {
           );
         var viewport = place['geometry']['viewport'];
         print('going to $location');
-        mapController.animateCamera(
+        widget.mapController.animateCamera(
             CameraUpdate.newLatLng(location));
-        mapController.animateCamera(
+        widget.mapController.animateCamera(
             CameraUpdate.newLatLngBounds(
                 new LatLngBounds(
                     southwest: new LatLng(
@@ -108,7 +112,7 @@ class SearchBar extends StatelessWidget {
                         viewport['northeast']['lat'], viewport['northeast']['lng']))
                 , 0));
         place['location'] = location;
-        callback(place);
+        widget.callback(place);
         break;
       default:
         // TODO display list of addresses

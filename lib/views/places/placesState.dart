@@ -28,7 +28,7 @@ import 'package:provider/provider.dart';
 class PlacesState extends State<PlacesView> {
   PlacesMapController _controller;
   String _mapStyle;
-  final searchBar = new SearchBar();
+  SearchBar _searchBar;
   Favorite fPlace;
   Marker _marker;
   String selectedType = "";
@@ -44,26 +44,34 @@ class PlacesState extends State<PlacesView> {
     await Preferences.init();
     _controller = new PlacesMapController(controller: controller);
     controller.setMapStyle(_mapStyle);
-    searchBar.mapController = controller;
-    searchBar.callback = (dynamic place) {
-      _isFocusingPlace = true;
-      setState(() {
-        fPlace =
-            Favorite(address: place['formatted_address'], name: place['name'],
-            id: place['place_id']);
-        _marker = Marker(
-            markerId: MarkerId(DateTime.now().toIso8601String()),
-            position: place['location'],
-            consumeTapEvents: true,
-        );
-        Timer(Duration(seconds: 2), () { _isFocusingPlace = false; });
-      });
-    };
-    searchBar.closeCallback = () {
-      setState(() {
-        fPlace = null;
-      });
-    };
+
+    // search bar initialization
+    setState(() {
+      _searchBar = new SearchBar(
+        mapController: controller,
+        callback: (dynamic place) {
+          _isFocusingPlace = true;
+          setState(() {
+            fPlace =
+                Favorite(address: place['formatted_address'], name: place['name'],
+                    id: place['place_id']);
+            _marker = Marker(
+              markerId: MarkerId(DateTime.now().toIso8601String()),
+              position: place['location'],
+              consumeTapEvents: true,
+            );
+            Timer(Duration(seconds: 2), () { _isFocusingPlace = false; });
+          });
+        },
+        closeCallback: () {
+          setState(() {
+            fPlace = null;
+          });
+        },
+        fatherContext: context,
+      );
+    });
+
     _controller.initCamera();
     setPlaceType(
         Preferences.storage.getString("favoritePlaceType") != null ? Preferences.storage.getString("favoritePlaceType") : _defaultPlaceType,
@@ -165,7 +173,6 @@ class PlacesState extends State<PlacesView> {
       setPlaceType(key, context);
     }, context: context);
 
-    searchBar.fatherContext = context;
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
     });
@@ -219,7 +226,20 @@ class PlacesState extends State<PlacesView> {
               alignment: Alignment.topCenter,
               child: Column (
                 children: <Widget>[
-                  searchBar,
+                  Builder(
+                    builder: (BuildContext context) {
+                      if (_searchBar == null) {
+                        return Container (
+                          margin: EdgeInsets.only(top: 20),
+                          child: Center (
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      } else {
+                        return _searchBar;
+                      }
+                    },
+                  ),
                   PlaceCard(place: fPlace, mainContext: context)
                 ],
               ),

@@ -83,9 +83,8 @@ class _SearchBarState extends State<SearchBar> {
 
     switch (candidates.length) {
       case 0:
-        // TODO translations
         Fluttertoast.showToast(
-            msg: FlutterI18n.translate(widget.fatherContext, "No matching place found."),
+            msg: FlutterI18n.translate(widget.fatherContext, "places_searchzone_noresult"),
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 2,

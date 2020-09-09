@@ -219,11 +219,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-<<<<<<< HEAD
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed\n/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" thin\n\n";
-=======
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
->>>>>>> 42687f514584323bff9ed3a2d33a637e57210d7e
 		};
 		5EEE3F0ABCF7BB95388908D9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -274,11 +270,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-<<<<<<< HEAD
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
-=======
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
->>>>>>> 42687f514584323bff9ed3a2d33a637e57210d7e
 		};
 		AE1DC8DCA9FC81DB8763A79E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -399,67 +391,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-<<<<<<< HEAD
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-l\"c++\"",
-					"-l\"sqlite3\"",
-					"-l\"z\"",
-					"-framework",
-					"\"Accelerate\"",
-					"-framework",
-					"\"CoreData\"",
-					"-framework",
-					"\"CoreGraphics\"",
-					"-framework",
-					"\"CoreImage\"",
-					"-framework",
-					"\"CoreLocation\"",
-					"-framework",
-					"\"CoreTelephony\"",
-					"-framework",
-					"\"CoreText\"",
-					"-framework",
-					"\"FMDB\"",
-					"-framework",
-					"\"Flutter\"",
-					"-framework",
-					"\"GLKit\"",
-					"-framework",
-					"\"GoogleMaps\"",
-					"-framework",
-					"\"GoogleMapsBase\"",
-					"-framework",
-					"\"GoogleMapsCore\"",
-					"-framework",
-					"\"GoogleMapsUtils\"",
-					"-framework",
-					"\"ImageIO\"",
-					"-framework",
-					"\"Metal\"",
-					"-framework",
-					"\"OpenGLES\"",
-					"-framework",
-					"\"QuartzCore\"",
-					"-framework",
-					"\"SystemConfiguration\"",
-					"-framework",
-					"\"UIKit\"",
-					"-framework",
-					"\"fluttertoast\"",
-					"-framework",
-					"\"google_maps_flutter\"",
-					"-framework",
-					"\"sqflite\"",
-					"-framework",
-					"\"url_launcher\"",
-					"$(inherited)",
-					"-framework",
-					Flutter,
-				);
-=======
->>>>>>> 42687f514584323bff9ed3a2d33a637e57210d7e
 				PRODUCT_BUNDLE_IDENTIFIER = fr.inria.pandemia.remy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -595,67 +526,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-<<<<<<< HEAD
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-l\"c++\"",
-					"-l\"sqlite3\"",
-					"-l\"z\"",
-					"-framework",
-					"\"Accelerate\"",
-					"-framework",
-					"\"CoreData\"",
-					"-framework",
-					"\"CoreGraphics\"",
-					"-framework",
-					"\"CoreImage\"",
-					"-framework",
-					"\"CoreLocation\"",
-					"-framework",
-					"\"CoreTelephony\"",
-					"-framework",
-					"\"CoreText\"",
-					"-framework",
-					"\"FMDB\"",
-					"-framework",
-					"\"Flutter\"",
-					"-framework",
-					"\"GLKit\"",
-					"-framework",
-					"\"GoogleMaps\"",
-					"-framework",
-					"\"GoogleMapsBase\"",
-					"-framework",
-					"\"GoogleMapsCore\"",
-					"-framework",
-					"\"GoogleMapsUtils\"",
-					"-framework",
-					"\"ImageIO\"",
-					"-framework",
-					"\"Metal\"",
-					"-framework",
-					"\"OpenGLES\"",
-					"-framework",
-					"\"QuartzCore\"",
-					"-framework",
-					"\"SystemConfiguration\"",
-					"-framework",
-					"\"UIKit\"",
-					"-framework",
-					"\"fluttertoast\"",
-					"-framework",
-					"\"google_maps_flutter\"",
-					"-framework",
-					"\"sqflite\"",
-					"-framework",
-					"\"url_launcher\"",
-					"$(inherited)",
-					"-framework",
-					Flutter,
-				);
-=======
->>>>>>> 42687f514584323bff9ed3a2d33a637e57210d7e
 				PRODUCT_BUNDLE_IDENTIFIER = fr.inria.pandemia.remy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -684,67 +554,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-<<<<<<< HEAD
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-l\"c++\"",
-					"-l\"sqlite3\"",
-					"-l\"z\"",
-					"-framework",
-					"\"Accelerate\"",
-					"-framework",
-					"\"CoreData\"",
-					"-framework",
-					"\"CoreGraphics\"",
-					"-framework",
-					"\"CoreImage\"",
-					"-framework",
-					"\"CoreLocation\"",
-					"-framework",
-					"\"CoreTelephony\"",
-					"-framework",
-					"\"CoreText\"",
-					"-framework",
-					"\"FMDB\"",
-					"-framework",
-					"\"Flutter\"",
-					"-framework",
-					"\"GLKit\"",
-					"-framework",
-					"\"GoogleMaps\"",
-					"-framework",
-					"\"GoogleMapsBase\"",
-					"-framework",
-					"\"GoogleMapsCore\"",
-					"-framework",
-					"\"GoogleMapsUtils\"",
-					"-framework",
-					"\"ImageIO\"",
-					"-framework",
-					"\"Metal\"",
-					"-framework",
-					"\"OpenGLES\"",
-					"-framework",
-					"\"QuartzCore\"",
-					"-framework",
-					"\"SystemConfiguration\"",
-					"-framework",
-					"\"UIKit\"",
-					"-framework",
-					"\"fluttertoast\"",
-					"-framework",
-					"\"google_maps_flutter\"",
-					"-framework",
-					"\"sqflite\"",
-					"-framework",
-					"\"url_launcher\"",
-					"$(inherited)",
-					"-framework",
-					Flutter,
-				);
-=======
->>>>>>> 42687f514584323bff9ed3a2d33a637e57210d7e
 				PRODUCT_BUNDLE_IDENTIFIER = fr.inria.pandemia.remy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

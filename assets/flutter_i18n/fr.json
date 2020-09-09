@@ -34,6 +34,7 @@
   "places_place_removed_toast": "Endroit supprimé des favoris.",
   "places_searchzone_toobig": "Zone de recherche trop grande.\nEssayez de zoomer un peu !",
   "places_searchzone_noresult": "Aucun endroit correspondant ici.",
+  "places_searchzone_several_results": "Plusieurs résultats trouvés, essayez d'affiner votre recherche.",
 
   "places_typepicker_title": "Filtrer par type d'endroit",
   "places_typepicker_type_accounting": "Comptable",

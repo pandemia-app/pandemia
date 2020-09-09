@@ -114,7 +114,13 @@ class _SearchBarState extends State<SearchBar> {
         widget.callback(place);
         break;
       default:
-        // TODO display list of addresses
+        Fluttertoast.showToast(
+            msg: FlutterI18n.translate(widget.fatherContext, "places_searchzone_several_results"),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            fontSize: 16.0
+        );
         break;
     }
   }

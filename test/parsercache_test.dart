@@ -1,7 +1,7 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/parser/parserCache.dart';
 import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
-import 'package:test/test.dart';
 
 void main() {
   ParserCache cache;

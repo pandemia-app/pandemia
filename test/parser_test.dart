@@ -1,6 +1,6 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/parser/parser.dart';
-import 'package:test/test.dart';
 
 // TODO provide an HTTPClient implementation (http calls are not allowed in tests)
 void main() {

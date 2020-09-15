@@ -1,29 +1,39 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'package:pandemia/utils/CustomPalette.dart';
 
-import '../CustomPalette.dart';
-
+/// Bar chart used to display popularity statistics.
 class SimpleBarChart extends StatelessWidget {
   final List<charts.Series> seriesList;
   final bool animate;
+  final Function onTouchCallback;
 
-  SimpleBarChart(this.seriesList, {this.animate});
+  SimpleBarChart(this.seriesList, this.onTouchCallback, {this.animate});
 
-  /// Creates a [BarChart] with sample data and no transition.
-  factory SimpleBarChart.withSampleData() {
+  factory SimpleBarChart.fromPopularTimes(List<List<int>> times, Function onTouchCallback) {
     return new SimpleBarChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
+      _createDataFromPopularTimes(times),
+      onTouchCallback,
+      animate: true
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
     return new charts.BarChart(
       seriesList,
       animate: animate,
+      behaviors: [
+        new charts.InitialSelection(selectedDataConfig: [
+          new charts.SeriesDatumConfig<String>("Crowds", "${DateTime.now().hour}h")
+        ])
+      ],
+      selectionModels: [
+        new charts.SelectionModelConfig(
+          type: charts.SelectionModelType.info,
+          changedListener: this.onTouchCallback
+        )
+      ],
       primaryMeasureAxis:
         new charts.NumericAxisSpec(renderSpec: new charts.NoneRenderSpec()),
       domainAxis: new charts.OrdinalAxisSpec(
@@ -41,40 +51,29 @@ class SimpleBarChart extends StatelessWidget {
           tickProviderSpec:
             new charts.StaticOrdinalTickProviderSpec(
                 <charts.TickSpec<String>>[
-                  new charts.TickSpec('7'),
-                  new charts.TickSpec('9'),
-                  new charts.TickSpec('11'),
-                  new charts.TickSpec('13'),
-                  new charts.TickSpec('15'),
-                  new charts.TickSpec('17'),
-                  new charts.TickSpec('19'),
-                  new charts.TickSpec('21'),
+                  new charts.TickSpec('1h'),
+                  new charts.TickSpec('3h'),
+                  new charts.TickSpec('5h'),
+                  new charts.TickSpec('7h'),
+                  new charts.TickSpec('9h'),
+                  new charts.TickSpec('11h'),
+                  new charts.TickSpec('13h'),
+                  new charts.TickSpec('15h'),
+                  new charts.TickSpec('17h'),
+                  new charts.TickSpec('19h'),
+                  new charts.TickSpec('21h'),
+                  new charts.TickSpec('23h'),
                 ]
             )),
     );
   }
 
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<CrowdRate, String>> _createSampleData() {
-    final markers = [];
+  /// Converts popularity statistics into graph-compatible data.
+  static List<charts.Series<CrowdRate, String>> _createDataFromPopularTimes(List<List<int>> times) {
     final data = new List<CrowdRate>();
-    final rates = [0, 0, 0, 0, 0, 0, 0, 0, 20, 25, 30, 40, 35, 38, 42, 45, 42, 57, 62, 0, 0, 0, 0, 0, 0];
 
-    // first hour
-    var index = 0;
-    while (rates[index] == 0)
-      index++;
-    markers.add(index-1);
-
-    // last hour
-    // start iteration from the end (some places close at noon)
-    index = rates.length-1;
-    while (rates[index] == 0)
-      index--;
-    markers.add(index+2);
-
-    for (var i=markers[0]; i<markers[1]; i++) {
-      data.add(new CrowdRate(i.toString(), rates[i]));
+    for (var time in times) {
+      data.add(new CrowdRate("${time.first}h", time.last));
     }
 
     return [

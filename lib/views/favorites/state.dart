@@ -1,23 +1,44 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:pandemia/components/favorites/FavoritePanel.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
+import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
-import 'package:pandemia/utils/charts/barChart.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+/// State of the favorite view.
 class FavoritesState extends State<FavoritesView> {
   AppDatabase db = new AppDatabase();
   final List<Favorite> _data = new List();
+  static bool isRefreshing = false;
+  static int loadedPlaces = 0;
   RefreshController _refreshController =
     RefreshController(initialRefresh: false);
 
-  void _onRefresh() async{
-    // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 2000));
-    // if failed,use refreshFailed()
+  /// Called by favorite place panels once they're loaded.
+  void panelIsLoaded () {
+    if (isRefreshing) {
+      loadedPlaces += 1;
+    }
+    if (loadedPlaces == _data.length) {
+      new Future.delayed(const Duration(milliseconds: 1), refreshFinished);
+    }
+  }
+
+  void refreshFinished () {
     _refreshController.refreshCompleted();
+    isRefreshing = false;
+    loadedPlaces = 0;
+    print("all panes are loaded, refreshing is over");
+  }
+
+  void _onRefresh() async{
+    isRefreshing = true;
+    Parser.cache.clear();
+    setState(() {});
   }
 
   void _onLoading() async{
@@ -28,52 +49,24 @@ class FavoritesState extends State<FavoritesView> {
     _refreshController.loadComplete();
   }
 
-  void _addSamplePlaces () async {
-    var now = DateTime.now().millisecondsSinceEpoch;
-    var p1 = Favorite (id: now + 1,
-        name: "MONOPRIX Dunkerque",
-        address: "9 Place de la République, 59140 Dunkerque");
-    var p2 = Favorite (id: now + 2,
-        name: "3 Brasseurs Dunkerque",
-        address: "Rue des Fusiliers Marins, 59140 Dunkerque");
-    var p3 = Favorite (id: now + 3,
-        name: "Cora Dunkerque",
-        address: "BP, 50039 Rue Jacquard, 59411 Coudekerque-Branche");
-
-    var futures = <Future>[
-      db.insertFavoritePlace(p1),
-      db.insertFavoritePlace(p2),
-      db.insertFavoritePlace(p3)
-    ];
-
-    // forcing component refresh
-    await Future.wait(futures);
-    setState(() {
-      _data.add(p1);
-      _data.add(p2);
-      _data.add(p3);
-      for (var f in _data)
-        f.isExpanded = false;
-    });
-
-  }
-
+  /// Allows the user to remove a favorite place.
   void _showDialog(Favorite item) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: new Text("Remove place"),
-          content: new Text("Do you want to remove ${item.name} from your favorite places?"),
+          title: new Text(FlutterI18n.translate(context, "favorites_removedialog_title")),
+          content: new Text("${FlutterI18n.translate(context, "favorites_removedialog_text1")} "
+              "${item.name} ${FlutterI18n.translate(context, "favorites_removedialog_text2")}"),
           actions: <Widget>[
             new FlatButton(
-              child: new Text("Close"),
+              child: new Text(FlutterI18n.translate(context, "favorites_removedialog_cancellabel")),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             new FlatButton(
-              child: new Text("Remove"),
+              child: new Text(FlutterI18n.translate(context, "favorites_removedialog_removelabel")),
               onPressed: () {
                 Navigator.of(context).pop();
                 db.removeFavoritePlace(item.id)
@@ -95,9 +88,45 @@ class FavoritesState extends State<FavoritesView> {
     return FutureBuilder<List<Favorite>>(
         future: db.getFavoritePlaces(),
         builder: (context, AsyncSnapshot<List<Favorite>> snapshot) {
-          if (!snapshot.hasData)
-            return CircularProgressIndicator();
+          if (!snapshot.hasData || snapshot.data.length == 0) {
 
+            // the user has no registered favorite place yet
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Center (
+                  child: Stack(
+                    children: <Widget>[
+                      Container(
+                        child: new Text(
+                          FlutterI18n.translate(context, "favorites_none_title"),
+                          style: TextStyle(
+                              color: CustomPalette.text[100],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300
+                          ),
+                        ),
+                        padding: EdgeInsets.all(10.0),
+                      ),
+
+                      Container(
+                          child: new Text(
+                            FlutterI18n.translate(context, "favorites_none_subtitle"),
+                            style: TextStyle(
+                                color: CustomPalette.text[600],
+                                fontSize: 18,
+                                fontWeight: FontWeight.w300
+                            ),
+                          ),
+                          padding: EdgeInsets.symmetric(vertical: 35.0, horizontal: 10.0)
+                      )
+                    ],
+                  )
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          }
+
+          // saving places in state
           if (_data.length == 0) {
             _data.clear();
             _data.addAll(snapshot.data);
@@ -109,10 +138,10 @@ class FavoritesState extends State<FavoritesView> {
                 body: SmartRefresher(
                     enablePullDown: true,
                     header: ClassicHeader(
-                      idleText: "Pull to refresh metrics",
-                      releaseText: "Release to refresh metrics",
-                      refreshingText: "Computing metrics...",
-                      completeText: "Results imported."),
+                      idleText: FlutterI18n.translate(context, "favorites_pullrefresh_idle"),
+                      releaseText: FlutterI18n.translate(context, "favorites_pullrefresh_release"),
+                      refreshingText: FlutterI18n.translate(context, "favorites_pullrefresh_refreshing"),
+                      completeText: FlutterI18n.translate(context, "favorites_pullrefresh_complete")),
                     controller: _refreshController,
                     onRefresh: _onRefresh,
                     onLoading: _onLoading,
@@ -126,71 +155,64 @@ class FavoritesState extends State<FavoritesView> {
                     )
                 ),
 
-                backgroundColor: CustomPalette.background[700],
-                floatingActionButton: FloatingActionButton(
-                  child: Icon(Icons.add),
-                  onPressed: () => _addSamplePlaces(),
-                  tooltip: "Add sample places",
-                ),
+                backgroundColor: CustomPalette.background[700]
               )
           );
         }
     );
   }
 
+  /// Creates and injects an expansion panel for each favorite place.
   Widget _buildPanel() {
-    return
-      Container(
+    List<Widget> panels = new List();
+
+    // deploys an expansion panel and closes others
+    Function expansionCallback = (int index, bool isExpanded, Favorite place) {
+      setState(() {
+        for (var i = 0, len = _data.length; i < len; i++) {
+          _data[i].isExpanded =
+          _data[i].id == place.id ? !place.isExpanded : false;
+        }
+      });
+    };
+
+    // builds a header for all panels with places' name and address
+    Function headerBuilder = (BuildContext context, bool isExpanded, Favorite place) {
+      return GestureDetector(
+          onLongPress: () => _showDialog(place),
+          child: Container (
+            margin: EdgeInsets.all(0),
+            child: ListTile(
+              title: Text(place.name, style: TextStyle(color: CustomPalette.text[200])),
+              subtitle: Text(place.address,
+                style: TextStyle(color: CustomPalette.text[500]),
+                overflow: TextOverflow.ellipsis,
+                maxLines: isExpanded ? 3 : 1,
+              ),
+            ),
+          )
+      );
+    };
+
+    // creating an expansion panel for each place
+    for (Favorite place in _data) {
+      panels.add(
+          FavoritePanel(
+            place, this._showDialog, expansionCallback, headerBuilder, this
+          )
+      );
+    }
+
+    return Container(
         margin: EdgeInsets.all(0),
         child: Theme(
-          data: Theme.of(context).copyWith(
+            data: Theme.of(context).copyWith(
               cardColor: CustomPalette.background[500],
-          ),
-          child:ExpansionPanelList(
-            expansionCallback: (int index, bool isExpanded) {
-              setState(() {
-                for (var i=0, len=_data.length; i<len; i++) {
-                  _data[i].isExpanded =
-                  i == index ? !isExpanded : false;
-                }
-              });
-            },
-            children: _data.map<ExpansionPanel>((Favorite item) {
-              return ExpansionPanel(
-                canTapOnHeader: true,
-                headerBuilder: (BuildContext context, bool isExpanded) {
-                  return GestureDetector(
-                    onLongPress: () => _showDialog(item),
-                    child: Container (
-                      margin: EdgeInsets.all(0),
-                      child: ListTile(
-                        title: Text(item.name, style: TextStyle(color: CustomPalette.text[200])),
-                        subtitle: Text(item.address,
-                          style: TextStyle(color: CustomPalette.text[500]),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: isExpanded ? 3 : 1,
-                        ),
-                      ),
-                    )
-                  );
-                },
-                body: Card(
-                  margin: EdgeInsets.all(0),
-                  shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                  ) ,
-                  borderOnForeground: true,
-                  color: CustomPalette.background[600],
-                  child: Container (
-                    height: 200,
-                    child: SimpleBarChart.withSampleData(),
-                  ),
-                ),
-                isExpanded: item.isExpanded
-              );
-            }).toList(),
-          )
+            ),
+            child: Column (
+              children: panels,
+            )
         )
-      );
+    );
   }
 }

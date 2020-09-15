@@ -1,75 +1,82 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_plugin_android_lifecycle (0.0.1):
-    - Flutter
   - fluttertoast (0.0.2):
     - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - Google-Maps-iOS-Utils (3.3.0):
+    - Google-Maps-iOS-Utils/Clustering (= 3.3.0)
+    - Google-Maps-iOS-Utils/Geometry (= 3.3.0)
+    - Google-Maps-iOS-Utils/Heatmap (= 3.3.0)
+    - Google-Maps-iOS-Utils/QuadTree (= 3.3.0)
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Clustering (3.3.0):
+    - Google-Maps-iOS-Utils/QuadTree
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Geometry (3.3.0):
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/Heatmap (3.3.0):
+    - Google-Maps-iOS-Utils/QuadTree
+    - GoogleMaps
+  - Google-Maps-iOS-Utils/QuadTree (3.3.0):
+    - GoogleMaps
   - google_maps_flutter (0.0.1):
     - Flutter
+    - Google-Maps-iOS-Utils
     - GoogleMaps
-  - GoogleMaps (2.7.0):
-    - GoogleMaps/Maps (= 2.7.0)
-  - GoogleMaps/Base (2.7.0)
-  - GoogleMaps/Maps (2.7.0):
+  - GoogleMaps (3.10.0):
+    - GoogleMaps/Maps (= 3.10.0)
+  - GoogleMaps/Base (3.10.0)
+  - GoogleMaps/Maps (3.10.0):
     - GoogleMaps/Base
+  - shared_preferences (0.0.1):
+    - Flutter
   - sqflite (0.0.1):
     - Flutter
     - FMDB (~> 2.7.2)
   - url_launcher (0.0.1):
     - Flutter
-  - url_launcher_macos (0.0.1):
-    - Flutter
-  - url_launcher_web (0.0.1):
-    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
-  - url_launcher_macos (from `.symlinks/plugins/url_launcher_macos/ios`)
-  - url_launcher_web (from `.symlinks/plugins/url_launcher_web/ios`)
 
 SPEC REPOS:
   trunk:
     - FMDB
+    - Google-Maps-iOS-Utils
     - GoogleMaps
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_plugin_android_lifecycle:
-    :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
-  url_launcher_macos:
-    :path: ".symlinks/plugins/url_launcher_macos/ios"
-  url_launcher_web:
-    :path: ".symlinks/plugins/url_launcher_web/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  google_maps_flutter: df4e7de95264aa0a2f11aac0fc7e313acb8ffc7e
-  GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
+  Google-Maps-iOS-Utils: 5481c2c8999a7847424755d777c241c238243c0a
+  google_maps_flutter: 0e39c5b391fb547825aaa11b10c518fd3029c843
+  GoogleMaps: 8c080862ff2748ece9929471b30feb56a6c5079d
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
-  url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
-  url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
 
-PODFILE CHECKSUM: 02ffb091ee806f8c75167ae7bf6ccd9df7e044d7
+PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
 
 COCOAPODS: 1.9.3

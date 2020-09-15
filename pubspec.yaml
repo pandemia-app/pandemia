@@ -15,12 +15,18 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
+  flutter: 1.20.3
 
 dependencies:
   flutter:
     sdk: flutter
   charts_flutter: ^0.9.0
-  google_maps_flutter: ^0.5.26+2
+  google_maps_flutter:
+    git:
+      url: git://github.com/arok/plugins.git
+      ref: implement_google_maps_flutter_heatmap
+      path: packages/google_maps_flutter
+  latlong: ^0.6.1
   intl: ^0.16.0
   sqflite:
   path:
@@ -33,6 +39,7 @@ dependencies:
   fluttertoast: ^4.0.0
   url_launcher: ^5.4.5
   carousel_slider: ^2.1.0
+  shared_preferences: ^0.5.10
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

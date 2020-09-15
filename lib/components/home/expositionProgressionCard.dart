@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:intl/intl.dart';
-import 'package:pandemia/components/card.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
@@ -11,9 +10,7 @@ import 'package:provider/provider.dart';
 
 /// Card displaying the user exposition progression over days.
 /// It gets exposition data stored in the app model, and displays it as a graph.
-class ExpositionProgressionCard extends CustomCard {
-  ExpositionProgressionCard(String title) : super('');
-
+class ExpositionProgressionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AppModel>(
@@ -22,7 +19,7 @@ class ExpositionProgressionCard extends CustomCard {
 
         return new Container (
           height: 400,
-          color: cardColor,
+          color: CustomPalette.background[600],
           child: Stack (
             children: <Widget>[
               Container (

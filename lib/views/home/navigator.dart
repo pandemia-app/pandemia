@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
@@ -41,24 +42,27 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppModel>(
-        builder: (context, model, child) {
-          return Scaffold(
-            body: Center(
-              child: _widgetOptions.elementAt(model.tabIndex),
-            ),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Consumer<AppModel>(
+          builder: (context, model, child) {
+            return Scaffold(
+              body: Center(
+                child: _widgetOptions.elementAt(model.tabIndex),
+              ),
 
-            backgroundColor: CustomPalette.background[700],
-            bottomNavigationBar: BottomNavigationBar(
-              items: getNavigationItems(),
-              currentIndex: model.tabIndex,
-              backgroundColor: CustomPalette.background[500],
-              unselectedItemColor: CustomPalette.text[600],
-              selectedItemColor: Color(0xFF63aeff),
-              onTap: _onItemTapped,
-            ),
-          );
-        }
+              backgroundColor: CustomPalette.background[700],
+              bottomNavigationBar: BottomNavigationBar(
+                items: getNavigationItems(),
+                currentIndex: model.tabIndex,
+                backgroundColor: CustomPalette.background[500],
+                unselectedItemColor: CustomPalette.text[600],
+                selectedItemColor: Color(0xFF63aeff),
+                onTap: _onItemTapped,
+              ),
+            );
+          }
+      ),
     );
   }
 

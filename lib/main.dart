@@ -2,7 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:pandemia/navigator.dart';
+import 'package:pandemia/data/state/MapModel.dart';
+import 'package:pandemia/views/home/navigator.dart';
 import 'package:provider/provider.dart';
 import 'data/state/AppModel.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -12,10 +13,13 @@ void main() async {
   await DotEnv().load('lib/.env.generated');
   runZoned<Future<void>>(() async {
     runApp(
-      ChangeNotifierProvider(
-        create: (context) => AppModel(),
+      MultiProvider (
+        providers: [
+          ChangeNotifierProvider(create: (context) => AppModel()),
+          ChangeNotifierProvider(create: (context) => MapModel())
+        ],
         child: MyApp(),
-      ),
+      )
     );
   }, onError: Crashlytics.instance.recordError);
 }

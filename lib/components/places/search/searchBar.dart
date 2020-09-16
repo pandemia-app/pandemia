@@ -1,21 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/state/AppModel.dart';
+import 'package:pandemia/data/state/MapModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:http/http.dart' as http;
+import 'package:pandemia/utils/placesMap/SearchZone.dart';
+import 'package:provider/provider.dart';
 import 'dart:convert';
 
 /// Allows users to search for places from words.
-// ignore: must_be_immutable
-class SearchBar extends StatelessWidget {
-  GoogleMapController mapController;
-  final TextEditingController _controller = new TextEditingController();
-  BuildContext fatherContext;
-  Function closeCallback;
-  Function callback;
-  SearchBar ({this.mapController});
+class SearchBar extends StatefulWidget {
+  final GoogleMapController mapController;
+  final BuildContext fatherContext;
+  final Function closeCallback;
+  final Function callback;
+  SearchBar({this.mapController, this.fatherContext, this.closeCallback, this.callback});
+
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  final TextEditingController _textController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +32,15 @@ class SearchBar extends StatelessWidget {
       child: Container (
         margin: EdgeInsets.all(10),
         child: TextField(
-          controller: _controller,
+          controller: _textController,
             style: TextStyle(color: CustomPalette.text[400]),
               decoration: InputDecoration(
                 suffixIcon: IconButton(
                   onPressed: () {
                     Future.delayed(Duration(milliseconds: 50)).then((_) {
-                      _controller.clear();
+                      _textController.clear();
                       FocusScope.of(context).unfocus();
-                      closeCallback();
+                      widget.closeCallback();
                     });
                     },
                   icon: Icon(Icons.clear, color: CustomPalette.text[400]),
@@ -45,7 +54,7 @@ class SearchBar extends StatelessWidget {
                     borderSide: BorderSide(width: 1,color: CustomPalette.text[400]),
                   ),
                   labelStyle: TextStyle(color: CustomPalette.text[400]),
-                  labelText: FlutterI18n.translate(fatherContext, "places_searchbar_label"),
+                  labelText: FlutterI18n.translate(widget.fatherContext, "places_searchbar_label"),
               ),
 
           onSubmitted: (s) => findPlaceFromString(s),
@@ -60,8 +69,12 @@ class SearchBar extends StatelessWidget {
     String key = AppModel.apiKey;
     const _host = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';
     var encoded = Uri.encodeComponent(address);
+    CircularSearchZone zone = Provider.of<MapModel>(widget.fatherContext).currentZone;
     // TODO filter place types (prevent registering cities, for example, for they cannot provide popular times)
-    final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery&fields=name,place_id,formatted_address,geometry&key=$key');
+    final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery'
+        '&fields=name,place_id,formatted_address,geometry'
+        '&locationbias=circle:${zone.radius}@${zone.center.latitude},${zone.center.longitude}'
+        '&key=$key');
     print('hitting $uri');
 
     http.Response response = await http.get (uri);
@@ -70,8 +83,13 @@ class SearchBar extends StatelessWidget {
 
     switch (candidates.length) {
       case 0:
-        // TODO display error message
-        print('no matching place found');
+        Fluttertoast.showToast(
+            msg: FlutterI18n.translate(widget.fatherContext, "places_searchzone_noresult"),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            fontSize: 16.0
+        );
         break;
       case 1:
         var place = candidates[0];
@@ -82,9 +100,9 @@ class SearchBar extends StatelessWidget {
           );
         var viewport = place['geometry']['viewport'];
         print('going to $location');
-        mapController.animateCamera(
+        widget.mapController.animateCamera(
             CameraUpdate.newLatLng(location));
-        mapController.animateCamera(
+        widget.mapController.animateCamera(
             CameraUpdate.newLatLngBounds(
                 new LatLngBounds(
                     southwest: new LatLng(
@@ -92,12 +110,18 @@ class SearchBar extends StatelessWidget {
                     northeast: new LatLng(
                         viewport['northeast']['lat'], viewport['northeast']['lng']))
                 , 0));
-        callback(place);
+        place['location'] = location;
+        widget.callback(place);
         break;
       default:
-        // TODO display list of addresses
+        Fluttertoast.showToast(
+            msg: FlutterI18n.translate(widget.fatherContext, "places_searchzone_several_results"),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 2,
+            fontSize: 16.0
+        );
         break;
     }
   }
-
 }

@@ -13,8 +13,7 @@ import 'package:provider/provider.dart';
 /// It displays the exposition rate as a circular graph with an associated
 /// message.
 class MyExpositionCard extends StatelessWidget {
-  MyExpositionCard(String title);
-
+  @override
   Widget build(BuildContext context) {
     return Container (
         margin: EdgeInsets.fromLTRB(0, 0, 0, 10),

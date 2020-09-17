@@ -146,7 +146,7 @@ class PlacesState extends State<PlacesView> {
           WeightedLatLng( point: result.location );
 
       // refresh data with popularity stats
-      Parser.getPopularTimes(Favorite.fromPlacesAPIResult(result)).then((value) {
+      AppModel.parser.getPopularTimes(Favorite.fromPlacesAPIResult(result)).then((value) {
         if (value.hasData) {
           pointsCache.addAll(
               cache.getPoints(result, value.currentPopularity, zoomLevel)

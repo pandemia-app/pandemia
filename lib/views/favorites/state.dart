@@ -37,7 +37,7 @@ class FavoritesState extends State<FavoritesView> {
 
   void _onRefresh() async{
     isRefreshing = true;
-    Parser.cache.clear();
+    PopularTimesParser.cache.clear();
     setState(() {});
   }
 

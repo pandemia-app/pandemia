@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -11,6 +12,8 @@ import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   await DotEnv().load('lib/.env.generated');
+  await Firebase.initializeApp();
+
   runZoned<Future<void>>(() async {
     runApp(
       MultiProvider (

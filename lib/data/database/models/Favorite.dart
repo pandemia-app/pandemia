@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
 
 /// This entity allows the user to store favorite places.
@@ -9,7 +10,7 @@ class Favorite {
   final Map<int, int> attendance;
   bool isExpanded;
 
-  Favorite ({this.id, this.name, this.address, this.attendance, this.isExpanded = true});
+  Favorite ({@required this.id, this.name, this.address, this.attendance, this.isExpanded = true});
 
   Map<String, dynamic> toMap() {
     return {

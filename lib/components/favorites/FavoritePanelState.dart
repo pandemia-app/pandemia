@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
-import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';

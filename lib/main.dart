@@ -13,6 +13,8 @@ import 'package:intl/date_symbol_data_local.dart';
 void main() async {
   await DotEnv().load('lib/.env.generated');
   await Firebase.initializeApp();
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   runZoned<Future<void>>(() async {
     runApp(
@@ -24,7 +26,7 @@ void main() async {
         child: MyApp(),
       )
     );
-  }, onError: Crashlytics.instance.recordError);
+  }, onError: FirebaseCrashlytics.instance.recordError);
 }
 
 class MyApp extends StatelessWidget {

@@ -50,7 +50,7 @@ class PopularTimesParser {
   /// Gathers information from the file retrieved by getFile.
   /// As all places do not have popularity statistics, this can throw an error
   /// while parsing the file.
-  static PopularTimes parseResponse (String file) {
+  PopularTimes parseResponse (String file) {
     // removing first line
     var responseObject = file.split('\n');
     responseObject.removeAt(0);

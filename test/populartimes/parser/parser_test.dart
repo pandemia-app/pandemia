@@ -24,7 +24,7 @@ void main() {
     final _client = MockClient();
     when(_client.get(Uri.encodeFull("$endpoint$identifier")))
       .thenAnswer((_) async {
-        String result = await new File('test/result_example.txt').readAsString();
+        String result = await new File('test/populartimes/parser/apiresponses/result_ok.txt').readAsString();
         return http.Response(result, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
@@ -61,7 +61,7 @@ void main() {
     final _client = MockClient();
     when(_client.get(Uri.encodeFull("$endpoint$identifier")))
         .thenAnswer((_) async {
-      String result = await new File('test/no_result_api_response.txt').readAsString();
+      String result = await new File('test/populartimes/parser/apiresponses/no_result.txt').readAsString();
       return http.Response(result, 200, headers: {
         HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
       });

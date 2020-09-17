@@ -14,7 +14,10 @@ void main() {
 
   test('Checking popular times of a place that have some', () async {
     Favorite placeWithStats = new Favorite(
-        name: "E.Leclerc Hyper Paris 19", address: "191 Boulevard Macdonald, 75019 Paris, France");
+        name: "E.Leclerc Hyper Paris 19",
+        address: "191 Boulevard Macdonald, 75019 Paris, France",
+        id: "Chpflfkeiecjegh"
+    );
     final String identifier = "E.Leclerc Hyper Paris 19 191 Boulevard Macdonald, 75019 Paris, France";
     expect(identifier, placeWithStats.getIdentifier());
 
@@ -46,14 +49,26 @@ void main() {
     }
   });
 
-  /*
-  group('Popular times parser tests', () {
-    test('Checking popular times of a place that does not have some', () async {
-      Favorite placeWithoutStats = new Favorite(
-          name: "Lilliad", address: "2, Avenue Jean Perrin, 59650 Villeneuve-d'Ascq, France"
-      );
-      var result = await parser.getPopularTimes(placeWithoutStats);
-      expect(result.hasData, false);
+  test('Checking popular times of a place that does not have some', () async {
+    Favorite placeWithoutStats = new Favorite(
+        name: "Cimetière du Père Lachaise",
+        address: "16 Rue du Repos, 75020 Paris, France",
+        id: "Chdzmdazdkahzdkj"
+    );
+    final String identifier = "Cimetière du Père Lachaise 16 Rue du Repos, 75020 Paris, France";
+    expect(identifier, placeWithoutStats.getIdentifier());
+
+    final _client = MockClient();
+    when(_client.get(Uri.encodeFull("$endpoint$identifier")))
+        .thenAnswer((_) async {
+      String result = await new File('test/no_result_api_response.txt').readAsString();
+      return http.Response(result, 200, headers: {
+        HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+      });
     });
-  });*/
+    parser = new PopularTimesParser(httpClient: _client);
+
+    var stats = await parser.getPopularTimes(placeWithoutStats);
+    expect(stats.hasData, false);
+  });
 }

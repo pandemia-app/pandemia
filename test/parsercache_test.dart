@@ -6,6 +6,7 @@ import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
 void main() {
   ParserCache cache;
   Favorite place = new Favorite(id: 'dddzzdzkDKDdkzpokzdz', name: 'Test place');
+  Favorite place1 = new Favorite(id: 'dzadgrhhyjgbfgerfg', name: 'Test place 1');
   setUp(() async {
     cache = new ParserCache();
   });
@@ -31,6 +32,24 @@ void main() {
 
     expect(cache.hasStatsForPlace(place), true);
     expect(cache.getStatsFromPlace(place), stats);
+  });
+
+  test('should properly store several stats', () {
+    expect(cache.hasStatsForPlace(place), false);
+    expect(cache.hasStatsForPlace(place1), false);
+
+    PopularTimes
+        stats = PopularTimes(currentPopularity: 42, hasData: false),
+        stats1 = PopularTimes(currentPopularity: 54, hasData: false);
+    cache.storeStatsForPlace(place, stats);
+    cache.storeStatsForPlace(place1, stats1);
+
+    expect(cache.statsCache.keys.length, 2);
+    expect(cache.timesCache.keys.length, 2);
+    expect(cache.hasStatsForPlace(place), true);
+    expect(cache.getStatsFromPlace(place), stats);
+    expect(cache.hasStatsForPlace(place1), true);
+    expect(cache.getStatsFromPlace(place1), stats1);
   });
 
   test('should overwrite stats', () {

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PlacesAPIResult {
@@ -6,7 +7,9 @@ class PlacesAPIResult {
   final String address;
   final LatLng location;
 
-  PlacesAPIResult({this.placeId, this.name, this.address, this.location});
+  PlacesAPIResult ({
+    @required this.placeId,
+    this.name, this.address, this.location });
 
   factory PlacesAPIResult.fromJSON (dynamic json) {
     return PlacesAPIResult(

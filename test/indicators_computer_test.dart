@@ -75,11 +75,11 @@ void main() {
 
   test("should update today's exposition rate", () async {
     final int timestamp = DailyReport.getTodaysTimestamp();
+    final int oldRate = 35, newRate = 42;
     final DailyReport report = DailyReport(
         timestamp: timestamp,
-        broadcastRate: 42, expositionRate: 58
+        broadcastRate: 42, expositionRate: oldRate
     );
-    final newRate = 42;
     DailyReport savedReport;
 
     final _db = MockDatabase();
@@ -103,6 +103,7 @@ void main() {
 
     _computer = new IndicatorsComputer(database: _db);
     await _computer.setTodaysReport(report);
+    expect(savedReport.expositionRate, oldRate);
     expect(await _computer.updateTodaysExpositionRate(newRate), true);
     expect(savedReport.expositionRate, newRate);
   });

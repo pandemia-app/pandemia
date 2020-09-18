@@ -37,4 +37,39 @@ void main() {
     await _computer.setTodaysReport(report);
     expect(savedReport, report); // checking if saved report is the one sent
   });
+
+  test("should update today's report", () async {
+    final int timestamp = DailyReport.getTodaysTimestamp();
+    final DailyReport
+      report = DailyReport(
+        timestamp: timestamp,
+        broadcastRate: 42, expositionRate: 58
+      ),
+      report2 = DailyReport(
+          timestamp: timestamp,
+          broadcastRate: 45, expositionRate: 64
+      );
+
+    DailyReport todaysSavedReport;
+
+    final _db = MockDatabase();
+    when(_db.isReportRegistered(timestamp))
+        .thenAnswer((_) async {
+      return todaysSavedReport != null;
+    });
+    when(_db.insertReport(report))
+        .thenAnswer((_) async {
+      todaysSavedReport = report;
+      return report;
+    });
+    when(_db.updateExpositionRate(report2))
+      .thenAnswer((realInvocation) async {
+       todaysSavedReport = report2;
+    });
+
+    _computer = new IndicatorsComputer(database: _db);
+    await _computer.setTodaysReport(report);
+    await _computer.setTodaysReport(report2);
+    expect(todaysSavedReport, report2);
+  });
 }

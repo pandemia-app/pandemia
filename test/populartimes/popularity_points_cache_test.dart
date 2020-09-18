@@ -90,4 +90,23 @@ void main() {
     expect(points.length, isNot(equals(newPoints.length)));
     expect(points, isNot(equals(newPoints)));
   });
+
+  test("should store several places' points", () {
+    final PlacesAPIResult
+      place = PlacesAPIResult(placeId: "a", location: LatLng(55.18, 3.48)),
+      place1 = PlacesAPIResult(placeId: "b", location: LatLng(42.54, 3.57)),
+      place2 = PlacesAPIResult(placeId: "c", location: LatLng(42.54, 3.57));
+
+    var placePoints = cache.getPoints(place, 15, 42);
+    var place1Points = cache.getPoints(place1, 15, 42);
+    var place2Points = cache.getPoints(place2, 15, 42);
+
+    expect(cache.points.keys.length, 3);
+    expect(cache.zoomLevels.keys.length, 3);
+    expect(cache.popularities.keys.length, 3);
+
+    expect(placePoints, isNot(equals(place1Points)));
+    expect(placePoints, isNot(equals(place2Points)));
+    expect(place1Points, isNot(equals(place2Points)));
+  });
 }

@@ -31,10 +31,7 @@ class IndicatorsComputer {
     );
     await setTodaysReport(report);
 
-    // putting all reports in app model, to share them among other components
-    List<DailyReport> reports = await _db.getReports();
-    Provider.of<AppModel>(context, listen: false).storeReports(reports);
-
+    loadDailyReports(context);
     generated = true;
   }
 
@@ -76,5 +73,12 @@ class IndicatorsComputer {
     // if yes, update it
     await _db.updateTodaysBroadcastRate(rate);
     return true;
+  }
+  
+  /// putting all reports in app model, to share them among other components
+  Future<List<DailyReport>> loadDailyReports (BuildContext context) async {
+    List<DailyReport> reports = await _db.getReports();
+    Provider.of<AppModel>(context, listen: false).storeReports(reports);
+    return reports;
   }
 }

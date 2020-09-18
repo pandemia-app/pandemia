@@ -1,5 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/indicatorsComputer.dart';
+import 'package:pandemia/data/database/models/DailyReport.dart';
+
+class MockDatabase extends Mock implements AppDatabase {}
 
 void main() {
   IndicatorsComputer _computer;
@@ -9,10 +14,27 @@ void main() {
     expect(_computer.generated, false);
   });
 
-  /*
-  test('computer can store a report for today', () {
-    var computer = new IndicatorsComputer();
-    int today = DailyReport.getTodaysTimestamp();
+  test("should save today's report", () async {
+    final int timestamp = DailyReport.getTodaysTimestamp();
+    final DailyReport report = DailyReport(
+        timestamp: timestamp,
+        broadcastRate: 42, expositionRate: 58
+    );
+    DailyReport savedReport;
+
+    final _db = MockDatabase();
+    when(_db.isReportRegistered(timestamp))
+      .thenAnswer((_) async {
+        return false;
+    });
+    when(_db.insertReport(report))
+      .thenAnswer((_) async {
+        savedReport = report;
+        return report;
+    });
+
+    _computer = new IndicatorsComputer(database: _db);
+    await _computer.setTodaysReport(report);
+    expect(savedReport, report); // checking if saved report is the one sent
   });
-   */
 }

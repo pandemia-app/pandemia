@@ -73,7 +73,7 @@ void main() {
     expect(todaysSavedReport, report2);
   });
 
-  test("computer should update today's exposition rate", () async {
+  test("should update today's exposition rate", () async {
     final int timestamp = DailyReport.getTodaysTimestamp();
     final DailyReport report = DailyReport(
         timestamp: timestamp,
@@ -103,7 +103,18 @@ void main() {
 
     _computer = new IndicatorsComputer(database: _db);
     await _computer.setTodaysReport(report);
-    await _computer.updateTodaysExpositionRate(newRate);
+    expect(await _computer.updateTodaysExpositionRate(newRate), true);
     expect(savedReport.expositionRate, newRate);
+  });
+
+  test("should not update today's exposition rate since report doesn't exist", () async {
+    final newRate = 42;
+
+    final _db = MockDatabase();
+    when(_db.isReportRegistered(DailyReport.getTodaysTimestamp()))
+        .thenAnswer((_) async => false);
+
+    _computer = new IndicatorsComputer(database: _db);
+    expect(await _computer.updateTodaysExpositionRate(newRate), false);
   });
 }

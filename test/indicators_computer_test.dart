@@ -168,4 +168,6 @@ void main() {
     _computer = new IndicatorsComputer(database: _db);
     expect(await _computer.updateTodaysBroadcastRate(newRate), false);
   });
+
+  // TODO test IndicatorsComputer.loadDailyReports (mock provider)
 }

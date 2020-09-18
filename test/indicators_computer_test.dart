@@ -104,8 +104,10 @@ void main() {
     _computer = new IndicatorsComputer(database: _db);
     await _computer.setTodaysReport(report);
     expect(savedReport.expositionRate, oldRate);
+    expect(savedReport.broadcastRate, 42);
     expect(await _computer.updateTodaysExpositionRate(newRate), true);
     expect(savedReport.expositionRate, newRate);
+    expect(savedReport.broadcastRate, 42);
   });
 
   test("should not update today's exposition rate since report doesn't exist", () async {
@@ -150,8 +152,10 @@ void main() {
     _computer = new IndicatorsComputer(database: _db);
     await _computer.setTodaysReport(report);
     expect(savedReport.broadcastRate, oldRate);
+    expect(savedReport.expositionRate, 56);
     expect(await _computer.updateTodaysBroadcastRate(newRate), true);
     expect(savedReport.broadcastRate, newRate);
+    expect(savedReport.expositionRate, 56);
   });
 
   test("should not update today's broadcast rate since report doesn't exist", () async {

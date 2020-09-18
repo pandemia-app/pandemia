@@ -11,7 +11,7 @@ Pandemia is actively developed by members of the [Spirals research group](https:
 
 ## Compile and run
 
-Before running the application on your smartphone, you *NEED* to follow "Environment variables"
+Before running the application on your smartphone, you *MUST* follow "Environment variables"
 instructions.
 
 ## Source code 
@@ -32,4 +32,7 @@ translations from being loaded and displayed.
 
 ## Run tests
 
-To run given tests, run `flutter test ./test/[TEST_FILENAME]`
+```shell script
+flutter test test   # run tests
+flutter pub run flutter_coverage_badge    # generate coverage badge
+```

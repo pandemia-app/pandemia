@@ -118,4 +118,50 @@ void main() {
     _computer = new IndicatorsComputer(database: _db);
     expect(await _computer.updateTodaysExpositionRate(newRate), false);
   });
+
+  test("should update today's broadcast rate", () async {
+    final int timestamp = DailyReport.getTodaysTimestamp();
+    final int oldRate = 15, newRate = 20;
+    final DailyReport report = DailyReport(
+        timestamp: timestamp,
+        broadcastRate: oldRate, expositionRate: 56
+    );
+    DailyReport savedReport;
+
+    final _db = MockDatabase();
+    when(_db.isReportRegistered(timestamp))
+        .thenAnswer((_) async {
+      return savedReport != null;
+    });
+    when(_db.insertReport(report))
+        .thenAnswer((_) async {
+      savedReport = report;
+      return report;
+    });
+    when(_db.updateTodaysBroadcastRate(newRate))
+        .thenAnswer((realInvocation) async {
+      savedReport = DailyReport(
+          timestamp: savedReport.timestamp,
+          expositionRate: savedReport.expositionRate,
+          broadcastRate: newRate
+      );
+    });
+
+    _computer = new IndicatorsComputer(database: _db);
+    await _computer.setTodaysReport(report);
+    expect(savedReport.broadcastRate, oldRate);
+    expect(await _computer.updateTodaysBroadcastRate(newRate), true);
+    expect(savedReport.broadcastRate, newRate);
+  });
+
+  test("should not update today's broadcast rate since report doesn't exist", () async {
+    final newRate = 42;
+
+    final _db = MockDatabase();
+    when(_db.isReportRegistered(DailyReport.getTodaysTimestamp()))
+        .thenAnswer((_) async => false);
+
+    _computer = new IndicatorsComputer(database: _db);
+    expect(await _computer.updateTodaysBroadcastRate(newRate), false);
+  });
 }

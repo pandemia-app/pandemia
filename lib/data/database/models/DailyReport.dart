@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 /// This entity is used to provide daily pandemia reports to the user.
 /// It contains several rates that should help them to behave better.
 class DailyReport {
@@ -5,7 +7,10 @@ class DailyReport {
   final int broadcastRate;
   final int timestamp;
 
-  DailyReport ({this.expositionRate, this.broadcastRate, this.timestamp});
+  DailyReport ({
+    @required this.expositionRate,
+    @required this.broadcastRate,
+    @required this.timestamp });
 
   Map<String, dynamic> toMap() {
     return {

@@ -9,7 +9,8 @@ class PlacesAPIResult {
 
   PlacesAPIResult ({
     @required this.placeId,
-    this.name, this.address, this.location });
+    @required this.location,
+    this.name, this.address });
 
   factory PlacesAPIResult.fromJSON (dynamic json) {
     return PlacesAPIResult(

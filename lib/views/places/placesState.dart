@@ -135,8 +135,7 @@ class PlacesState extends State<PlacesView> {
   void createHeatmapPoints (List<PlacesAPIResult> results) {
     // this counter allows to adds all points at once, when all places data have
     // been loaded.
-    PlacesCounter counter = new PlacesCounter();
-    counter.setPlacesCount(results.length);
+    PlacesCounter counter = new PlacesCounter(placesCountTarget: results.length);
     Map<String, WeightedLatLng> pointsCache = <String, WeightedLatLng>{};
 
     // adds a marker for each place

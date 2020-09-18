@@ -33,6 +33,6 @@ translations from being loaded and displayed.
 ## Run tests
 
 ```shell script
-flutter test test   # run tests
-flutter pub run flutter_coverage_badge    # generate coverage badge
+chmod +x ./tool/run_tests.sh
+./tool/run_tests.sh
 ```

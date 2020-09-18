@@ -67,4 +67,27 @@ void main() {
     expect(points.length, newPoints.length);
     expect(points, isNot(equals(newPoints)));
   });
+
+  test("should regenerate popularity points if popularity level has changed", () {
+    final int oldPop = 78, newPop = 42;
+    final double zoomLevel = 15;
+    final String id = "Ch_zdkjzodzkda";
+    final PlacesAPIResult place = PlacesAPIResult(
+        placeId: id, location: LatLng(55.18, 3.48));
+
+    Map<String, WeightedLatLng> points =
+    cache.getPoints(place, oldPop, zoomLevel);
+    expect(cache.zoomLevels[id], zoomLevel);
+    expect(cache.popularities[id], oldPop);
+    expect(cache.points[id], points);
+
+    Map<String, WeightedLatLng> newPoints =
+    cache.getPoints(place, newPop, zoomLevel);
+    expect(cache.zoomLevels[id], zoomLevel);
+    expect(cache.popularities[id], newPop);
+    expect(cache.points[id], newPoints);
+
+    expect(points.length, isNot(equals(newPoints.length)));
+    expect(points, isNot(equals(newPoints)));
+  });
 }

@@ -30,4 +30,18 @@ void main() {
     expect(cache.popularities[id], placeCurrentPopularity);
     expect(cache.points[id], points);
   });
+
+  test("should return same points if zoom and popularity levels didn't change", () {
+    final int placeCurrentPopularity = 78;
+    final double zoomLevel = 15;
+    final String id = "Ch_zdkjzodzkda";
+    final PlacesAPIResult place = PlacesAPIResult(
+        placeId: id, location: LatLng(55.18, 3.48));
+
+    Map<String, WeightedLatLng>
+      points = cache.getPoints(place, placeCurrentPopularity, zoomLevel),
+      points2 = cache.getPoints(place, placeCurrentPopularity, zoomLevel);
+
+    expect(points, points2);
+  });
 }

@@ -35,4 +35,14 @@ void main() {
       _zone = CircularSearchZone(center: LatLng(55.17, 3.14), radius: -5);
     }, throwsAssertionError);
   });
+
+  test("should be valid with a 0 center", () {
+    _zone = CircularSearchZone(center: LatLng(0, 0), radius: 6);
+    expect(_zone.isValid(), true);
+  });
+
+  test("should not be valid with a 0 radius", () {
+    _zone = CircularSearchZone(center: LatLng(56.64, 5.48), radius: 0);
+    expect(_zone.isValid(), false);
+  });
 }

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
+import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
 
 void main () {
   test("should not accept null id", () {
@@ -75,5 +76,19 @@ void main () {
 
     String identifier = f.getIdentifier();
     expect(identifier, "Inria Spirals 40 Avenue Halley, 59650 Villeneuve-d'Ascq");
+  });
+
+  test("can be built from a PlacesAPIResult instance", () {
+    PlacesAPIResult result = PlacesAPIResult(
+      placeId: "id",
+      name: "name",
+      address: "address",
+      location: null
+    );
+
+    Favorite f = Favorite.fromPlacesAPIResult(result);
+    expect(f.name, "name");
+    expect(f.address, "address");
+    expect(f.id, "id");
   });
 }

@@ -54,4 +54,15 @@ void main () {
     expect(map.containsKey("address"), true);
     expect(map["address"], "address");
   });
+
+  test("should convert object to string", () {
+    Favorite f = Favorite(
+      id: "inria",
+      name: "Inria Spirals",
+      address: "40 Avenue Halley, 59650 Villeneuve-d'Ascq"
+    );
+
+    String s = f.toString();
+    expect(s, "Favorite[name: Inria Spirals, address: 40 Avenue Halley, 59650 Villeneuve-d'Ascq]");
+  });
 }

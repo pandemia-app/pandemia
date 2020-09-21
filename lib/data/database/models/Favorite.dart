@@ -31,7 +31,7 @@ class Favorite {
 
   @override
   String toString() {
-    return 'Favorite{name: $name, address: $address}';
+    return 'Favorite[name: $name, address: $address]';
   }
 
   String getIdentifier() {

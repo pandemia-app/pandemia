@@ -10,7 +10,11 @@ class DailyReport {
   DailyReport ({
     @required this.expositionRate,
     @required this.broadcastRate,
-    @required this.timestamp });
+    @required this.timestamp }) :
+      assert(expositionRate != null),
+      assert(expositionRate >= 0),
+      assert(broadcastRate != null),
+      assert(broadcastRate >= 0);
 
   Map<String, dynamic> toMap() {
     return {

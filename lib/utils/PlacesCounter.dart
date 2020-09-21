@@ -8,7 +8,8 @@ class PlacesCounter {
 
   PlacesCounter({
     @required this.placesCountTarget
-  }) : assert(placesCountTarget != null);
+  }) : assert(placesCountTarget != null),
+       assert(placesCountTarget > 0);
 
   /// Increments the current counter, and returns true if it corresponds to the
   /// objective counter.

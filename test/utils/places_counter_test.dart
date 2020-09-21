@@ -5,8 +5,8 @@ void main() {
   PlacesCounter counter;
 
   test("should be empty when created", () {
-    counter = new PlacesCounter(placesCountTarget: 0);
-    expect(counter.placesCountTarget, 0);
+    counter = new PlacesCounter(placesCountTarget: 1);
+    expect(counter.placesCountTarget, 1);
     expect(counter.loadedPlaces, 0);
   });
 
@@ -39,6 +39,18 @@ void main() {
   test("does not accept null as target", () {
     expect(() {
       counter = new PlacesCounter(placesCountTarget: null);
+    }, throwsAssertionError);
+  });
+
+  test("does not accept 0 as target", () {
+    expect(() {
+      counter = new PlacesCounter(placesCountTarget: 0);
+    }, throwsAssertionError);
+  });
+
+  test("does not accept negative values as target", () {
+    expect(() {
+      counter = new PlacesCounter(placesCountTarget: -42);
     }, throwsAssertionError);
   });
 }

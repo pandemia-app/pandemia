@@ -46,4 +46,10 @@ void main () {
     expect(map.containsKey("date"), true);
     expect(map["date"], 5);
   });
+
+  test("should be converted to string", () {
+    Location l = Location(id: 1, lat: 2, lng: 3, timestamp: 5);
+    String s = l.toString();
+    expect(s, "Location[id: 1, lat: 2.0, lng: 3.0, date: 5]");
+  });
 }

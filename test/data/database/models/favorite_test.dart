@@ -4,13 +4,13 @@ import 'package:pandemia/data/database/models/Favorite.dart';
 void main () {
   test("should not accept null id", () {
     expect(() {
-      Favorite (id: null,);
+      Favorite (id: null, name: "n", address: "a");
     }, throwsAssertionError);
   });
 
   test("should not accept empty string as id", () {
     expect(() {
-      Favorite(id: "");
+      Favorite(id: "", name: "n", address: "a");
     }, throwsAssertionError);
   });
 

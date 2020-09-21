@@ -11,11 +11,15 @@ class Favorite {
 
   Favorite ({
     @required this.id,
-    this.name,
-    this.address,
+    @required this.name,
+    @required this.address,
     this.isExpanded = true
   }) :  assert(id != null),
-        assert(id.length > 0);
+        assert(id.length > 0),
+        assert(name != null),
+        assert(name.length > 0),
+        assert(address != null),
+        assert(address.length > 0);
 
   Map<String, dynamic> toMap() {
     return {

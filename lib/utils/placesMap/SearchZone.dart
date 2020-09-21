@@ -13,7 +13,7 @@ class CircularSearchZone {
 
   /// Checks if the viewport can be used.
   bool isValid () {
-    return center.longitude != 0.0 && center.latitude != 0.0 || radius != 0.0;
+    return radius != 0.0;
   }
 
   @override

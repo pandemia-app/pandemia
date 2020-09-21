@@ -31,6 +31,4 @@ class Location {
   String toString() {
     return 'Location[id: $id, lat: $lat, lng: $lng, date: $timestamp]';
   }
-
-
 }

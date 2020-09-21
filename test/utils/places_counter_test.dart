@@ -35,4 +35,10 @@ void main() {
 
     expect(counter.addLoadedPlace(), true);
   });
+
+  test("does not accept null as target", () {
+    expect(() {
+      counter = new PlacesCounter(placesCountTarget: null);
+    }, throwsAssertionError);
+  });
 }

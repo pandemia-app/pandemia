@@ -6,7 +6,9 @@ class PlacesCounter {
   final int placesCountTarget;
   int loadedPlaces = 0;
 
-  PlacesCounter({ @required this.placesCountTarget });
+  PlacesCounter({
+    @required this.placesCountTarget
+  }) : assert(placesCountTarget != null);
 
   /// Increments the current counter, and returns true if it corresponds to the
   /// objective counter.

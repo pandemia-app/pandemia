@@ -29,7 +29,7 @@ class Location {
 
   @override
   String toString() {
-    return 'Location{id: $id, lat: $lat, lng: $lng, date: $timestamp}';
+    return 'Location[id: $id, lat: $lat, lng: $lng, date: $timestamp]';
   }
 
 

@@ -65,4 +65,15 @@ void main () {
     String s = f.toString();
     expect(s, "Favorite[name: Inria Spirals, address: 40 Avenue Halley, 59650 Villeneuve-d'Ascq]");
   });
+
+  test("should get identifier", () {
+    Favorite f = Favorite(
+        id: "inria",
+        name: "Inria Spirals",
+        address: "40 Avenue Halley, 59650 Villeneuve-d'Ascq"
+    );
+
+    String identifier = f.getIdentifier();
+    expect(identifier, "Inria Spirals 40 Avenue Halley, 59650 Villeneuve-d'Ascq");
+  });
 }

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 
 void main() {
@@ -41,5 +42,41 @@ void main() {
     expect(() {
       _model.storeReports(null);
     }, throwsAssertionError);
+  });
+
+  test("should correctly store 0 reports", () {
+    _model.storeReports([]);
+    expect(_model.reports.length, 0);
+  });
+
+  test("should correctly store several reports", () {
+    final List<DailyReport> reports = [
+      DailyReport(timestamp: 1, broadcastRate: 1, expositionRate: 1),
+      DailyReport(timestamp: 2, broadcastRate: 2, expositionRate: 2)
+    ];
+
+    _model.storeReports(reports);
+    expect(_model.reports.length, 2);
+    expect(_model.reports, reports);
+  });
+
+  test("should not set negative tab index", () {
+    final List<DailyReport>
+      oldReports = [
+        DailyReport(timestamp: 1, broadcastRate: 1, expositionRate: 1),
+        DailyReport(timestamp: 2, broadcastRate: 2, expositionRate: 2)
+      ],
+      newReports = [
+        DailyReport(timestamp: 1, broadcastRate: 1, expositionRate: 1),
+        DailyReport(timestamp: 2, broadcastRate: 2, expositionRate: 2),
+        DailyReport(timestamp: 3, broadcastRate: 4, expositionRate: 7),
+        DailyReport(timestamp: 4, broadcastRate: 45, expositionRate: 52),
+      ];
+
+    _model.storeReports(oldReports);
+    expect(_model.reports, oldReports);
+
+    _model.storeReports(newReports);
+    expect(_model.reports, newReports);
   });
 }

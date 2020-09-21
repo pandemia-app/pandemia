@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - data/populartimes/cache/PopularityPointsCache.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../index.html">top level</a> - <a href="index.html">data/populartimes/cache</a> - PopularityPointsCache.dart<span style="font-size: 80%;"> (source / <a href="PopularityPointsCache.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntry">7</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-09-21 18:35:40</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'package:google_maps_flutter/google_maps_flutter.dart';</a>
+<span class="lineNum">       2 </span>            : import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
+<span class="lineNum">       3 </span>            : import 'package:pandemia/utils/GeoComputer.dart';
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            : /// Stores points representing the current popularity of a given place.
+<span class="lineNum">       6 </span>            : class PopularityPointsCache {
+<span class="lineNum">       7 </span>            :   Map&lt;String, Map&lt;String, WeightedLatLng&gt;&gt; points = new Map();
+<span class="lineNum">       8 </span>            :   Map&lt;String, double&gt; zoomLevels = new Map();
+<span class="lineNum">       9 </span>            :   Map&lt;String, int&gt; popularities = new Map();
+<span class="lineNum">      10 </span>            :   GeoComputer computer = new GeoComputer();
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span>            :   /// Returns points for a given place.
+<span class="lineNum">      13 </span>            :   /// Regenerates points if the zoom level or place popularity changed since last request.
+<span class="lineNum">      14 </span><span class="lineCov">          1 :   Map&lt;String, WeightedLatLng&gt; getPoints (PlacesAPIResult place, int placeCurrentPopularity, double zoomLevel) {</span>
+<span class="lineNum">      15 </span><span class="lineCov">          1 :     String placeId = place.placeId;</span>
+<span class="lineNum">      16 </span><span class="lineCov">          8 :     if (this.points[placeId] == null || this.zoomLevels[placeId] != zoomLevel || this.popularities[placeId] != placeCurrentPopularity) {</span>
+<span class="lineNum">      17 </span><span class="lineCov">          5 :       points[placeId] = computer.generatePopularityPoints(place.location, placeId, placeCurrentPopularity, zoomLevel);</span>
+<span class="lineNum">      18 </span>            :     }
+<span class="lineNum">      19 </span>            : 
+<span class="lineNum">      20 </span><span class="lineCov">          2 :     zoomLevels[placeId] = zoomLevel;</span>
+<span class="lineNum">      21 </span><span class="lineCov">          2 :     popularities[placeId] = placeCurrentPopularity;</span>
+<span class="lineNum">      22 </span>            : 
+<span class="lineNum">      23 </span><span class="lineCov">          2 :     return points[placeId];</span>
+<span class="lineNum">      24 </span>            :   }
+<span class="lineNum">      25 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

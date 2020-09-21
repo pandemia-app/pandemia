@@ -1,0 +1,175 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - utils/GeoComputer.dart</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../index.html">top level</a> - <a href="index.html">utils</a> - GeoComputer.dart<span style="font-size: 80%;"> (source / <a href="GeoComputer.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntry">44</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-09-21 18:35:40</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'dart:math';</a>
+<span class="lineNum">       2 </span>            : import 'package:latlong/latlong.dart' as latlong;
+<span class="lineNum">       3 </span>            : import 'package:google_maps_flutter/google_maps_flutter.dart';
+<span class="lineNum">       4 </span>            : 
+<span class="lineNum">       5 </span>            : /// Is in charge of geolocation-related computation.
+<span class="lineNum">       6 </span>            : class GeoComputer {
+<span class="lineNum">       7 </span>            :   double degree = 6371 * 2 * pi / 360 * 1000; // 1° latitude in meters
+<span class="lineNum">       8 </span>            : 
+<span class="lineNum">       9 </span>            :   /// Returns central location of a rectangular window determined by
+<span class="lineNum">      10 </span>            :   /// bounds.northeast and bounds.southwest.
+<span class="lineNum">      11 </span><span class="lineCov">          1 :   LatLng getBoundsCenterLocation (LatLngBounds bounds) {</span>
+<span class="lineNum">      12 </span><span class="lineCov">          1 :     return new LatLng(</span>
+<span class="lineNum">      13 </span><span class="lineCov">          6 :         (bounds.northeast.latitude + bounds.southwest.latitude) / 2,</span>
+<span class="lineNum">      14 </span><span class="lineCov">          6 :         (bounds.northeast.longitude + bounds.southwest.longitude) / 2</span>
+<span class="lineNum">      15 </span>            :     );
+<span class="lineNum">      16 </span>            :   }
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            :   /// Returns radius of a circle that covers a given rectangular zone.
+<span class="lineNum">      19 </span>            :   /// To avoid choosing a radius which would create a circle with a lot of
+<span class="lineNum">      20 </span>            :   /// off-screen space, this returns maximum value of two distances:
+<span class="lineNum">      21 </span>            :   /// * from screen middle to screen northern location;
+<span class="lineNum">      22 </span>            :   /// * from screen middle to screen eastern location.
+<span class="lineNum">      23 </span>            :   /// This allows the search zone to adapt to all screen resolutions.
+<span class="lineNum">      24 </span><span class="lineCov">          1 :   double getSearchRadius (LatLngBounds bounds) {</span>
+<span class="lineNum">      25 </span><span class="lineCov">          1 :     LatLng middle = getBoundsCenterLocation(bounds);</span>
+<span class="lineNum">      26 </span><span class="lineCov">          4 :     LatLng eastMarker = new LatLng(middle.latitude, bounds.northeast.longitude);</span>
+<span class="lineNum">      27 </span><span class="lineCov">          4 :     LatLng northMarker = new LatLng(bounds.northeast.latitude, middle.longitude);</span>
+<span class="lineNum">      28 </span>            : 
+<span class="lineNum">      29 </span><span class="lineCov">          1 :     final latlong.Distance distance = new latlong.Distance();</span>
+<span class="lineNum">      30 </span><span class="lineCov">          1 :     final double eastDistance = distance(</span>
+<span class="lineNum">      31 </span><span class="lineCov">          3 :         new latlong.LatLng(middle.latitude, middle.longitude),</span>
+<span class="lineNum">      32 </span><span class="lineCov">          3 :         new latlong.LatLng(eastMarker.latitude, eastMarker.longitude));</span>
+<span class="lineNum">      33 </span><span class="lineCov">          1 :     final double northDistance = distance (</span>
+<span class="lineNum">      34 </span><span class="lineCov">          3 :         new latlong.LatLng(middle.latitude, middle.longitude),</span>
+<span class="lineNum">      35 </span><span class="lineCov">          3 :         new latlong.LatLng(northMarker.latitude, northMarker.longitude)</span>
+<span class="lineNum">      36 </span>            :     );
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span><span class="lineCov">          2 :     return max (eastDistance, northDistance);</span>
+<span class="lineNum">      39 </span>            :   }
+<span class="lineNum">      40 </span>            : 
+<span class="lineNum">      41 </span>            :   /// Returns random coordinates [x, y] included in a circle.
+<span class="lineNum">      42 </span>            :   /// See https://stackoverflow.com/a/43202522/11243782 for more details.
+<span class="lineNum">      43 </span><span class="lineCov">          2 :   List&lt;double&gt; randomPointInDisk (double maxRadius) {</span>
+<span class="lineNum">      44 </span><span class="lineCov">          2 :     Random random = Random.secure();</span>
+<span class="lineNum">      45 </span><span class="lineCov">          6 :     double r = maxRadius * random.nextDouble() * 0.5;</span>
+<span class="lineNum">      46 </span><span class="lineCov">          6 :     double theta = random.nextDouble() * 2 * pi;</span>
+<span class="lineNum">      47 </span><span class="lineCov">          2 :     return [</span>
+<span class="lineNum">      48 </span><span class="lineCov">          4 :       r * cos(theta),</span>
+<span class="lineNum">      49 </span><span class="lineCov">          4 :       r * sin(theta)</span>
+<span class="lineNum">      50 </span>            :     ];
+<span class="lineNum">      51 </span>            :   }
+<span class="lineNum">      52 </span>            : 
+<span class="lineNum">      53 </span>            :   /// Generates a list of random points around a place.
+<span class="lineNum">      54 </span>            :   /// The count of generated points for a given place is directly correlated to
+<span class="lineNum">      55 </span>            :   /// its current popularity.
+<span class="lineNum">      56 </span><span class="lineCov">          2 :   List&lt;LatLng&gt; createRandomPoints (LatLng center, double radius, int popularity) {</span>
+<span class="lineNum">      57 </span><span class="lineCov">          2 :     List&lt;LatLng&gt; points = new List();</span>
+<span class="lineNum">      58 </span><span class="lineCov">          4 :     for (int i=0; i&lt;popularity; i++) {</span>
+<span class="lineNum">      59 </span><span class="lineCov">          2 :       List&lt;double&gt; randomCoordinates = randomPointInDisk(radius);</span>
+<span class="lineNum">      60 </span><span class="lineCov">          2 :       double dx = randomCoordinates.first;</span>
+<span class="lineNum">      61 </span><span class="lineCov">          2 :       double dy = randomCoordinates.last;</span>
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span><span class="lineCov">          2 :       points.add(</span>
+<span class="lineNum">      64 </span><span class="lineCov">          2 :           new LatLng(</span>
+<span class="lineNum">      65 </span><span class="lineCov">          8 :               center.latitude + dy / degree,</span>
+<span class="lineNum">      66 </span><span class="lineCov">          8 :               center.longitude + dx / degree));</span>
+<span class="lineNum">      67 </span>            :     }
+<span class="lineNum">      68 </span>            :     return points;
+<span class="lineNum">      69 </span>            :   }
+<span class="lineNum">      70 </span>            : 
+<span class="lineNum">      71 </span>            :   /// Generates a set of locations situated around a given place.
+<span class="lineNum">      72 </span>            :   /// The popularity of the place is reflected by:
+<span class="lineNum">      73 </span>            :   /// * the count of generated locations;
+<span class="lineNum">      74 </span>            :   /// * the radius of the circle which contains these locations.
+<span class="lineNum">      75 </span><span class="lineCov">          1 :   Map&lt;String, WeightedLatLng&gt; generatePopularityPoints (LatLng center, String placeId, int popularity, double zoomLevel) {</span>
+<span class="lineNum">      76 </span><span class="lineCov">          1 :     Map&lt;String, WeightedLatLng&gt; pointsCache = &lt;String, WeightedLatLng&gt;{};</span>
+<span class="lineNum">      77 </span>            : 
+<span class="lineNum">      78 </span>            :     // zoom level can vary from ~9.9 (at minimum zoom) to 21
+<span class="lineNum">      79 </span>            :     // zoom bias varies from 10 to 1
+<span class="lineNum">      80 </span>            :     // the smaller the zoom level, the bigger zones radiuses
+<span class="lineNum">      81 </span><span class="lineCov">          1 :     List&lt;double&gt; zoomBiasValues = [10, 9.25, 8.5, 7.75, 7, 6.25, 5.5, 4.75, 4, 3.25, 2.5, 1.75, 1];</span>
+<span class="lineNum">      82 </span><span class="lineCov">          2 :     int zoomIndex = zoomLevel.floor() - 9;</span>
+<span class="lineNum">      83 </span>            : 
+<span class="lineNum">      84 </span>            :     // restricting zoom index on big screen resolutions
+<span class="lineNum">      85 </span><span class="lineCov">          1 :     if (zoomIndex &lt; 9) zoomIndex = 0;</span>
+<span class="lineNum">      86 </span><span class="lineCov">          1 :     if (zoomIndex &gt; 21) zoomIndex = 12;</span>
+<span class="lineNum">      87 </span><span class="lineCov">          2 :     double radius = popularity * zoomBiasValues[zoomIndex];</span>
+<span class="lineNum">      88 </span>            : 
+<span class="lineNum">      89 </span><span class="lineCov">          1 :     List&lt;LatLng&gt; points = createRandomPoints(center, radius, popularity);</span>
+<span class="lineNum">      90 </span>            :     int index = 0;
+<span class="lineNum">      91 </span>            : 
+<span class="lineNum">      92 </span><span class="lineCov">          2 :     for (LatLng point in points) {</span>
+<span class="lineNum">      93 </span><span class="lineCov">          2 :       final String id = '$placeId${index++}';</span>
+<span class="lineNum">      94 </span><span class="lineCov">          2 :       pointsCache[id] = WeightedLatLng( point: point );</span>
+<span class="lineNum">      95 </span>            :     }
+<span class="lineNum">      96 </span>            : 
+<span class="lineNum">      97 </span>            :     return pointsCache;
+<span class="lineNum">      98 </span>            :   }
+<span class="lineNum">      99 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

@@ -24,5 +24,15 @@ void main() {
     expect(counter.loadedPlaces, 1);
   });
 
-  // TODO add a test to check if the counter returns true at a certain point
+  test("should return true when objective is reached", () {
+    final int target = 10;
+    counter = new PlacesCounter(placesCountTarget: target);
+
+    for (int i=0; i<target-1; i++) {
+      bool result = counter.addLoadedPlace();
+      expect(result, false);
+    }
+
+    expect(counter.addLoadedPlace(), true);
+  });
 }

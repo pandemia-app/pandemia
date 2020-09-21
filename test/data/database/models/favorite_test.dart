@@ -37,4 +37,9 @@ void main () {
       Favorite(id: "id", name: "n", address: "");
     }, throwsAssertionError);
   });
+
+  test("favorite is expanded by default", () {
+    Favorite f = Favorite(id: "id", address: "address", name: "name");
+    expect(f.isExpanded, true);
+  });
 }

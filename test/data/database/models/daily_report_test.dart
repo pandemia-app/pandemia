@@ -50,4 +50,11 @@ void main () {
     expect(map.containsKey('broadcastRate'), true);
     expect(map['broadcastRate'], 52);
   });
+
+  test("should convert object to string", () {
+    DailyReport report =
+      DailyReport(timestamp: 1524856985, broadcastRate: 52, expositionRate: 5);
+    String res = report.toString();
+    expect(res, "DailyReport[timestamp=1970-01-18T16:34:16.985, expositionRate=5, broadcastRate=52]");
+  });
 }

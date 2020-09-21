@@ -79,4 +79,22 @@ void main() {
     _model.storeReports(newReports);
     expect(_model.reports, newReports);
   });
+
+  test("should warn observers when changing tab index", () {
+    int callCounts = 0;
+    _model..addListener(() { callCounts += 1; });
+    expect(callCounts, 0);
+
+    _model.setTabIndex(2);
+    expect(callCounts, 1);
+  });
+
+  test("should warn observers when storing reports", () {
+    int callCounts = 0;
+    _model..addListener(() { callCounts += 1; });
+    expect(callCounts, 0);
+
+    _model.storeReports([]);
+    expect(callCounts, 1);
+  });
 }

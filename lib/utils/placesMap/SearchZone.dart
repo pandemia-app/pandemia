@@ -5,7 +5,10 @@ class CircularSearchZone {
   final LatLng center;
   final double radius;
 
-  CircularSearchZone({@required this.center, @required this.radius});
+  CircularSearchZone({
+    @required this.center, @required this.radius
+  }) : assert(center != null),
+       assert(radius != null);
 
   /// Checks if the viewport can be used.
   bool isValid () {

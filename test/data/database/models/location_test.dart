@@ -35,4 +35,15 @@ void main () {
       Location(id: 1, lat: 2, lng: 52, timestamp: -425689125);
     }, throwsAssertionError);
   });
+
+  test("should convert to Map", () {
+    Location l = Location(id: 1, lat: 2, lng: 3, timestamp: 5);
+    Map<String, dynamic> map = l.toMap();
+    expect(map.containsKey("lat"), true);
+    expect(map["lat"], 2);
+    expect(map.containsKey("lng"), true);
+    expect(map["lng"], 3);
+    expect(map.containsKey("date"), true);
+    expect(map["date"], 5);
+  });
 }

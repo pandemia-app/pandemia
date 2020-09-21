@@ -13,4 +13,28 @@ void main () {
       Favorite(id: "");
     }, throwsAssertionError);
   });
+
+  test("should not accept null name", () {
+    expect(() {
+      Favorite(id: "id", name: null, address: "a");
+    }, throwsAssertionError);
+  });
+
+  test("should not accept empty string as name", () {
+    expect(() {
+      Favorite(id: "id", name: "", address: "a");
+    }, throwsAssertionError);
+  });
+
+  test("should not accept null address", () {
+    expect(() {
+      Favorite(id: "id", name: "n", address: null);
+    }, throwsAssertionError);
+  });
+
+  test("should not accept empty string as address", () {
+    expect(() {
+      Favorite(id: "id", name: "n", address: "");
+    }, throwsAssertionError);
+  });
 }

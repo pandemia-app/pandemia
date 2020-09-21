@@ -42,4 +42,16 @@ void main () {
     Favorite f = Favorite(id: "id", address: "address", name: "name");
     expect(f.isExpanded, true);
   });
+
+  test("should convert object to map", () {
+    Favorite f = Favorite(id: "id", address: "address", name: "name");
+    Map<String, dynamic> map = f.toMap();
+
+    expect(map.containsKey("id"), true);
+    expect(map["id"], "id");
+    expect(map.containsKey("name"), true);
+    expect(map["name"], "name");
+    expect(map.containsKey("address"), true);
+    expect(map["address"], "address");
+  });
 }

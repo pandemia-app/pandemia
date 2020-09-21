@@ -5,8 +5,8 @@ import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
 
 void main() {
   ParserCache cache;
-  Favorite place = new Favorite(id: 'dddzzdzkDKDdkzpokzdz', name: 'Test place');
-  Favorite place1 = new Favorite(id: 'dzadgrhhyjgbfgerfg', name: 'Test place 1');
+  Favorite place = new Favorite(id: 'dddzzdzkDKDdkzpokzdz', name: 'Test place', address: "a");
+  Favorite place1 = new Favorite(id: 'dzadgrhhyjgbfgerfg', name: 'Test place 1', address: "a");
   setUp(() async {
     cache = new ParserCache();
   });
@@ -64,8 +64,8 @@ void main() {
   });
 
   test('should clean cache', () {
-    cache.storeStatsForPlace(Favorite(id: 'hello'), PopularTimes(currentPopularity: 12));
-    cache.storeStatsForPlace(Favorite(id: 'hola'), PopularTimes(currentPopularity: 24));
+    cache.storeStatsForPlace(Favorite(id: 'hello', address: "a", name: "n"), PopularTimes(currentPopularity: 12));
+    cache.storeStatsForPlace(Favorite(id: 'hola', address: "a", name: "n"), PopularTimes(currentPopularity: 24));
     expect(cache.statsCache.keys.length, 2);
 
     cache.clear();

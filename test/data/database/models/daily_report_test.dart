@@ -37,4 +37,17 @@ void main () {
       DailyReport(expositionRate: 45, broadcastRate: 42, timestamp: -5455286);
     }, throwsAssertionError);
   });
+
+  test("should convert object to map", () {
+    DailyReport report =
+        DailyReport(timestamp: 1524856985, broadcastRate: 52, expositionRate: 5);
+    Map<String, dynamic> map = report.toMap();
+
+    expect(map.containsKey('id'), true);
+    expect(map['id'], 1524856985);
+    expect(map.containsKey('expositionRate'), true);
+    expect(map['expositionRate'], 5);
+    expect(map.containsKey('broadcastRate'), true);
+    expect(map['broadcastRate'], 52);
+  });
 }

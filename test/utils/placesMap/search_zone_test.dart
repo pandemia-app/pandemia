@@ -29,4 +29,10 @@ void main() {
       _zone = CircularSearchZone(center: LatLng(55.17, 3.14), radius: null);
     }, throwsAssertionError);
   });
+
+  test("cannot be created with negative radius", () {
+    expect(() {
+      _zone = CircularSearchZone(center: LatLng(55.17, 3.14), radius: -5);
+    }, throwsAssertionError);
+  });
 }

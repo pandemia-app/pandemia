@@ -8,7 +8,8 @@ class CircularSearchZone {
   CircularSearchZone({
     @required this.center, @required this.radius
   }) : assert(center != null),
-       assert(radius != null);
+       assert(radius != null),
+       assert(radius >= 0);
 
   /// Checks if the viewport can be used.
   bool isValid () {

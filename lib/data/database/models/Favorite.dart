@@ -7,14 +7,12 @@ class Favorite {
   final String id;
   final String name;
   final String address;
-  final Map<int, int> attendance;
   bool isExpanded;
 
   Favorite ({
     @required this.id,
     this.name,
     this.address,
-    this.attendance,
     this.isExpanded = true
   }) :  assert(id != null),
         assert(id.length > 0);

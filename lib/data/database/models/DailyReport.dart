@@ -14,7 +14,9 @@ class DailyReport {
       assert(expositionRate != null),
       assert(expositionRate >= 0),
       assert(broadcastRate != null),
-      assert(broadcastRate >= 0);
+      assert(broadcastRate >= 0),
+      assert(timestamp != null),
+      assert(timestamp >= 0);
 
   Map<String, dynamic> toMap() {
     return {

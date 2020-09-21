@@ -29,4 +29,18 @@ void main () {
       DailyReport(expositionRate: 45, broadcastRate: -1, timestamp: 1);
     }, throwsAssertionError);
   });
+
+  test("should not accept null timestamp", () {
+    expect(() {
+      final DailyReport report =
+      DailyReport(expositionRate: 45, broadcastRate: 42, timestamp: null);
+    }, throwsAssertionError);
+  });
+
+  test("should not accept negative timestamp", () {
+    expect(() {
+      final DailyReport report =
+      DailyReport(expositionRate: 45, broadcastRate: 42, timestamp: -5455286);
+    }, throwsAssertionError);
+  });
 }

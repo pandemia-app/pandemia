@@ -36,4 +36,10 @@ void main() {
       _model.setTabIndex(null);
     }, throwsAssertionError);
   });
+
+  test("should not store null reports", () {
+    expect(() {
+      _model.storeReports(null);
+    }, throwsAssertionError);
+  });
 }

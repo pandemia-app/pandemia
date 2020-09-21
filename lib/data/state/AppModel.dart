@@ -21,6 +21,8 @@ class AppModel extends ChangeNotifier {
   }
 
   storeReports (List<DailyReport> reports) {
+    assert(reports != null);
+
     print('storing ${reports.length} reports in model');
     this.reports.clear();
     this.reports.addAll(reports);

@@ -13,6 +13,9 @@ class AppModel extends ChangeNotifier {
   static PopularTimesParser parser = new PopularTimesParser();
 
   setTabIndex (int index) {
+    assert(index != null);
+    assert(index >= 0 && index <= 2);
+
     this.tabIndex = index;
     notifyListeners();
   }

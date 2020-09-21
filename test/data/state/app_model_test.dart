@@ -30,4 +30,10 @@ void main() {
       _model.setTabIndex(-1);
     }, throwsAssertionError);
   });
+
+  test("should not set null tab index", () {
+    expect(() {
+      _model.setTabIndex(null);
+    }, throwsAssertionError);
+  });
 }

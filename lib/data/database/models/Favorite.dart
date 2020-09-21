@@ -10,7 +10,14 @@ class Favorite {
   final Map<int, int> attendance;
   bool isExpanded;
 
-  Favorite ({@required this.id, this.name, this.address, this.attendance, this.isExpanded = true});
+  Favorite ({
+    @required this.id,
+    this.name,
+    this.address,
+    this.attendance,
+    this.isExpanded = true
+  }) :  assert(id != null),
+        assert(id.length > 0);
 
   Map<String, dynamic> toMap() {
     return {

@@ -87,4 +87,9 @@ void main() {
     String expected = "PopularTimes[hasData=true, currentPopularity=42, stats={7: Instance of 'DayResult', 1: Instance of 'DayResult', 2: Instance of 'DayResult', 3: Instance of 'DayResult', 4: Instance of 'DayResult', 5: Instance of 'DayResult', 6: Instance of 'DayResult'}]";
     expect(_times.toString(), expected);
   });
+
+  test("should convert no-data payload to string", () {
+    _times = PopularTimes();
+    expect(_times.toString(), "PopularTimes[hasData=false]");
+  });
 }

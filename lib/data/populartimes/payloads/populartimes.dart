@@ -27,6 +27,10 @@ class PopularTimes {
 
   @override
   String toString() {
-    return "PopularTimes[hasData=$hasData, currentPopularity=$currentPopularity, stats=$stats]";
+    return
+      "PopularTimes[hasData=$hasData" +
+          (hasData ?
+            ", currentPopularity=$currentPopularity, stats=$stats]" :
+            "]");
   }
 }

@@ -105,4 +105,8 @@ void main() {
     expect(AppModel.apiKey is String, true);
     expect(AppModel.apiKey.length, 39);
   });
+
+  test("should have parser", () {
+    expect(AppModel.parser.toString(), "Instance of 'PopularTimesParser'");
+  });
 }

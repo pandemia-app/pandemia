@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-09-21 18:35:40</td>
+            <td class="headerValue">2020-09-25 12:50:41</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -92,7 +92,7 @@
 <span class="lineNum">      30 </span><span class="lineCov">          2 :       cache.storeStatsForPlace(place, stats);</span>
 <span class="lineNum">      31 </span>            :       return stats;
 <span class="lineNum">      32 </span>            :     } catch (err) {
-<span class="lineNum">      33 </span><span class="lineCov">          1 :       PopularTimes stats = new PopularTimes(hasData: false);</span>
+<span class="lineNum">      33 </span><span class="lineCov">          1 :       PopularTimes stats = new PopularTimes();</span>
 <span class="lineNum">      34 </span><span class="lineCov">          3 :       print(&quot;no popular times for ${place.name}&quot;);</span>
 <span class="lineNum">      35 </span><span class="lineCov">          2 :       cache.storeStatsForPlace(place, stats);</span>
 <span class="lineNum">      36 </span>            :       return stats;
@@ -157,12 +157,11 @@
 <span class="lineNum">      95 </span>            :     } catch (_) { }
 <span class="lineNum">      96 </span>            : 
 <span class="lineNum">      97 </span><span class="lineCov">          1 :     return PopularTimes(</span>
-<span class="lineNum">      98 </span>            :         hasData: true,
-<span class="lineNum">      99 </span>            :         currentPopularity: popularity,
-<span class="lineNum">     100 </span>            :         stats: results
-<span class="lineNum">     101 </span>            :     );
-<span class="lineNum">     102 </span>            :   }
-<span class="lineNum">     103 </span>            : }
+<span class="lineNum">      98 </span>            :         currentPopularity: popularity,
+<span class="lineNum">      99 </span>            :         stats: results
+<span class="lineNum">     100 </span>            :     );
+<span class="lineNum">     101 </span>            :   }
+<span class="lineNum">     102 </span>            : }
 </pre>
       </td>
     </tr>

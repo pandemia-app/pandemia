@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">1</td>
-            <td class="headerCovTableEntry">6</td>
-            <td class="headerCovTableEntryLo">16.7 %</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-09-21 18:35:40</td>
+            <td class="headerValue">2020-09-25 12:50:41</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -70,18 +70,32 @@
 <span class="lineNum">       8 </span>            :   Map&lt;int, DayResult&gt; stats;
 <span class="lineNum">       9 </span>            :   int currentPopularity;
 <span class="lineNum">      10 </span>            : 
-<span class="lineNum">      11 </span><span class="lineCov">          2 :   PopularTimes ({this.hasData, this.stats, this.currentPopularity});</span>
-<span class="lineNum">      12 </span>            : 
-<span class="lineNum">      13 </span><span class="lineNoCov">          0 :   List&lt;int&gt; getOrderedKeys() {</span>
-<span class="lineNum">      14 </span><span class="lineNoCov">          0 :     assert (stats.keys.length == 7);</span>
-<span class="lineNum">      15 </span><span class="lineNoCov">          0 :     return [1, 2, 3, 4, 5, 6, 7];</span>
+<span class="lineNum">      11 </span><span class="lineCov">          3 :   PopularTimes ({</span>
+<span class="lineNum">      12 </span>            :     this.stats,
+<span class="lineNum">      13 </span>            :     this.currentPopularity
+<span class="lineNum">      14 </span><span class="lineCov">          1 :   }) : assert(stats == null &amp;&amp; currentPopularity == null || stats != null &amp;&amp; currentPopularity != null) {</span>
+<span class="lineNum">      15 </span><span class="lineCov">          9 :     this.hasData = stats != null &amp;&amp; currentPopularity != null;</span>
 <span class="lineNum">      16 </span>            :   }
 <span class="lineNum">      17 </span>            : 
-<span class="lineNum">      18 </span><span class="lineNoCov">          0 :   @override</span>
-<span class="lineNum">      19 </span>            :   String toString() {
-<span class="lineNum">      20 </span><span class="lineNoCov">          0 :     return &quot;PopularTimes[hasData=$hasData, currentPopularity=$currentPopularity, stats=$stats]&quot;;</span>
-<span class="lineNum">      21 </span>            :   }
-<span class="lineNum">      22 </span>            : }
+<span class="lineNum">      18 </span><span class="lineCov">          1 :   List&lt;int&gt; getOrderedKeys() {</span>
+<span class="lineNum">      19 </span><span class="lineCov">          4 :     assert (stats.keys.length == 7);</span>
+<span class="lineNum">      20 </span><span class="lineCov">          1 :     List&lt;int&gt; orderedDays = [1, 2, 3, 4, 5, 6, 7];</span>
+<span class="lineNum">      21 </span><span class="lineCov">          3 :     for (int key in stats.keys) {</span>
+<span class="lineNum">      22 </span><span class="lineCov">          2 :       assert(orderedDays.contains(key));</span>
+<span class="lineNum">      23 </span>            :     }
+<span class="lineNum">      24 </span>            :     
+<span class="lineNum">      25 </span>            :     return orderedDays;
+<span class="lineNum">      26 </span>            :   }
+<span class="lineNum">      27 </span>            : 
+<span class="lineNum">      28 </span><span class="lineCov">          1 :   @override</span>
+<span class="lineNum">      29 </span>            :   String toString() {
+<span class="lineNum">      30 </span>            :     return
+<span class="lineNum">      31 </span><span class="lineCov">          2 :       &quot;PopularTimes[hasData=$hasData&quot; +</span>
+<span class="lineNum">      32 </span><span class="lineCov">          1 :           (hasData ?</span>
+<span class="lineNum">      33 </span><span class="lineCov">          3 :             &quot;, currentPopularity=$currentPopularity, stats=$stats]&quot; :</span>
+<span class="lineNum">      34 </span>            :             &quot;]&quot;);
+<span class="lineNum">      35 </span>            :   }
+<span class="lineNum">      36 </span>            : }
 </pre>
       </td>
     </tr>

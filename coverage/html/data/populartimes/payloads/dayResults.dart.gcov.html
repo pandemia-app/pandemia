@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">1</td>
-            <td class="headerCovTableEntry">1</td>
-            <td class="headerCovTableEntryHi">100.0 %</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryLo">66.7 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-09-21 18:35:40</td>
+            <td class="headerValue">2020-09-25 12:50:41</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -60,17 +60,30 @@
       <td>
 <pre class="sourceHeading">          Line data    Source code</pre>
 <pre class="source">
-<a name="1"><span class="lineNum">       1 </span>            : /// Simple container for popularity statistics.</a>
-<span class="lineNum">       2 </span>            : /// The &quot;times&quot; property contains hour &lt;=&gt; popularity associations:
-<span class="lineNum">       3 </span>            : /// e.g.: [15, 42] means that popularity equals 42% at 3pm.
-<span class="lineNum">       4 </span>            : /// On some days, places could be closed and thus not have statistics, hence the
-<span class="lineNum">       5 </span>            : /// &quot;containsData&quot; property.
-<span class="lineNum">       6 </span>            : class DayResult {
-<span class="lineNum">       7 </span>            :   List&lt;List&lt;int&gt;&gt; times;
-<span class="lineNum">       8 </span>            :   bool containsData;
-<span class="lineNum">       9 </span>            : 
-<span class="lineNum">      10 </span><span class="lineCov">          1 :   DayResult({this.times, this.containsData});</span>
-<span class="lineNum">      11 </span>            : }
+<a name="1"><span class="lineNum">       1 </span>            : import 'package:flutter/cupertino.dart';</a>
+<span class="lineNum">       2 </span>            : 
+<span class="lineNum">       3 </span>            : /// Simple container for popularity statistics.
+<span class="lineNum">       4 </span>            : /// The &quot;times&quot; property contains hour &lt;=&gt; popularity associations:
+<span class="lineNum">       5 </span>            : /// e.g.: [15, 42] means that popularity equals 42% at 3pm.
+<span class="lineNum">       6 </span>            : /// On some days, places could be closed and thus not have statistics, hence the
+<span class="lineNum">       7 </span>            : /// &quot;containsData&quot; property.
+<span class="lineNum">       8 </span>            : class DayResult {
+<span class="lineNum">       9 </span>            :   List&lt;List&lt;int&gt;&gt; times;
+<span class="lineNum">      10 </span>            :   bool containsData;
+<span class="lineNum">      11 </span>            : 
+<span class="lineNum">      12 </span><span class="lineCov">          3 :   DayResult({</span>
+<span class="lineNum">      13 </span>            :     @required this.times,
+<span class="lineNum">      14 </span>            :     @required this.containsData
+<span class="lineNum">      15 </span><span class="lineNoCov">          0 :   }) : assert (containsData != null),</span>
+<span class="lineNum">      16 </span><span class="lineNoCov">          0 :        assert (times != null)</span>
+<span class="lineNum">      17 </span>            :   {
+<span class="lineNum">      18 </span><span class="lineCov">          3 :     if (!this.containsData) {</span>
+<span class="lineNum">      19 </span><span class="lineCov">          4 :       for (List&lt;int&gt; time in times) {</span>
+<span class="lineNum">      20 </span><span class="lineCov">          5 :         assert(time[1] == 0);</span>
+<span class="lineNum">      21 </span>            :       }
+<span class="lineNum">      22 </span>            :     }
+<span class="lineNum">      23 </span>            :   }
+<span class="lineNum">      24 </span>            : }
 </pre>
       </td>
     </tr>

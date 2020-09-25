@@ -45,4 +45,13 @@ void main() {
     _zone = CircularSearchZone(center: LatLng(56.64, 5.48), radius: 0);
     expect(_zone.isValid(), false);
   });
+
+  test("should convert to string", () {
+    _zone = CircularSearchZone(
+        center: LatLng(55, 3),
+        radius: 5
+    );
+    expect(_zone.toString(),
+        "CircularSearchZone(center: LatLng(55.0, 3.0), radius: 5.0)");
+  });
 }

@@ -9,4 +9,22 @@ void main() {
     expect(_result.placeId, "placeid");
     expect(_result.location, LatLng(1, 2));
   });
+
+  test("should not instantiate with null placeId", () {
+    expect(() {
+      _result = PlacesAPIResult(placeId: null, location: LatLng(1, 2));
+    }, throwsAssertionError);
+  });
+
+  test("should not instantiate with empty string as placeId", () {
+    expect(() {
+      _result = PlacesAPIResult(placeId: "", location: LatLng(1, 2));
+    }, throwsAssertionError);
+  });
+
+  test("should not instantiate with null location", () {
+    expect(() {
+      _result = PlacesAPIResult(placeId: "placeId", location: null);
+    }, throwsAssertionError);
+  });
 }

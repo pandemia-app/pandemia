@@ -10,7 +10,9 @@ class PlacesAPIResult {
   PlacesAPIResult ({
     @required this.placeId,
     @required this.location,
-    this.name, this.address });
+    this.name, this.address
+  }) : assert (placeId != null && placeId.length > 0),
+       assert (location != null);
 
   factory PlacesAPIResult.fromJSON (dynamic json) {
     return PlacesAPIResult(

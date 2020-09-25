@@ -35,22 +35,22 @@ void main() {
 
   test("should have data for the whole week", () {
     _times = PopularTimes(currentPopularity: 42, stats: {
-      7: DayResult(),
-      1: DayResult(),
-      2: DayResult(),
-      3: DayResult(),
-      4: DayResult(),
-      5: DayResult(),
-      6: DayResult()
+      7: DayResult(containsData: true, times: []),
+      1: DayResult(containsData: true, times: []),
+      2: DayResult(containsData: true, times: []),
+      3: DayResult(containsData: true, times: []),
+      4: DayResult(containsData: true, times: []),
+      5: DayResult(containsData: true, times: []),
+      6: DayResult(containsData: true, times: [])
     });
     expect(_times.getOrderedKeys(), [1,2,3,4,5,6,7]);
   });
 
   test("should throw when not having full week data", () {
     _times = PopularTimes(currentPopularity: 42, stats: {
-      7: DayResult(),
-      1: DayResult(),
-      2: DayResult(),
+      7: DayResult(containsData: true, times: []),
+      1: DayResult(containsData: true, times: []),
+      2: DayResult(containsData: true, times: []),
     });
 
     expect(() {
@@ -60,13 +60,13 @@ void main() {
 
   test("should throw when containing incorrect data keys", () {
     _times = PopularTimes(currentPopularity: 42, stats: {
-      8: DayResult(),
-      9: DayResult(),
-      20: DayResult(),
-      30: DayResult(),
-      40: DayResult(),
-      50: DayResult(),
-      60: DayResult()
+      8: DayResult(containsData: true, times: []),
+      9: DayResult(containsData: true, times: []),
+      20: DayResult(containsData: true, times: []),
+      30: DayResult(containsData: true, times: []),
+      40: DayResult(containsData: true, times: []),
+      50: DayResult(containsData: true, times: []),
+      60: DayResult(containsData: true, times: [])
     });
     expect(() {
       _times.getOrderedKeys();
@@ -75,13 +75,13 @@ void main() {
 
   test("should convert to string", () {
     _times = PopularTimes(currentPopularity: 42, stats: {
-      7: DayResult(),
-      1: DayResult(),
-      2: DayResult(),
-      3: DayResult(),
-      4: DayResult(),
-      5: DayResult(),
-      6: DayResult()
+      7: DayResult(containsData: true, times: []),
+      1: DayResult(containsData: true, times: []),
+      2: DayResult(containsData: true, times: []),
+      3: DayResult(containsData: true, times: []),
+      4: DayResult(containsData: true, times: []),
+      5: DayResult(containsData: true, times: []),
+      6: DayResult(containsData: true, times: [])
     });
 
     String expected = "PopularTimes[hasData=true, currentPopularity=42, stats={7: Instance of 'DayResult', 1: Instance of 'DayResult', 2: Instance of 'DayResult', 3: Instance of 'DayResult', 4: Instance of 'DayResult', 5: Instance of 'DayResult', 6: Instance of 'DayResult'}]";

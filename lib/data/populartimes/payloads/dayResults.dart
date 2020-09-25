@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 /// Simple container for popularity statistics.
 /// The "times" property contains hour <=> popularity associations:
 /// e.g.: [15, 42] means that popularity equals 42% at 3pm.
@@ -7,7 +9,12 @@ class DayResult {
   List<List<int>> times;
   bool containsData;
 
-  DayResult({this.times, this.containsData}) {
+  DayResult({
+    @required this.times,
+    @required this.containsData
+  }) : assert (containsData != null),
+       assert (times != null)
+  {
     if (!this.containsData) {
       for (List<int> time in times) {
         assert(time[1] == 0);

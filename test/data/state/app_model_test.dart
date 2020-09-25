@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
@@ -96,5 +97,12 @@ void main() {
 
     _model.storeReports([]);
     expect(callCounts, 1);
+  });
+
+  test("should have API key", () async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await DotEnv().load("lib/.env.generated");
+    expect(AppModel.apiKey is String, true);
+    expect(AppModel.apiKey.length, 39);
   });
 }

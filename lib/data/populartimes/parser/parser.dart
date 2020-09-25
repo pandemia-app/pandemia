@@ -30,7 +30,7 @@ class PopularTimesParser {
       cache.storeStatsForPlace(place, stats);
       return stats;
     } catch (err) {
-      PopularTimes stats = new PopularTimes(hasData: false);
+      PopularTimes stats = new PopularTimes();
       print("no popular times for ${place.name}");
       cache.storeStatsForPlace(place, stats);
       return stats;
@@ -95,7 +95,6 @@ class PopularTimesParser {
     } catch (_) { }
 
     return PopularTimes(
-        hasData: true,
         currentPopularity: popularity,
         stats: results
     );

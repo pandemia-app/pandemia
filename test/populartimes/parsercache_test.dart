@@ -24,7 +24,7 @@ void main() {
   test('should properly store stats', () {
     expect(cache.hasStatsForPlace(place), false);
 
-    PopularTimes stats = PopularTimes(currentPopularity: 42, hasData: false);
+    PopularTimes stats = PopularTimes(stats: Map(), currentPopularity: 42);
     cache.storeStatsForPlace(place, stats);
 
     expect(cache.statsCache.keys.length, 1);
@@ -39,8 +39,8 @@ void main() {
     expect(cache.hasStatsForPlace(place1), false);
 
     PopularTimes
-        stats = PopularTimes(currentPopularity: 42, hasData: false),
-        stats1 = PopularTimes(currentPopularity: 54, hasData: false);
+        stats = PopularTimes(stats: Map(), currentPopularity: 42),
+        stats1 = PopularTimes(stats: Map(), currentPopularity: 54);
     cache.storeStatsForPlace(place, stats);
     cache.storeStatsForPlace(place1, stats1);
 
@@ -55,9 +55,9 @@ void main() {
   test('should overwrite stats', () {
     expect(cache.hasStatsForPlace(place), false);
 
-    PopularTimes stats = PopularTimes(currentPopularity: 42, hasData: false);
+    PopularTimes stats = PopularTimes(stats: Map(), currentPopularity: 42);
     cache.storeStatsForPlace(place, stats);
-    cache.storeStatsForPlace(place, PopularTimes(currentPopularity: 44, hasData: false));
+    cache.storeStatsForPlace(place, PopularTimes(stats: Map(), currentPopularity: 44));
 
     expect(cache.hasStatsForPlace(place), true);
     expect(cache.getStatsFromPlace(place).currentPopularity, 44);
@@ -65,9 +65,9 @@ void main() {
 
   test('should clean cache', () {
     cache.storeStatsForPlace(Favorite(id: 'hello', address: "a", name: "n"),
-        PopularTimes(hasData: true, currentPopularity: 12));
+        PopularTimes(stats: Map(), currentPopularity: 12));
     cache.storeStatsForPlace(Favorite(id: 'hola', address: "a", name: "n"),
-        PopularTimes(hasData: true, currentPopularity: 24));
+        PopularTimes(stats: Map(), currentPopularity: 24));
     expect(cache.statsCache.keys.length, 2);
 
     cache.clear();

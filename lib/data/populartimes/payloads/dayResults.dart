@@ -13,7 +13,7 @@ class DayResult {
     @required this.times,
     @required this.containsData
   }) : assert (containsData != null),
-       assert (times != null)
+       assert (times != null && times.length > 0)
   {
     if (!this.containsData) {
       for (List<int> time in times) {

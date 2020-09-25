@@ -7,5 +7,11 @@ class DayResult {
   List<List<int>> times;
   bool containsData;
 
-  DayResult({this.times, this.containsData});
+  DayResult({this.times, this.containsData}) {
+    if (!this.containsData) {
+      for (List<int> time in times) {
+        assert(time[1] == 0);
+      }
+    }
+  }
 }

@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">4</td>
             <td class="headerCovTableEntry">6</td>
-            <td class="headerCovTableEntryLo">66.7 %</td>
+            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-09-25 12:50:41</td>
+            <td class="headerValue">2020-09-25 16:15:27</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -74,8 +74,8 @@
 <span class="lineNum">      12 </span><span class="lineCov">          3 :   DayResult({</span>
 <span class="lineNum">      13 </span>            :     @required this.times,
 <span class="lineNum">      14 </span>            :     @required this.containsData
-<span class="lineNum">      15 </span><span class="lineNoCov">          0 :   }) : assert (containsData != null),</span>
-<span class="lineNum">      16 </span><span class="lineNoCov">          0 :        assert (times != null)</span>
+<span class="lineNum">      15 </span><span class="lineCov">          1 :   }) : assert (containsData != null),</span>
+<span class="lineNum">      16 </span><span class="lineCov">          7 :        assert (times != null &amp;&amp; times.length &gt; 0)</span>
 <span class="lineNum">      17 </span>            :   {
 <span class="lineNum">      18 </span><span class="lineCov">          3 :     if (!this.containsData) {</span>
 <span class="lineNum">      19 </span><span class="lineCov">          4 :       for (List&lt;int&gt; time in times) {</span>

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2020-09-25 12:50:41</td>
+            <td class="headerValue">2020-09-25 16:15:27</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -72,20 +72,20 @@
 <span class="lineNum">      10 </span>            :   /// Checks if the cache contains data that is fresh enough.
 <span class="lineNum">      11 </span><span class="lineCov">          2 :   bool hasStatsForPlace (Favorite place) {</span>
 <span class="lineNum">      12 </span><span class="lineCov">          6 :     if (!statsCache.containsKey(place.id)) return false;</span>
-<span class="lineNum">      13 </span><span class="lineCov">          1 :     if (isDataOutdated(place)) return false;</span>
-<span class="lineNum">      14 </span><span class="lineCov">          3 :     return statsCache.containsKey(place.id);</span>
+<span class="lineNum">      13 </span><span class="lineCov">          2 :     if (isDataOutdated(place)) return false;</span>
+<span class="lineNum">      14 </span><span class="lineCov">          6 :     return statsCache.containsKey(place.id);</span>
 <span class="lineNum">      15 </span>            :   }
 <span class="lineNum">      16 </span>            : 
 <span class="lineNum">      17 </span>            :   /// Data is considered &quot;outdated&quot; if 300-or-more-seconds old
-<span class="lineNum">      18 </span><span class="lineCov">          1 :   bool isDataOutdated (Favorite place) {</span>
-<span class="lineNum">      19 </span><span class="lineCov">          1 :     var now = DateTime.now();</span>
-<span class="lineNum">      20 </span><span class="lineCov">          3 :     var statsTime = timesCache[place.id];</span>
-<span class="lineNum">      21 </span><span class="lineCov">          1 :     var timeDelta = now.difference(statsTime);</span>
-<span class="lineNum">      22 </span><span class="lineCov">          2 :     return timeDelta.inSeconds &gt; 300;</span>
+<span class="lineNum">      18 </span><span class="lineCov">          2 :   bool isDataOutdated (Favorite place) {</span>
+<span class="lineNum">      19 </span><span class="lineCov">          2 :     var now = DateTime.now();</span>
+<span class="lineNum">      20 </span><span class="lineCov">          6 :     var statsTime = timesCache[place.id];</span>
+<span class="lineNum">      21 </span><span class="lineCov">          2 :     var timeDelta = now.difference(statsTime);</span>
+<span class="lineNum">      22 </span><span class="lineCov">          4 :     return timeDelta.inSeconds &gt; 300;</span>
 <span class="lineNum">      23 </span>            :   }
 <span class="lineNum">      24 </span>            : 
-<span class="lineNum">      25 </span><span class="lineCov">          1 :   PopularTimes getStatsFromPlace (Favorite place) {</span>
-<span class="lineNum">      26 </span><span class="lineCov">          3 :     return statsCache[place.id];</span>
+<span class="lineNum">      25 </span><span class="lineCov">          2 :   PopularTimes getStatsFromPlace (Favorite place) {</span>
+<span class="lineNum">      26 </span><span class="lineCov">          6 :     return statsCache[place.id];</span>
 <span class="lineNum">      27 </span>            :   }
 <span class="lineNum">      28 </span>            : 
 <span class="lineNum">      29 </span>            :   /// Stores data for a given place. Also saves storage time.
@@ -94,10 +94,10 @@
 <span class="lineNum">      32 </span><span class="lineCov">          8 :     timesCache[place.id] = DateTime.now();</span>
 <span class="lineNum">      33 </span>            :   }
 <span class="lineNum">      34 </span>            : 
-<span class="lineNum">      35 </span><span class="lineCov">          1 :   void clear () {</span>
-<span class="lineNum">      36 </span><span class="lineCov">          1 :     print('clearing parser cache');</span>
-<span class="lineNum">      37 </span><span class="lineCov">          2 :     statsCache.clear();</span>
-<span class="lineNum">      38 </span><span class="lineCov">          2 :     timesCache.clear();</span>
+<span class="lineNum">      35 </span><span class="lineCov">          2 :   void clear () {</span>
+<span class="lineNum">      36 </span><span class="lineCov">          2 :     print('clearing parser cache');</span>
+<span class="lineNum">      37 </span><span class="lineCov">          4 :     statsCache.clear();</span>
+<span class="lineNum">      38 </span><span class="lineCov">          4 :     timesCache.clear();</span>
 <span class="lineNum">      39 </span>            :   }
 <span class="lineNum">      40 </span>            : }
 </pre>

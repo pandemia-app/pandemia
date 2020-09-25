@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
 
@@ -83,7 +84,7 @@ void main () {
       placeId: "id",
       name: "name",
       address: "address",
-      location: null
+      location: LatLng(42, 42)
     );
 
     Favorite f = Favorite.fromPlacesAPIResult(result);

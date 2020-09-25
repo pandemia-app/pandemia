@@ -17,7 +17,12 @@ class PopularTimes {
 
   List<int> getOrderedKeys() {
     assert (stats.keys.length == 7);
-    return [1, 2, 3, 4, 5, 6, 7];
+    List<int> orderedDays = [1, 2, 3, 4, 5, 6, 7];
+    for (int key in stats.keys) {
+      assert(orderedDays.contains(key));
+    }
+    
+    return orderedDays;
   }
 
   @override

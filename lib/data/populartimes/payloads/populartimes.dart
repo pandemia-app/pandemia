@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:pandemia/data/populartimes/payloads/dayResults.dart';
 
 /// Container for the popularity statistics data.
@@ -8,7 +9,11 @@ class PopularTimes {
   Map<int, DayResult> stats;
   int currentPopularity;
 
-  PopularTimes ({this.hasData, this.stats, this.currentPopularity});
+  PopularTimes ({
+    @required this.hasData,
+    this.stats,
+    this.currentPopularity
+  }) : assert(hasData != null);
 
   List<int> getOrderedKeys() {
     assert (stats.keys.length == 7);

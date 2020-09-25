@@ -64,8 +64,10 @@ void main() {
   });
 
   test('should clean cache', () {
-    cache.storeStatsForPlace(Favorite(id: 'hello', address: "a", name: "n"), PopularTimes(currentPopularity: 12));
-    cache.storeStatsForPlace(Favorite(id: 'hola', address: "a", name: "n"), PopularTimes(currentPopularity: 24));
+    cache.storeStatsForPlace(Favorite(id: 'hello', address: "a", name: "n"),
+        PopularTimes(hasData: true, currentPopularity: 12));
+    cache.storeStatsForPlace(Favorite(id: 'hola', address: "a", name: "n"),
+        PopularTimes(hasData: true, currentPopularity: 24));
     expect(cache.statsCache.keys.length, 2);
 
     cache.clear();

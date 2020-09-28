@@ -161,6 +161,9 @@ class AppDatabase {
   }
 
   Future<List<Location>> getLocations() async {
+    if (this.database == null)
+      await open();
+
     final List<Map<String, dynamic>> maps = await this.database.query(lName);
     return List.generate(maps.length, (i) {
       return Location(

@@ -9,15 +9,21 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 
 /// Map card showing places the user visited today.
-class VisitedPlacesCard extends StatelessWidget {
+class VisitedPlacesCard extends StatefulWidget {
   static String _mapStyle;
-  final LatLng _center = const LatLng(50.6311652, 3.0477402);
+  static final LatLng _center = const LatLng(50.6311652, 3.0477402);
+
   VisitedPlacesCard() {
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
     });
   }
 
+  @override
+  State<VisitedPlacesCard> createState() => _VisitedPlacesCardState();
+}
+
+class _VisitedPlacesCardState extends State<VisitedPlacesCard> {
   @override
   Widget build(BuildContext context) {
     return Consumer<AppModel> (
@@ -104,7 +110,7 @@ class VisitedPlacesCard extends StatelessWidget {
     if (!snapshot.hasData || snapshot.data.length == 0) {
       return GoogleMap(
         initialCameraPosition: CameraPosition(
-          target: _center,
+          target: VisitedPlacesCard._center,
           zoom: 13.75,
         ),
         myLocationButtonEnabled: false,
@@ -119,7 +125,7 @@ class VisitedPlacesCard extends StatelessWidget {
         tiltGesturesEnabled: false,
         zoomGesturesEnabled: false,
         onMapCreated: (GoogleMapController c) {
-          c.setMapStyle(_mapStyle);
+          c.setMapStyle(VisitedPlacesCard._mapStyle);
         },
       );
     }
@@ -150,7 +156,7 @@ class VisitedPlacesCard extends StatelessWidget {
       tiltGesturesEnabled: false,
       zoomGesturesEnabled: false,
       onMapCreated: (GoogleMapController c) {
-        c.setMapStyle(_mapStyle);
+        c.setMapStyle(VisitedPlacesCard._mapStyle);
       },
     );
   }

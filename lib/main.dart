@@ -1,18 +1,22 @@
+import 'dart:async';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:pandemia/data/database/database.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:pandemia/navigator.dart';
+import 'package:pandemia/data/state/MapModel.dart';
 import 'package:pandemia/utils/geolocation/Geolocator.dart';
+import 'package:pandemia/views/home/navigator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'data/state/AppModel.dart';
-
-final AppDatabase db = new AppDatabase();
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   await DotEnv().load('lib/.env.generated');
+  await Firebase.initializeApp();
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   // checking location permission + status before launching location gathering
   Permission.locationAlways.status.then((permissionStatus) {
@@ -25,12 +29,17 @@ void main() async {
     }
   });
 
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => AppModel(),
-      child: MyApp(),
-    ),
-  );
+  runZoned<Future<void>>(() async {
+    runApp(
+      MultiProvider (
+        providers: [
+          ChangeNotifierProvider(create: (context) => AppModel()),
+          ChangeNotifierProvider(create: (context) => MapModel())
+        ],
+        child: MyApp(),
+      )
+    );
+  }, onError: FirebaseCrashlytics.instance.recordError);
 }
 
 class MyApp extends StatelessWidget {

@@ -2,7 +2,8 @@ import 'dart:isolate';
 import 'dart:ui';
 import 'package:background_locator/background_locator.dart';
 import 'package:background_locator/location_dto.dart';
-import 'package:background_locator/location_settings.dart';
+import 'package:background_locator/settings/android_settings.dart';
+import 'package:background_locator/settings/ios_settings.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
 
@@ -15,14 +16,18 @@ class Geolocator {
     init().then((value) {
       BackgroundLocator.registerLocationUpdate(
         Geolocator.callback,
-        settings: LocationSettings(
-          notificationTitle: "Registering locations",
-          notificationIcon: 'ic_virus_outline_black',
-          notificationMsg: "Tap to check your virus exposition.",
-          autoStop: false,
+        androidSettings: AndroidSettings (
+          androidNotificationSettings: AndroidNotificationSettings(
+            notificationTitle: "Registering locations",
+            notificationMsg: "Tap to check your virus exposition.",
+            notificationIcon: "ic_virus_outline_black"
+          ),
           wakeLockTime: 20,
           interval: 60,
         ),
+        iosSettings: IOSSettings (
+          showsBackgroundLocationIndicator: true
+        )
       );
     });
   }

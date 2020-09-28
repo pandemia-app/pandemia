@@ -1,3 +1,5 @@
+import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
+
 /// This entity allows the user to store favorite places.
 /// It is used to display popularity stats.
 class Favorite {
@@ -24,5 +26,13 @@ class Favorite {
 
   String getIdentifier() {
     return '$name $address';
+  }
+
+  factory Favorite.fromPlacesAPIResult(PlacesAPIResult result) {
+    return Favorite(
+      name: result.name,
+      address: result.address,
+      id: result.placeId
+    );
   }
 }

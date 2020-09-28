@@ -22,43 +22,42 @@ class PopularityChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container (
-      width: 30,
-      height: 30,
-      child: Stack (
-        children: <Widget>[
-          Container (
-            width: 30,
-            height: 30,
-            transform: Matrix4.translationValues(7, 0, 0),
-            child: Text("$rate%", style: TextStyle(fontSize: 14, color: CustomPalette.text[400])),
-          ),
-
-          Container (
-            width: 30,
-            height: 40,
-            transform: Matrix4.translationValues(-10, 0, 0),
-            child: charts.PieChart(
-                seriesList,
-                animate: animate,
-                defaultRenderer: new charts.ArcRendererConfig(
-                    arcWidth: 2, startAngle: pi, arcLength: 2*pi)),
-          ),
-        ],
-      ),
+      child: Column (
+          children: <Widget>[
+            Container (
+              transform: Matrix4.translationValues(0, 10, 0),
+              child: Text("$rate%", style: TextStyle(fontSize: 12, color: CustomPalette.text[400],)),
+            ),
+            Container (
+              width: 40,
+              height: 40,
+              transform: Matrix4.translationValues(-10, -5, 0),
+              child: charts.PieChart(
+                  seriesList,
+                  animate: animate,
+                  defaultRenderer: new charts.ArcRendererConfig(
+                      arcWidth: 2, startAngle: pi, arcLength: 2*pi)),
+            )
+          ]),
     );
   }
 
   static List<charts.Series<GaugeSegment, String>> _createData(int rate) {
-    final data = [
-      new GaugeSegment('Popularity', rate),
-      new GaugeSegment('Space', 100 - rate),
-    ];
+    var value = rate > 100 ? 100 : rate;
+    final data =
+      value == 100 ?
+      [new GaugeSegment('Popularity', value, charts.MaterialPalette.red.shadeDefault)] :
+      [
+        new GaugeSegment('Popularity', value, charts.MaterialPalette.blue.shadeDefault),
+        new GaugeSegment('Space', 100 - value, charts.MaterialPalette.blue.makeShades(5)[3]),
+      ];
 
     return [
       new charts.Series<GaugeSegment, String>(
         id: 'Segments',
         domainFn: (GaugeSegment segment, _) => segment.segment,
         measureFn: (GaugeSegment segment, _) => segment.size,
+        colorFn: (GaugeSegment segment, _) => segment.color,
         data: data,
       )
     ];
@@ -69,6 +68,7 @@ class PopularityChart extends StatelessWidget {
 class GaugeSegment {
   final String segment;
   final int size;
+  final charts.Color color;
 
-  GaugeSegment(this.segment, this.size);
+  GaugeSegment(this.segment, this.size, this.color);
 }

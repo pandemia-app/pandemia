@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>790618610786-r8v26e7crjjr9i8psij9vprhhdq0mget.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.790618610786-r8v26e7crjjr9i8psij9vprhhdq0mget</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB00wmLb7WSwdPoPWLlfijNV5YWXDg53gE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>790618610786</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>fr.inria.pandemia</string>
+	<key>PROJECT_ID</key>
+	<string>pandemia-c8196</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pandemia-c8196.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:790618610786:ios:624bd6d1df1c6979fdc53b</string>
+	<key>DATABASE_URL</key>
+	<string>https://pandemia-c8196.firebaseio.com</string>
+</dict>
+</plist>

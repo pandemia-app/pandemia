@@ -1,6 +1,7 @@
 import UIKit
 import Flutter
 import GoogleMaps
+import Firebase
 import background_locator
 
 func registerPlugins(registry: FlutterPluginRegistry) -> () {
@@ -15,6 +16,7 @@ func registerPlugins(registry: FlutterPluginRegistry) -> () {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+    FirebaseApp.configure()
     GMSServices.provideAPIKey("AIzaSyAX8bDIMgseRdGxcv5XNGeU8n9mhwLWMVk")
     GeneratedPluginRegistrant.register(with: self)
     BackgroundLocatorPlugin.setPluginRegistrantCallback(registerPlugins)

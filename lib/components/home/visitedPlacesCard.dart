@@ -101,11 +101,43 @@ class VisitedPlacesCard extends StatelessWidget {
   }
 
   GoogleMap _buildMap (AsyncSnapshot<List<Location>> snapshot) {
+    if (!snapshot.hasData || snapshot.data.length == 0) {
+      return GoogleMap(
+        initialCameraPosition: CameraPosition(
+          target: _center,
+          zoom: 13.75,
+        ),
+        myLocationButtonEnabled: false,
+        buildingsEnabled: false,
+        compassEnabled: false,
+        indoorViewEnabled: false,
+        mapToolbarEnabled: false,
+        myLocationEnabled: false,
+        trafficEnabled: false,
+        rotateGesturesEnabled: false,
+        scrollGesturesEnabled: false,
+        tiltGesturesEnabled: false,
+        zoomGesturesEnabled: false,
+        onMapCreated: (GoogleMapController c) {
+          c.setMapStyle(_mapStyle);
+        },
+      );
+    }
+
+    List<WeightedLatLng> points =
+      snapshot.data.map((e) => WeightedLatLng(point: e.toLatLng())).toList();
+
     return GoogleMap(
       initialCameraPosition: CameraPosition(
-        target: _center,
+        target: points[0].point,
         zoom: 13.75,
       ),
+      heatmaps: [
+        Heatmap (
+          points: points,
+          heatmapId: HeatmapId(DateTime.now().toIso8601String())
+        )
+      ].toSet(),
       myLocationButtonEnabled: false,
       buildingsEnabled: false,
       compassEnabled: false,

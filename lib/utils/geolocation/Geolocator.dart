@@ -19,6 +19,7 @@ class Geolocator {
         autoStop: false,
         androidSettings: AndroidSettings (
           androidNotificationSettings: AndroidNotificationSettings(
+            notificationChannelName: 'Pandemia location tracking',
             notificationTitle: "Registering locations",
             notificationBigMsg: "Tap to check your virus exposition.",
             notificationIcon: "ic_virus_outline_black",

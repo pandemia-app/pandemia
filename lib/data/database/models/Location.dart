@@ -1,3 +1,5 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 /// Locations gathered by the user's smartphone.
 class Location {
   final int id;
@@ -20,5 +22,7 @@ class Location {
     return '{lat: $lat, lng: $lng, date: $timestamp}';
   }
 
-
+  LatLng toLatLng() {
+    return LatLng(lat, lng);
+  }
 }

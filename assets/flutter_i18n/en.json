@@ -31,6 +31,7 @@
   "home_ratemsg_stayhome": "I certainly have been exposed today, I must stay home",
 
   "word_place": "place",
+  "word_location": "location",
 
   "places_searchbar_label": "Search place...",
   "places_place_added_toast":  "Place added to favorites.",

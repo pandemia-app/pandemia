@@ -31,6 +31,7 @@
   "home_ratemsg_stayhome": "J'ai été exposé à coup sûr aujourd'hui, je dois rester chez moi",
 
   "word_place": "endroit",
+  "word_location": "position",
 
   "places_searchbar_label": "Rechercher un endroit...",
   "places_place_added_toast":  "Endroit ajouté aux favoris.",

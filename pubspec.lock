@@ -144,13 +144,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_plugin_android_lifecycle:
-    dependency: transitive
-    description:
-      name: flutter_plugin_android_lifecycle
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.11"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -171,19 +164,12 @@ packages:
   google_maps_flutter:
     dependency: "direct main"
     description:
-      path: "packages/google_maps_flutter/google_maps_flutter"
+      path: "packages/google_maps_flutter"
       ref: implement_google_maps_flutter_heatmap
-      resolved-ref: "00ba13ed61ecbd8dd59cac495405b7271611684d"
+      resolved-ref: "7e3bffa70073e3de1281b2591d94924d836c3554"
       url: "git://github.com/arok/plugins.git"
     source: git
-    version: "0.5.28+2"
-  google_maps_flutter_platform_interface:
-    dependency: transitive
-    description:
-      name: google_maps_flutter_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
+    version: "0.5.21+16"
   html:
     dependency: "direct main"
     description:
@@ -399,13 +385,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
-  stream_transform:
-    dependency: transitive
-    description:
-      name: stream_transform
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.0"
   string_scanner:
     dependency: transitive
     description:

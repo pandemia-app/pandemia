@@ -16,11 +16,12 @@ class Geolocator {
     init().then((value) {
       BackgroundLocator.registerLocationUpdate(
         Geolocator.callback,
+        autoStop: false,
         androidSettings: AndroidSettings (
           androidNotificationSettings: AndroidNotificationSettings(
             notificationTitle: "Registering locations",
-            notificationMsg: "Tap to check your virus exposition.",
-            notificationIcon: "ic_virus_outline_black"
+            notificationBigMsg: "Tap to check your virus exposition.",
+            notificationIcon: "ic_virus_outline_black",
           ),
           wakeLockTime: 20,
           interval: 60,

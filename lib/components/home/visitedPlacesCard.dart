@@ -43,28 +43,7 @@ class VisitedPlacesCard extends StatelessWidget {
                                 alignment: Alignment.bottomRight,
                                 heightFactor: 0.3,
                                 widthFactor: 2.5,
-                                child: Consumer<AppModel> (
-                                  builder: (context, model, child) => GoogleMap(
-                                    initialCameraPosition: CameraPosition(
-                                      target: _center,
-                                      zoom: 13.75,
-                                    ),
-                                    myLocationButtonEnabled: false,
-                                    buildingsEnabled: false,
-                                    compassEnabled: false,
-                                    indoorViewEnabled: false,
-                                    mapToolbarEnabled: false,
-                                    myLocationEnabled: false,
-                                    trafficEnabled: false,
-                                    rotateGesturesEnabled: false,
-                                    scrollGesturesEnabled: false,
-                                    tiltGesturesEnabled: false,
-                                    zoomGesturesEnabled: false,
-                                    onMapCreated: (GoogleMapController c) {
-                                      c.setMapStyle(_mapStyle);
-                                    },
-                                  ),
-                                ),
+                                child: _buildMap(snapshot),
                               ),
                             )
                         ),
@@ -119,5 +98,28 @@ class VisitedPlacesCard extends StatelessWidget {
         + (locationsCount > 1 ? 's' : '') + " - "
       "$placesCount " + FlutterI18n.translate(context, "word_place")
         + (placesCount > 1 ? 's' : '');
+  }
+
+  GoogleMap _buildMap (AsyncSnapshot<List<Location>> snapshot) {
+    return GoogleMap(
+      initialCameraPosition: CameraPosition(
+        target: _center,
+        zoom: 13.75,
+      ),
+      myLocationButtonEnabled: false,
+      buildingsEnabled: false,
+      compassEnabled: false,
+      indoorViewEnabled: false,
+      mapToolbarEnabled: false,
+      myLocationEnabled: false,
+      trafficEnabled: false,
+      rotateGesturesEnabled: false,
+      scrollGesturesEnabled: false,
+      tiltGesturesEnabled: false,
+      zoomGesturesEnabled: false,
+      onMapCreated: (GoogleMapController c) {
+        c.setMapStyle(_mapStyle);
+      },
+    );
   }
 }

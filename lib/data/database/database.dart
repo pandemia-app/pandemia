@@ -165,9 +165,6 @@ class AppDatabase {
       await open();
 
     final List<Map<String, dynamic>> maps = await this.database.query(lName);
-    for (Map m in maps) {
-      print(Location.fromMap(m));
-    }
     return maps.map((map) => Location.fromMap(map)).toList();
   }
 

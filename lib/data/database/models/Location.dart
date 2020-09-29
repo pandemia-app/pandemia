@@ -17,6 +17,15 @@ class Location {
     };
   }
 
+  factory Location.fromMap(Map<String, dynamic> map) {
+    return Location (
+      id: map['id'],
+      lat: map['lat'],
+      lng: map['lng'],
+      timestamp: DateTime.fromMicrosecondsSinceEpoch(map['date'])
+    );
+  }
+
   @override
   String toString() {
     return '{lat: $lat, lng: $lng, date: $timestamp}';

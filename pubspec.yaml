@@ -21,6 +21,8 @@ dependencies:
   flutter:
     sdk: flutter
   charts_flutter: ^0.9.0
+  firebase_core: ^0.5.0
+  firebase_crashlytics: ^0.2.0
   google_maps_flutter:
     git:
       url: git://github.com/arok/plugins.git
@@ -28,9 +30,10 @@ dependencies:
       path: packages/google_maps_flutter
   latlong: ^0.6.1
   intl: ^0.16.0
-  sqflite:
+  sqflite: ^1.3.1
   path:
   provider: ^3.0.0
+  background_locator: ^1.1.10+1
   http: ^0.12.1
   pull_to_refresh: ^1.5.8
   flutter_dotenv: ^2.1.0
@@ -39,6 +42,7 @@ dependencies:
   fluttertoast: ^4.0.0
   url_launcher: ^5.4.5
   carousel_slider: ^2.1.0
+  permission_handler: 5.0.0+hotfix.8
   shared_preferences: ^0.5.10
 
   # The following adds the Cupertino Icons font to your application.

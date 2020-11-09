@@ -12,8 +12,11 @@
   "home_info_operation_text1": "Pandemia propose plusieurs fonctionnalités vous permettant de gérer vos déplacements en période de pandémie.",
   "home_info_operation_text2": "Elle calcule vos indicateurs d'exposition et de diffusion, et vous permet également de consulter l'affluence de vos lieux favoris, afin de savoir à quel moment s'y rendre est le moins risqué.",
   "home_info_data_title": "Vos données personnelles",
-  "home_info_data_text1": "Pandemia est une application fonctionnant en autonomie ; elle ne transmet pas vos informations à un quelconque tiers.",
-  "home_info_data_text2": "Si vous activez la géolocalisation de votre smartphone, nous utilisons les positions remontées par celui-ci pour améliorer les résultats de nos calculs ; ces positions sont stockées sur votre smartphone, et n'en sortent pas.",
+  "home_info_data_text1": "Pandemia est une application fonctionnant en autonomie ; elle ne transmet pas vos informations à un quelconque tiers. Si la géolocalisation est activée, les positions sont stockées sur votre smartphone, et n'en sortent pas.",
+  "home_info_location_title": "Géolocalisation",
+  "home_info_location_text": "Si vous activez la géolocalisation de votre smartphone, nous utilisons les positions remontées par celui-ci pour améliorer les résultats de nos calculs.",
+  "home_info_location_permanentlydenied": "Vous avez refusé de façon permanente la géolocalisation à Pandemia; vous pouvez cependant accorder cette permission dans les paramètres de votre téléphone.",
+  "home_info_location_removepermission": "Cette permission doit être retirée dans les paramètres du téléphone.",
   "home_info_disclaimer_title": "Avertissement",
   "home_info_disclaimer_text": "Les informations calculées par Pandemia ne remplacent en aucun cas un test de dépistage, mais elles peuvent contribuer à identifier la nécessité de se faire dépister auprès de professionnels de santé.",
   "home_info_source_title": "Sources",
@@ -28,6 +31,7 @@
   "home_ratemsg_stayhome": "J'ai été exposé à coup sûr aujourd'hui, je dois rester chez moi",
 
   "word_place": "endroit",
+  "word_location": "position",
 
   "places_searchbar_label": "Rechercher un endroit...",
   "places_place_added_toast":  "Endroit ajouté aux favoris.",
@@ -158,5 +162,9 @@
   "day_4": "Jeudi",
   "day_5": "Vendredi",
   "day_6": "Samedi",
-  "day_7": "Dimanche"
+  "day_7": "Dimanche",
+
+  "location_service_disabled": "La géolocalisation est activée, mais pas le service associé ; merci de l'activer dans les paramètres de votre smartphone.",
+  "location_notification_title": "Ecoute des positions",
+  "location_notification_text": "Toucher pour ouvrir l'application."
 }

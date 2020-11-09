@@ -30,8 +30,9 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
 
   /// Changes the displayed view when a menu item is tapped.
   void _onItemTapped(int index) {
+
     db.open().then((erg) async {
-      var loc = new Location(id: 0, lat: 3.14, lng: 55.42, timestamp: DateTime.now().millisecondsSinceEpoch);
+      var loc = new Location(id: 0, lat: 3.14, lng: 55.42, timestamp: DateTime.now());
       await db.insertLocation(loc);
       print (await db.getLocations());
       return print("db opened");

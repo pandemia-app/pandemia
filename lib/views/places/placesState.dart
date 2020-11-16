@@ -215,8 +215,8 @@ class PlacesState extends State<PlacesView> {
                   points: heatmapPoints.values.length == 0 ? [WeightedLatLng(point: LatLng(0, 0))] : heatmapPoints.values.toList()
                 )
               ]),
-              myLocationButtonEnabled: false,
-              myLocationEnabled: false,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
               initialCameraPosition: CameraPosition(
                 target: PlacesMapController.defaultCenter,
                 zoom: zoomLevel,

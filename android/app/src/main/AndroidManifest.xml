@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name=".Application"
         android:label="pandemia"
         android:icon="@mipmap/ic_launcher">
         <receiver android:name="rekab.app.background_locator.BootBroadcastReceiver"

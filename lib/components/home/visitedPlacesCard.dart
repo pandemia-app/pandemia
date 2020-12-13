@@ -10,11 +10,18 @@ import 'package:provider/provider.dart';
 /// Map card showing places the user visited today.
 class VisitedPlacesCard extends StatelessWidget {
   static String _mapStyle;
+  static Set<Marker> _markers ={};
   final LatLng _center = const LatLng(50.6311652, 3.0477402);
   VisitedPlacesCard() {
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
-    });
+      _markers.add(Marker(
+        markerId:MarkerId('1'),
+        position: LatLng(50.6311652, 3.0477402)));
+    _markers.add(Marker(
+        markerId:MarkerId('2'),
+        position: LatLng(50.6311652, 3.0621533)));
+  });
   }
 
   @override
@@ -45,6 +52,7 @@ class VisitedPlacesCard extends StatelessWidget {
                                   target: _center,
                                   zoom: 13.75,
                                 ),
+                                markers: _markers,
                                 myLocationButtonEnabled: false,
                                 buildingsEnabled: false,
                                 compassEnabled: false,

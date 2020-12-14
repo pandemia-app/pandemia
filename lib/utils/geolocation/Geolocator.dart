@@ -43,7 +43,7 @@ class Geolocator {
   static void callback(LocationDto locationDto) async {
     final SendPort send = IsolateNameServer.lookupPortByName(_isolateName);
     send?.send(locationDto);
-    DateTime timestamp = new DateTime.fromMillisecondsSinceEpoch(locationDto.time.toInt());
+    DateTime timestamp = new DateTime.now();
     AppDatabase db = new AppDatabase();
     await db.insertLocation(
         new Location(

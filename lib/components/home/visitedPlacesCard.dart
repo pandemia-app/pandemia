@@ -6,22 +6,75 @@ import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
+import 'package:pandemia/data/database/database.dart';
+import 'package:pandemia/data/database/models/Location.dart';
+import 'package:pandemia/components/home/visit.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:pandemia/data/database/models/Location.dart';
+
 
 /// Map card showing places the user visited today.
 class VisitedPlacesCard extends StatelessWidget {
   static String _mapStyle;
   static Set<Marker> _markers ={};
   final LatLng _center = const LatLng(50.6311652, 3.0477402);
+  static AppDatabase db = new AppDatabase();
+
   VisitedPlacesCard() {
+    marker();
+
+  }
+
+
+
+  Future<List<Visit>> conv() async{
+    List<Visit> listeVisite = [];
+    List<Location> liste = await db.getLocations();
+    Placemark old = null;
+    Location oldLoc = null;
+    int nb = 0;
+    int i = liste.length - 1;
+    DateTime now = new DateTime.now();
+
+
+    while(i >= 0 && now.difference(liste[i].timestamp).inDays < 1){
+      List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(liste[i].lat, liste[i].lng);
+
+
+      if (placemark[0] == old){
+        nb += 1;
+      }
+      else{
+
+        if (nb >= 3) {
+          listeVisite.add(new Visit(liste[i], nb));
+        }
+        nb = 0;
+      }
+      old = placemark[0];
+      oldLoc = liste[i];
+      i = i - 1;
+    }
+    if (nb >= 3) {
+      listeVisite.add(new Visit(oldLoc, nb));
+    }
+    return listeVisite;
+  }
+
+  marker() async {
+    List<Visit> visited = await conv();
+
+
+
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
-      _markers.add(Marker(
-        markerId:MarkerId('1'),
-        position: LatLng(50.6311652, 3.0477402)));
-    _markers.add(Marker(
-        markerId:MarkerId('2'),
-        position: LatLng(50.6311652, 3.0621533)));
-  });
+
+      for (Visit v in visited){
+        _markers.add(Marker(
+            markerId:MarkerId('1'),
+            position: LatLng(v.visit.lat, v.visit.lng)));
+      }
+    });
   }
 
   @override

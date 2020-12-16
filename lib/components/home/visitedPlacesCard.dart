@@ -39,9 +39,8 @@ class VisitedPlacesCard extends StatelessWidget {
 
     while(i >= 0 && now.difference(liste[i].timestamp).inDays < 1){
       List<Placemark> placemark = await Geolocator().placemarkFromCoordinates(liste[i].lat, liste[i].lng);
-
-
-      if (placemark[0] == old){
+      
+      if (old!=null && placemark[0].name == old.name && placemark[0].thoroughfare == old.thoroughfare && placemark[0].locality == old.locality){
         nb += 1;
       }
       else{
@@ -68,11 +67,12 @@ class VisitedPlacesCard extends StatelessWidget {
 
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       _mapStyle = string;
-
+      int i=0;
       for (Visit v in visited){
         _markers.add(Marker(
-            markerId:MarkerId('1'),
+            markerId:MarkerId(i.toString()),
             position: LatLng(v.visit.lat, v.visit.lng)));
+            i=i+1;
       }
     });
   }

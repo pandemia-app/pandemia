@@ -52,8 +52,11 @@ class Parser {
 
     var object = responseObject.join("");
     var jsonObject = json.decode(object);
+
     // crashes if the place does not have popularity stats
     var popularTimes = jsonObject[0][1][0][14][84][0];
+    print("++++++++++++++++++++++++++++++++++++++++++++");
+    print(popularTimes);
 
     Map<int, DayResult> results = new Map();
 

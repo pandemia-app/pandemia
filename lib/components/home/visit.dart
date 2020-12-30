@@ -5,6 +5,7 @@ class Visit {
   static int _nombre;
 
 
+
   Visit(Location l, int nb){
     this.visit = l;
     this.nombre = nb;

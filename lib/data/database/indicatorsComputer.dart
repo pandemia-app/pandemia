@@ -19,7 +19,6 @@ class IndicatorsComputer {
     List<L.Location> liste = await database.getLocations();
     for (L.Location loc in liste){
       List<Placemark> placemark = await placemarkFromCoordinates(loc.lat, loc.lng);
-      print(placemark);
     }
     return print("LIEU");
   }

@@ -1,8 +1,8 @@
 import 'package:pandemia/data/database/models/Location.dart';
 
 class Visit {
-  static Location _visit;
-  static int _nombre;
+  Location _visit;
+  int _nombre;
 
 
 

@@ -70,7 +70,7 @@ class VisitedPlacesCard extends StatelessWidget {
       print("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM");
     }
     var depart = liste[i].timestamp.hour;
-    var arrive = liste[i - nb].timestamp.hour;
+    var arrive = liste[i + nb].timestamp.hour;
     var jour = liste[i].timestamp.weekday;
     var k;
 
@@ -120,7 +120,7 @@ class VisitedPlacesCard extends StatelessWidget {
         if (nb >= 3) {
           listeVisite.add(new Visit(liste[i], nb));
           findPlaceFromString('$n $r $v');
-          moyenne = recupDonnees(liste,i,nb,n,r,v);
+          moyenne = await recupDonnees(liste,i,nb,n,r,v);
           result += moyenne;
         }
           nb = 0;
@@ -136,7 +136,7 @@ class VisitedPlacesCard extends StatelessWidget {
       if(i==-1){
         i=0;
       }
-      moyenne=recupDonnees(liste,i,nb,n,r,v);
+      moyenne=await recupDonnees(liste,i,nb,n,r,v);
       result+=moyenne;
     }
     return listeVisite;

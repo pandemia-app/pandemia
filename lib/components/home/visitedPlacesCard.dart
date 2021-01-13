@@ -82,7 +82,7 @@ class VisitedPlacesCard extends StatelessWidget {
       var c=0;
       listResult.forEach((element) => c+=element);
       var moyenne = c/listResult.length;
-      return moyenne*nb;
+      return moyenne*nb*0.125;
     } catch (err) {
       stats = new PopularTimes(hasData: false);
       return 0.0;
@@ -103,6 +103,7 @@ class VisitedPlacesCard extends StatelessWidget {
     var n;
     var r;
     var v;
+    result = 0;
     while (i >= 0 && now.difference(liste[i].timestamp).inDays < 1) {
       List<Placemark> placemark = await Geolocator()
           .placemarkFromCoordinates(liste[i].lat, liste[i].lng);

@@ -20,7 +20,6 @@ class IndicatorsComputer {
     for (L.Location loc in liste){
       List<Placemark> placemark = await placemarkFromCoordinates(loc.lat, loc.lng);
     }
-    return print("LIEU");
   }
 
 

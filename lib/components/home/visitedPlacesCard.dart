@@ -65,8 +65,8 @@ class VisitedPlacesCard extends StatelessWidget {
     try {
       stats = Parser.parseResponse(file);
 
-      var depart = liste[i].timestamp.hour;
-      var arrive = liste[i + nb].timestamp.hour;
+      var arrive = liste[i].timestamp.hour;
+      var depart = liste[i + nb].timestamp.hour;
       var jour = liste[i].timestamp.weekday;
       var k;
 
@@ -109,8 +109,6 @@ class VisitedPlacesCard extends StatelessWidget {
       n = placemark[0].name;
       r = placemark[0].thoroughfare;
       v = placemark[0].locality;
-      print("----------------");
-      print(n +" "+r + " "+v);
 
 
       if (old != null &&

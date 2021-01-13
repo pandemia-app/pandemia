@@ -109,18 +109,20 @@ class VisitedPlacesCard extends StatelessWidget {
       n = placemark[0].name;
       r = placemark[0].thoroughfare;
       v = placemark[0].locality;
+      print("----------------");
+      print(n +" "+r + " "+v);
 
 
       if (old != null &&
-          placemark[0].name == old.name &&
-          placemark[0].thoroughfare == old.thoroughfare &&
-          placemark[0].locality == old.locality) {
+          n == old.name &&
+          r == old.thoroughfare &&
+          v == old.locality) {
         nb += 1;
       } else {
         if (nb >= 3) {
-          listeVisite.add(new Visit(liste[i], nb));
+          listeVisite.add(new Visit(liste[i+1], nb));
           findPlaceFromString('$n $r $v');
-          moyenne = await recupDonnees(liste,i,nb,n,r,v);
+          moyenne = await recupDonnees(liste,i+1,nb,old.name,old.thoroughfare,old.locality);
           result += moyenne;
         }
           nb = 0;
@@ -186,7 +188,7 @@ class VisitedPlacesCard extends StatelessWidget {
                               builder: (context, model, child) => GoogleMap(
                                 initialCameraPosition: CameraPosition(
                                   target: _center,
-                                  zoom: 13.75,
+                                  zoom: 10,
                                 ),
                                 markers: _markers,
                                 myLocationButtonEnabled: false,

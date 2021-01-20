@@ -6,7 +6,9 @@ import 'package:pandemia/data/database/models/Location.dart' as L;
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:provider/provider.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:pandemia/components/home/visitedPlacesCard.dart';
+import 'package:flutter/material.dart';
+
+import 'models/dataCollect.dart';
 var database = new AppDatabase();
 
 /// This is responsible for generating daily pandemia reports.
@@ -33,7 +35,9 @@ class IndicatorsComputer {
     lieu();
 
     await new Future.delayed(const Duration(milliseconds: 750), () {});
-    var result = VisitedPlacesCard.result <100 ? VisitedPlacesCard.result.round() : 100;
+    print("-------------------------------");
+    print(DataCollect.result);
+    var result = DataCollect.result <100 ? DataCollect.result.round() : 100;
     var report = new DailyReport(
         timestamp: DailyReport.getTodaysTimestamp(),
         broadcastRate: new Random().nextInt(100),

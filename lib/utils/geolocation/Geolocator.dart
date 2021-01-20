@@ -6,6 +6,7 @@ import 'package:background_locator/settings/android_settings.dart';
 import 'package:background_locator/settings/ios_settings.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
+import 'package:pandemia/data/database/models/dataCollect.dart';
 
 class Geolocator {
   static const String _isolateName = "LocatorIsolate";
@@ -51,6 +52,8 @@ class Geolocator {
             lng: locationDto.longitude,
             timestamp: timestamp));
     print('received new location at $timestamp, location : $locationDto');
+    var dataCollect = DataCollect();
+    dataCollect.conv();
   }
 
   static void stop () {

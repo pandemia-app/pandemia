@@ -15,6 +15,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 /// regenerate the exposition report for today.
 class HomeView extends StatelessWidget {
   HomeView();
+  var visitedPlaceCard = VisitedPlacesCard();
 
   final IndicatorsComputer computer = new IndicatorsComputer();
   final RefreshController _refreshController =
@@ -23,6 +24,7 @@ class HomeView extends StatelessWidget {
   void _onRefresh(context) async {
     await computer.forceReportRecomputing(context);
     _refreshController.refreshCompleted();
+    visitedPlaceCard.marker();
   }
 
   void _onLoading() async {
@@ -63,7 +65,7 @@ class HomeView extends StatelessWidget {
                   children: <Widget>[
                     MyExpositionCard(),
                     ExpositionProgressionCard(),
-                    VisitedPlacesCard()
+                    visitedPlaceCard
                   ]
               ),
             )

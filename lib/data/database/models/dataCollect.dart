@@ -17,6 +17,7 @@ class DataCollect{
   var res;
   static var result=0.0;
   static AppDatabase db = new AppDatabase();
+  DateTime last_notif = null;
 
   static final DataCollect _singleton = DataCollect._internal();
 
@@ -172,8 +173,11 @@ class DataCollect{
       moyenne=await recupDonnees(liste,i,nb,n,r,v);
       result+=moyenne;
     }
-    if (result >= 50){
-      _showNotificationWithDefaultSound(result);
+    if (result >= 50) {
+      if(last_notif == null || now.difference(last_notif).inHours >= 2 ){
+        _showNotificationWithDefaultSound(result);
+        last_notif = now;
+      }
     }
     return listeVisite;
   }

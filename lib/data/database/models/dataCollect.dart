@@ -87,7 +87,7 @@ class DataCollect{
 
   /*
   *methode permettant de recuperer des donnees de flux de personnes a partir d'une adresse
-  *retourne une valeur representant le taux de contamination
+  *retourne une valeur representant le taux d'exposition
    */
   recupDonnees(liste,i,nb,n,r,v) async{
     var name = null;
@@ -130,7 +130,7 @@ class DataCollect{
   }
 
   /*
-  *methode generant l'affichage de la notification a partir d'une certaine condition et modifie le taux de contamination
+  *methode generant l'affichage de la notification a partir d'une certaine condition et modifie le taux d'exposition
   * retourne la liste des lieux visite
 
    */

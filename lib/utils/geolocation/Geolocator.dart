@@ -8,6 +8,7 @@ import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/data/database/models/dataCollect.dart';
 
+///provide a cross-platform API for generic location
 class Geolocator {
   static const String _isolateName = "LocatorIsolate";
   static ReceivePort port = ReceivePort();

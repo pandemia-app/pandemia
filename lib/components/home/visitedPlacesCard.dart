@@ -34,7 +34,7 @@ class VisitedPlacesCard extends StatelessWidget {
   }
 
 
-
+  ///methode permettant d'ajouter des marker sur la Google map de la page d'accueil
   marker() async {
     List<Visit> visited = await dataCollect.conv();
     count = visited.length;
@@ -43,6 +43,7 @@ class VisitedPlacesCard extends StatelessWidget {
       _mapStyle = string;
       int i = 0;
       for (Visit v in visited) {
+        //Les markers sont des symboles pointant sur les localisations enregistrees
         _markers.add(Marker(
             markerId: MarkerId(i.toString()),
             position: LatLng(v.visit.lat, v.visit.lng)));

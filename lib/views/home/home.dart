@@ -13,6 +13,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 /// progression, and today's visited places.
 /// It contains a pull-to-refresh controller, which allows the user to
 /// regenerate the exposition report for today.
+// ignore: must_be_immutable
 class HomeView extends StatelessWidget {
   HomeView();
   var visitedPlaceCard = VisitedPlacesCard();

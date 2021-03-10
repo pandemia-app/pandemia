@@ -1,38 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:pandemia/components/home/visit.dart';
+import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/dataCollect.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
-import 'package:pandemia/data/database/database.dart';
-import 'package:pandemia/data/database/models/Location.dart';
-import 'package:pandemia/components/home/visit.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
-import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
-import '../../data/populartimes/parser/parser.dart';
-import 'package:pandemia/data/state/MapModel.dart';
-import 'package:pandemia/utils/placesMap/SearchZone.dart';
-import 'dart:convert';
-
-import '../../data/populartimes/payloads/dayResults.dart';
 
 /// Map card showing places the user visited today.
+// ignore: must_be_immutable
 class VisitedPlacesCard extends StatelessWidget {
   static String _mapStyle;
   static Set<Marker> _markers = {};
   final LatLng _center = const LatLng(50.6311652, 3.0477402);
   static AppDatabase db = new AppDatabase();
-  var count=0;
+  var  count = 0;
   var dataCollect = DataCollect();
 
   VisitedPlacesCard() {
     marker();
   }
-
 
   ///methode permettant d'ajouter des marker sur la Google map de la page d'accueil
   marker() async {

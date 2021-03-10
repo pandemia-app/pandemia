@@ -4,9 +4,9 @@ import 'package:pandemia/data/database/models/Location.dart';
 
 class Visit {
   //localisation du lieu
-  Location _visit;
+  Location visit;
   //duree pendant laquelle l'utilisateur est rester dans cette location
-  int _nombre;
+  int nombre;
 
 
 
@@ -15,21 +15,6 @@ class Visit {
     this.nombre = nb;
   }
 
-  //methode permettant d'obtenir la location actuelle
-  Location get visit => _visit;
-
-  //methode permettant de modifier la location actuelle
-  set visit(Location value) {
-    _visit = value;
-  }
-
-  //methode permettant d'obtenir le nombre de minute durant lesquelles l'utilisateur est rester dans la location actuelle
-  int get nombre => _nombre;
-
-  //methode permettant de modifier le nombre de minute durant lesquelles l'utilisateur est rester dans la location actuelle
-  set nombre(int value) {
-    _nombre = value;
-  }
 
 
 }

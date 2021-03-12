@@ -31,8 +31,6 @@ class AppDatabase {
   }
 
   Future<void> insertLocation(Location loc) async {
-    if (this.database == null)
-      await open();
     await this.database.insert(
       this.lName,
       loc.toMap(),
@@ -160,13 +158,16 @@ class AppDatabase {
   }
 
   Future<List<Location>> getLocations() async {
-
-     if (this.database == null)
-        await open();
-      final List<Map<String, dynamic>> maps = await this.database.query(lName);
-      return maps.map((map) => Location.fromMap(map)).toList();
-    }
-
+    final List<Map<String, dynamic>> maps = await this.database.query(lName);
+    return List.generate(maps.length, (i) {
+      return Location(
+        id: maps[i]['id'],
+        lat: maps[i]['lat'],
+        lng: maps[i]['lng'],
+        timestamp: maps[i]['date']
+      );
+    });
+  }
 
   Future<List<Favorite>> getFavoritePlaces() async {
     if (this.database == null)

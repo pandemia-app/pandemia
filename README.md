@@ -1,3 +1,5 @@
+Author : Tanguy Houppe, Théo Musial , François-Xavier Pelage ,Selim Oussad
+
 # Pandemia
 ![Flutter CI](https://github.com/pandemia-app/pandemia/workflows/Flutter%20CI/badge.svg)
 
@@ -12,11 +14,11 @@ Pandemia is actively developed by members of the [Spirals research group](https:
 Before running the application on your smartphone, you *NEED* to follow "Environment variables"
 instructions.
 
-## Source code 
+## Source code
 
 All this project's Dart code is located in the `lib` folder.
 
-## Mockups 
+## Mockups
 
 An interactive mockup of the application can be found at `resources/mockup.pdf`.
 

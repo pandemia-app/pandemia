@@ -2,8 +2,13 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
+import 'package:pandemia/data/database/models/Location.dart' as L;
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:provider/provider.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:flutter/material.dart';
+
+import 'models/dataCollect.dart';
 var database = new AppDatabase();
 
 /// This is responsible for generating daily pandemia reports.
@@ -12,6 +17,14 @@ class IndicatorsComputer {
   // we need to be able to block further calls
   var generated = false;
 
+  void lieu() async{
+    List<L.Location> liste = await database.getLocations();
+    for (L.Location loc in liste){
+      await placemarkFromCoordinates(loc.lat, loc.lng);
+    }
+  }
+
+
   /// is called several times a day to update today's report
   /// returns the exposition rate of the day
   Future<void> generateRandomReport (BuildContext context) async {
@@ -19,12 +32,16 @@ class IndicatorsComputer {
     print('generating report');
 
     // TODO rates computing
-    await new Future.delayed(const Duration(milliseconds: 750), () {});
+    lieu();
 
+    await new Future.delayed(const Duration(milliseconds: 750), () {});
+    print("-------------------------------");
+    print(DataCollect.result);
+    var result = DataCollect.result <100 ? DataCollect.result.round() : 100;
     var report = new DailyReport(
         timestamp: DailyReport.getTodaysTimestamp(),
         broadcastRate: new Random().nextInt(100),
-        expositionRate: new Random().nextInt(100)
+        expositionRate: result
     );
     await setTodaysReport(report);
 

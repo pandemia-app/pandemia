@@ -10,6 +10,7 @@ class Location {
   Location ({this.id, this.lat, this.lng, this.timestamp});
 
   Map<String, dynamic> toMap() {
+    print(timestamp.millisecondsSinceEpoch);
     return {
       'lat': lat,
       'lng': lng,
@@ -22,7 +23,7 @@ class Location {
       id: map['id'],
       lat: map['lat'],
       lng: map['lng'],
-      timestamp: DateTime.fromMicrosecondsSinceEpoch(map['date'])
+      timestamp: DateTime.fromMillisecondsSinceEpoch(map['date'])
     );
   }
 

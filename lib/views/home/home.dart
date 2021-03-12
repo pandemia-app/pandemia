@@ -13,18 +13,22 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 /// progression, and today's visited places.
 /// It contains a pull-to-refresh controller, which allows the user to
 /// regenerate the exposition report for today.
+// ignore: must_be_immutable
 class HomeView extends StatelessWidget {
   HomeView();
+  var visitedPlaceCard = VisitedPlacesCard();
+
   final IndicatorsComputer computer = new IndicatorsComputer();
   final RefreshController _refreshController =
   RefreshController(initialRefresh: false);
 
-  void _onRefresh(context) async{
+  void _onRefresh(context) async {
     await computer.forceReportRecomputing(context);
     _refreshController.refreshCompleted();
+    visitedPlaceCard.marker();
   }
 
-  void _onLoading() async{
+  void _onLoading() async {
     await Future.delayed(Duration(milliseconds: 1000));
     _refreshController.loadComplete();
   }
@@ -45,22 +49,26 @@ class HomeView extends StatelessWidget {
           },
         ),
         body: SmartRefresher(
-            enablePullDown: true,
-            header: ClassicHeader(
-                idleText: FlutterI18n.translate(context, "favorites_pullrefresh_idle"),
-                releaseText: FlutterI18n.translate(context, "favorites_pullrefresh_release"),
-                refreshingText: FlutterI18n.translate(context, "favorites_pullrefresh_refreshing"),
-                completeText: FlutterI18n.translate(context, "favorites_pullrefresh_complete")),
-            controller: _refreshController,
-            onRefresh: () => _onRefresh(context),
-            onLoading: _onLoading,
-            child: ListView(
-                children: <Widget>[
-                  MyExpositionCard(),
-                  ExpositionProgressionCard(),
-                  VisitedPlacesCard()
-                ]
-            ),
+          enablePullDown: true,
+          header: ClassicHeader(
+              idleText: FlutterI18n.translate(
+                  context, "favorites_pullrefresh_idle"),
+              releaseText: FlutterI18n.translate(
+                  context, "favorites_pullrefresh_release"),
+              refreshingText: FlutterI18n.translate(
+                  context, "favorites_pullrefresh_refreshing"),
+              completeText: FlutterI18n.translate(
+                  context, "favorites_pullrefresh_complete")),
+          controller: _refreshController,
+          onRefresh: () => _onRefresh(context),
+          onLoading: _onLoading,
+          child: ListView(
+              children: <Widget>[
+                MyExpositionCard(),
+                ExpositionProgressionCard(),
+                visitedPlaceCard
+              ]
+          ),
         )
       )
     );

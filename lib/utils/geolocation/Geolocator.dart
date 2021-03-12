@@ -6,7 +6,9 @@ import 'package:background_locator/settings/android_settings.dart';
 import 'package:background_locator/settings/ios_settings.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
+import 'package:pandemia/data/database/models/dataCollect.dart';
 
+///provide a cross-platform API for generic location
 class Geolocator {
   static const String _isolateName = "LocatorIsolate";
   static ReceivePort port = ReceivePort();
@@ -43,14 +45,16 @@ class Geolocator {
   static void callback(LocationDto locationDto) async {
     final SendPort send = IsolateNameServer.lookupPortByName(_isolateName);
     send?.send(locationDto);
-    DateTime timestamp = new DateTime.fromMillisecondsSinceEpoch(locationDto.time.toInt());
+    DateTime timestamp = new DateTime.now();
     AppDatabase db = new AppDatabase();
     await db.insertLocation(
         new Location(
             lat: locationDto.latitude,
             lng: locationDto.longitude,
             timestamp: timestamp));
-    print('received new location at $timestamp');
+    print('received new location at $timestamp, location : $locationDto');
+    var dataCollect = DataCollect();
+    dataCollect.conv();
   }
 
   static void stop () {

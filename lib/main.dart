@@ -5,6 +5,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/data/state/MapModel.dart';
 import 'package:pandemia/views/home/navigator.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:pandemia/utils/geolocation/Geolocator.dart';
 import 'package:provider/provider.dart';
 import 'data/state/AppModel.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -17,7 +19,18 @@ void main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   runZoned<Future<void>>(() async {
-    runApp(
+  // checking location permission + status before launching location gathering
+  Permission.locationAlways.status.then((permissionStatus) {
+    if (permissionStatus.isGranted) {
+      Permission.locationAlways.serviceStatus.then((serviceStatus) {
+        if (serviceStatus.isEnabled) {
+          Geolocator.launch();
+        }
+      });
+    }
+  });
+
+  runApp(
       MultiProvider (
         providers: [
           ChangeNotifierProvider(create: (context) => AppModel()),

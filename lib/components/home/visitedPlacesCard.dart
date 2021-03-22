@@ -120,74 +120,6 @@ class _VisitedPlacesCardState extends State<VisitedPlacesCard> {
     );
   }
 
-
-  /*
-  child: Stack(
-                  children: <Widget>[
-                    Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: CustomPalette.background[900]),
-                            borderRadius: new BorderRadius.all(
-                                const Radius.circular(5.0))),
-                        child: new ClipRRect(
-                          borderRadius:
-                              new BorderRadius.all(const Radius.circular(5.0)),
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            heightFactor: 0.3,
-                            widthFactor: 2.5,
-                            child: Consumer<AppModel>(
-                              builder: (context, model, child) => GoogleMap(
-                                initialCameraPosition: CameraPosition(
-                                  target: _center,
-                                  zoom: 10,
-                                ),
-                                markers: _markers,
-                                myLocationButtonEnabled: false,
-                                buildingsEnabled: false,
-                                compassEnabled: false,
-                                indoorViewEnabled: false,
-                                mapToolbarEnabled: false,
-                                myLocationEnabled: false,
-                                trafficEnabled: false,
-                                rotateGesturesEnabled: false,
-                                scrollGesturesEnabled: false,
-                                tiltGesturesEnabled: false,
-                                zoomGesturesEnabled: false,
-                                onMapCreated: (GoogleMapController c) {
-                                  c.setMapStyle(_mapStyle);
-                                },
-                              ),
-                            ),
-                          ),
-                        )),
-                    Container(
-                      child: new Text(
-                        FlutterI18n.translate(context, "home_places_title"),
-                        style: TextStyle(
-                            color: CustomPalette.text[100],
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300),
-                      ),
-                      padding: EdgeInsets.all(10.0),
-                    ),
-                    Container(
-                        child: new Text(
-                          getPlacesTitle(context),
-                          style: TextStyle(
-                              color: CustomPalette.text[600],
-                              fontSize: 18,
-                              fontWeight: FontWeight.w300),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 35.0, horizontal: 10.0))
-                  ],
-                  fit: StackFit.expand,
-                )));
-   */
-
-
   String getPlacesTitle (
       BuildContext context,
       AsyncSnapshot<List<Location>> snapshot) {
@@ -204,14 +136,6 @@ class _VisitedPlacesCardState extends State<VisitedPlacesCard> {
       "${widget.count} " + FlutterI18n.translate(context, "word_place")
         + (widget.count > 1 ? 's' : '');
   }
-
-  /*
-  String getPlacesTitle(BuildContext context) {
-    return "$count " +
-        FlutterI18n.translate(context, "word_place") +
-        (count > 1 ? 's' : '');
-  }
-   */
 
   GoogleMap _buildMap (AsyncSnapshot<List<Location>> snapshot) {
     if (!snapshot.hasData || snapshot.data.length == 0) {

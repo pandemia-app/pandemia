@@ -16,7 +16,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 // ignore: must_be_immutable
 class HomeView extends StatelessWidget {
   HomeView();
-  var visitedPlaceCard = VisitedPlacesCard();
+  GlobalKey<VisitedPlacesCardState> _key = GlobalKey();
 
   final IndicatorsComputer computer = new IndicatorsComputer();
   final RefreshController _refreshController =
@@ -25,7 +25,7 @@ class HomeView extends StatelessWidget {
   void _onRefresh(context) async {
     await computer.forceReportRecomputing(context);
     _refreshController.refreshCompleted();
-    visitedPlaceCard.marker();
+    _key.currentState.marker();
   }
 
   void _onLoading() async {
@@ -66,7 +66,7 @@ class HomeView extends StatelessWidget {
               children: <Widget>[
                 MyExpositionCard(),
                 ExpositionProgressionCard(),
-                visitedPlaceCard
+                VisitedPlacesCard(key : _key)
               ]
           ),
         )

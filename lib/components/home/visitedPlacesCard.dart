@@ -16,16 +16,23 @@ import 'package:provider/provider.dart';
 class VisitedPlacesCard extends StatefulWidget {
   static final LatLng _center = const LatLng(50.6311652, 3.0477402);
   static final AppDatabase db = new AppDatabase();
+  const VisitedPlacesCard ({Key key}) : super(key: key);
+
+  @override
+  State<VisitedPlacesCard> createState() => VisitedPlacesCardState();
+}
+
+class VisitedPlacesCardState extends State<VisitedPlacesCard> {
   final dataCollect = DataCollect();
+  String _mapStyle;
   var count = 0;
   Set<Marker> _markers = {};
 
-  VisitedPlacesCard() {
-    marker();
+  VisitedPlacesCardState() {
+    rootBundle.loadString('assets/mapstyle.txt').then((string) {
+      _mapStyle = string;
+    });
   }
-
-  @override
-  State<VisitedPlacesCard> createState() => _VisitedPlacesCardState();
 
   ///methode permettant d'ajouter des marker sur la Google map de la page d'accueil
   marker() async {
@@ -34,25 +41,18 @@ class VisitedPlacesCard extends StatefulWidget {
 
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
       int i = 0;
+
       for (Visit v in visited) {
         //Les markers sont des symboles pointant sur les localisations enregistrees
-        _markers.add(Marker(
-            markerId: MarkerId(i.toString()),
-            position: LatLng(v.visit.lat, v.visit.lng)));
+        setState(() {
+          _markers.add(Marker(
+              markerId: MarkerId(i.toString()),
+              position: LatLng(v.visit.lat, v.visit.lng)));
+        });
         i = i + 1;
       }
 
       print(_markers.length.toString() + ' markers computed');
-    });
-  }
-}
-
-class _VisitedPlacesCardState extends State<VisitedPlacesCard> {
-  String _mapStyle;
-
-  _VisitedPlacesCardState() {
-    rootBundle.loadString('assets/mapstyle.txt').then((string) {
-      _mapStyle = string;
     });
   }
 
@@ -133,8 +133,8 @@ class _VisitedPlacesCardState extends State<VisitedPlacesCard> {
     return
       "$locationsCount ${FlutterI18n.translate(context, "word_location")}"
         + (locationsCount > 1 ? 's' : '') + " - "
-      "${widget.count} " + FlutterI18n.translate(context, "word_place")
-        + (widget.count > 1 ? 's' : '');
+      "$count " + FlutterI18n.translate(context, "word_place")
+        + (count > 1 ? 's' : '');
   }
 
   GoogleMap _buildMap (AsyncSnapshot<List<Location>> snapshot) {
@@ -144,7 +144,7 @@ class _VisitedPlacesCardState extends State<VisitedPlacesCard> {
           target: VisitedPlacesCard._center,
           zoom: 13.75,
         ),
-        markers: widget._markers,
+        markers: _markers,
         myLocationButtonEnabled: false,
         buildingsEnabled: false,
         compassEnabled: false,
@@ -176,7 +176,7 @@ class _VisitedPlacesCardState extends State<VisitedPlacesCard> {
           heatmapId: HeatmapId(DateTime.now().toIso8601String())
         )
       ].toSet(),
-      markers: widget._markers,
+      markers: _markers,
       myLocationButtonEnabled: false,
       buildingsEnabled: false,
       compassEnabled: false,

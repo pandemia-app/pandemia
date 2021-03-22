@@ -18,7 +18,6 @@ class VisitedPlacesCard extends StatefulWidget {
   static final AppDatabase db = new AppDatabase();
   final dataCollect = DataCollect();
   var count = 0;
-  String _mapStyle;
   Set<Marker> _markers = {};
 
   VisitedPlacesCard() {
@@ -34,7 +33,6 @@ class VisitedPlacesCard extends StatefulWidget {
     count = visited.length;
 
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
-      _mapStyle = string;
       int i = 0;
       for (Visit v in visited) {
         //Les markers sont des symboles pointant sur les localisations enregistrees
@@ -50,6 +48,14 @@ class VisitedPlacesCard extends StatefulWidget {
 }
 
 class _VisitedPlacesCardState extends State<VisitedPlacesCard> {
+  String _mapStyle;
+
+  _VisitedPlacesCardState() {
+    rootBundle.loadString('assets/mapstyle.txt').then((string) {
+      _mapStyle = string;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AppModel>(
@@ -227,7 +233,7 @@ class _VisitedPlacesCardState extends State<VisitedPlacesCard> {
         tiltGesturesEnabled: false,
         zoomGesturesEnabled: false,
         onMapCreated: (GoogleMapController c) {
-          c.setMapStyle(widget._mapStyle);
+          c.setMapStyle(_mapStyle);
         },
       );
     }
@@ -259,7 +265,7 @@ class _VisitedPlacesCardState extends State<VisitedPlacesCard> {
       tiltGesturesEnabled: false,
       zoomGesturesEnabled: false,
       onMapCreated: (GoogleMapController c) {
-        c.setMapStyle(widget._mapStyle);
+        c.setMapStyle(_mapStyle);
       },
     );
   }

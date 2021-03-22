@@ -12,7 +12,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 /// State of the favorite view.
 class FavoritesState extends State<FavoritesView> {
   AppDatabase db = new AppDatabase();
-  final List<Favorite> _data = new List();
+  final List<Favorite> _data = [];
   static bool isRefreshing = false;
   static int loadedPlaces = 0;
   RefreshController _refreshController =
@@ -59,13 +59,13 @@ class FavoritesState extends State<FavoritesView> {
           content: new Text("${FlutterI18n.translate(context, "favorites_removedialog_text1")} "
               "${item.name} ${FlutterI18n.translate(context, "favorites_removedialog_text2")}"),
           actions: <Widget>[
-            new FlatButton(
+            new TextButton(
               child: new Text(FlutterI18n.translate(context, "favorites_removedialog_cancellabel")),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
-            new FlatButton(
+            new TextButton(
               child: new Text(FlutterI18n.translate(context, "favorites_removedialog_removelabel")),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -164,7 +164,7 @@ class FavoritesState extends State<FavoritesView> {
 
   /// Creates and injects an expansion panel for each favorite place.
   Widget _buildPanel() {
-    List<Widget> panels = new List();
+    List<Widget> panels = [];
 
     // deploys an expansion panel and closes others
     Function expansionCallback = (int index, bool isExpanded, Favorite place) {

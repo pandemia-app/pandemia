@@ -1,5 +1,6 @@
 name: pandemia
 description: Pandemia is an app to fight against pandemia by monitoring popular places.
+publish_to: none
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -15,12 +16,12 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
-  flutter: 1.20.3
+  flutter: 2.0.3
 
 dependencies:
   flutter:
     sdk: flutter
-  charts_flutter: ^0.9.0
+  charts_flutter: ^0.10.0
   firebase_core: ^0.5.0
   firebase_crashlytics: ^0.2.0
   google_maps_flutter:
@@ -29,18 +30,18 @@ dependencies:
       ref: implement_google_maps_flutter_heatmap
       path: packages/google_maps_flutter
   latlong: ^0.6.1
-  intl: ^0.16.0
+  intl: ^0.17.0
   sqflite:
   path:
-  provider: ^3.0.0
+  provider: ^5.0.0
   http: ^0.12.1
-  pull_to_refresh: ^1.5.8
+  pull_to_refresh: ^1.6.4
   flutter_dotenv: ^2.1.0
-  flutter_i18n: ^0.14.0
+  flutter_i18n: ^0.22.3
   html: ^0.14.0+3
-  fluttertoast: ^4.0.0
-  url_launcher: ^5.4.5
-  carousel_slider: ^2.1.0
+  fluttertoast: ^8.0.3
+  url_launcher: ^6.0.2
+  carousel_slider: ^3.0.0
   shared_preferences: ^0.5.10
 
   # The following adds the Cupertino Icons font to your application.

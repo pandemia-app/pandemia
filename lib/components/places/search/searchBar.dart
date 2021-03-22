@@ -69,7 +69,7 @@ class _SearchBarState extends State<SearchBar> {
     String key = AppModel.apiKey;
     const _host = 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';
     var encoded = Uri.encodeComponent(address);
-    CircularSearchZone zone = Provider.of<MapModel>(widget.fatherContext).currentZone;
+    CircularSearchZone zone = Provider.of<MapModel>(widget.fatherContext, listen: false).currentZone;
     // TODO filter place types (prevent registering cities, for example, for they cannot provide popular times)
     final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery'
         '&fields=name,place_id,formatted_address,geometry'

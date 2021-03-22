@@ -16,7 +16,7 @@ void main() async {
   // Pass all uncaught errors from the framework to Crashlytics.
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
-  runZoned<Future<void>>(() async {
+  runZonedGuarded<Future<void>>(() async {
     runApp(
       MultiProvider (
         providers: [
@@ -26,7 +26,7 @@ void main() async {
         child: MyApp(),
       )
     );
-  }, onError: FirebaseCrashlytics.instance.recordError);
+  }, FirebaseCrashlytics.instance.recordError);
 }
 
 class MyApp extends StatelessWidget {

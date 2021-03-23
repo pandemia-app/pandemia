@@ -35,7 +35,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // launching analysis
-    computer.generateRandomReport(context);
+    computer.generateReport(context);
     InformationSheet sheet = new InformationSheet(context);
 
     return SafeArea (

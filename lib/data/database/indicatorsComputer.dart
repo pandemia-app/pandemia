@@ -27,7 +27,7 @@ class IndicatorsComputer {
 
   /// is called several times a day to update today's report
   /// returns the exposition rate of the day
-  Future<void> generateRandomReport (BuildContext context) async {
+  Future<void> generateReport (BuildContext context) async {
     if (generated) return;
     print('generating report');
 
@@ -53,7 +53,7 @@ class IndicatorsComputer {
 
   Future<void> forceReportRecomputing (BuildContext context) async {
     generated = false;
-    await generateRandomReport(context);
+    await generateReport(context);
   }
 
   Future<void> setTodaysReport (DailyReport report) async {

@@ -5,8 +5,9 @@ import 'package:pandemia/components/home/expositionProgressionCard.dart';
 import 'package:pandemia/components/home/myExpositionCard.dart';
 import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
-import 'package:pandemia/data/database/indicatorsComputer.dart';
 import 'package:pandemia/utils/information/InformationSheet.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:pandemia/data/database/indicatorsComputer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /// Home view of the application, showing current exposition rate, exposition
@@ -16,18 +17,17 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class HomeView extends StatelessWidget {
   HomeView();
   final GlobalKey<VisitedPlacesCardState> _key = GlobalKey();
-
   final IndicatorsComputer computer = new IndicatorsComputer();
   final RefreshController _refreshController =
   RefreshController(initialRefresh: false);
 
-  void _onRefresh(context) async {
+  void _onRefresh(context) async{
     await computer.forceReportRecomputing(context);
     _refreshController.refreshCompleted();
     _key.currentState.marker();
   }
 
-  void _onLoading() async {
+  void _onLoading() async{
     await Future.delayed(Duration(milliseconds: 1000));
     _refreshController.loadComplete();
   }
@@ -48,26 +48,22 @@ class HomeView extends StatelessWidget {
           },
         ),
         body: SmartRefresher(
-          enablePullDown: true,
-          header: ClassicHeader(
-              idleText: FlutterI18n.translate(
-                  context, "favorites_pullrefresh_idle"),
-              releaseText: FlutterI18n.translate(
-                  context, "favorites_pullrefresh_release"),
-              refreshingText: FlutterI18n.translate(
-                  context, "favorites_pullrefresh_refreshing"),
-              completeText: FlutterI18n.translate(
-                  context, "favorites_pullrefresh_complete")),
-          controller: _refreshController,
-          onRefresh: () => _onRefresh(context),
-          onLoading: _onLoading,
-          child: ListView(
-              children: <Widget>[
-                MyExpositionCard(),
-                ExpositionProgressionCard(),
-                VisitedPlacesCard(key : _key)
-              ]
-          ),
+            enablePullDown: true,
+            header: ClassicHeader(
+                idleText: FlutterI18n.translate(context, "favorites_pullrefresh_idle"),
+                releaseText: FlutterI18n.translate(context, "favorites_pullrefresh_release"),
+                refreshingText: FlutterI18n.translate(context, "favorites_pullrefresh_refreshing"),
+                completeText: FlutterI18n.translate(context, "favorites_pullrefresh_complete")),
+            controller: _refreshController,
+            onRefresh: () => _onRefresh(context),
+            onLoading: _onLoading,
+            child: ListView(
+                children: <Widget>[
+                  MyExpositionCard(),
+                  ExpositionProgressionCard(),
+                  VisitedPlacesCard(key : _key)
+                ]
+            ),
         )
       )
     );

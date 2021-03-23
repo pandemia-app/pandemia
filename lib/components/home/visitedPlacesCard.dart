@@ -1,7 +1,6 @@
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/database/models/Location.dart';
@@ -10,6 +9,7 @@ import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/dataCollect.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:provider/provider.dart';
 
 /// Map card showing places the user visited today.
@@ -58,11 +58,11 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppModel>(
+    return Consumer<AppModel> (
       builder: (context, model, child) {
         return GestureDetector(
             onTap: () => model.setTabIndex(1),
-            child: Container(
+            child: Container (
                 height: 350,
                 margin: const EdgeInsets.all(20),
                 child: FutureBuilder(

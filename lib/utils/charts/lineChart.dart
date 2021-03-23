@@ -66,7 +66,7 @@ class TimeSeriesChart extends StatelessWidget {
   static Future<List<TimeExposition>> reportsData() async {
     var database = new AppDatabase();
     var reports = await database.getReports();
-    var data = new List<TimeExposition>();
+    List<TimeExposition> data = [];
 
     print('${reports.length} reports found while generating graph');
 

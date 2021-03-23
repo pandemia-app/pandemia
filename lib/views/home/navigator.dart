@@ -6,21 +6,26 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/main.dart';
 import 'package:pandemia/data/database/database.dart';
+import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pandemia/views/home/home.dart';
 import 'package:pandemia/views/places/places.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import '../../data/state/AppModel.dart';
+import '../../main.dart';
 
 /// Main application state, which holds its three views.
 /// Navigation between them is possible thanks to a bottom navigation menu.
 class BottomNavigationWidgetState extends State<MyHomePage> {
   final String title;
-  BottomNavigationWidgetState({Key key, this.title}) : super ();
   final AppDatabase db = new AppDatabase();
+  BottomNavigationWidgetState({Key key, this.title}) : super ();
+
+
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
+    TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
 
   final List<Widget> _widgetOptions = <Widget>[
     HomeView(),
@@ -30,15 +35,6 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
 
   /// Changes the displayed view when a menu item is tapped.
   void _onItemTapped(int index) {
-    /**
-        db.open().then((erg) async {
-        var loc = new Location(id: 0, lat: 3.14, lng: 55.42, timestamp: DateTime.now());
-        await db.insertLocation(loc);
-        print (await db.getLocations());
-        return print("db opened");
-
-        });
-     */
     Provider.of<AppModel>(context, listen: false).setTabIndex(index);
   }
 
@@ -84,19 +80,19 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
   }
 
   /// Bottom navigation menu items.
-  List<BottomNavigationBarItem> getNavigationItems() {
+  List<BottomNavigationBarItem> getNavigationItems () {
     return [
       BottomNavigationBarItem(
         icon: Icon(Icons.home),
-        title: Text(FlutterI18n.translate(context, "navigator_home")),
+        label: FlutterI18n.translate(context, "navigator_home"),
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.search),
-        title: Text(FlutterI18n.translate(context, "navigator_places")),
+        label: FlutterI18n.translate(context, "navigator_places"),
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.star),
-        title: Text(FlutterI18n.translate(context, "navigator_favorites")),
+        label: FlutterI18n.translate(context, "navigator_favorites"),
       ),
     ];
   }

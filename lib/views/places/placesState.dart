@@ -112,7 +112,7 @@ class PlacesState extends State<PlacesView> {
       print('aborting');
       return;
     } else
-      Provider.of<MapModel>(context).currentZone = viewport;
+      Provider.of<MapModel>(context, listen: false).currentZone = viewport;
 
     // checking maximum distance
     if (viewport.radius > 50000) {
@@ -184,7 +184,6 @@ class PlacesState extends State<PlacesView> {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        resizeToAvoidBottomPadding: false,
         body: Stack (
           fit: StackFit.passthrough,
           children: <Widget>[
@@ -215,8 +214,8 @@ class PlacesState extends State<PlacesView> {
                   points: heatmapPoints.values.length == 0 ? [WeightedLatLng(point: LatLng(0, 0))] : heatmapPoints.values.toList()
                 )
               ]),
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
+              myLocationButtonEnabled: false,
+              myLocationEnabled: false,
               initialCameraPosition: CameraPosition(
                 target: PlacesMapController.defaultCenter,
                 zoom: zoomLevel,

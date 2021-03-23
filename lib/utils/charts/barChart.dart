@@ -70,7 +70,7 @@ class SimpleBarChart extends StatelessWidget {
 
   /// Converts popularity statistics into graph-compatible data.
   static List<charts.Series<CrowdRate, String>> _createDataFromPopularTimes(List<List<int>> times) {
-    final data = new List<CrowdRate>();
+    final List<CrowdRate> data = [];
 
     for (var time in times) {
       data.add(new CrowdRate("${time.first}h", time.last));

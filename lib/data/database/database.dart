@@ -32,8 +32,7 @@ class AppDatabase {
   }
 
   Future<void> insertLocation(Location loc) async {
-    if (this.database == null)
-      await open();
+
     await this.database.insert(
       this.lName,
       loc.toMap(),

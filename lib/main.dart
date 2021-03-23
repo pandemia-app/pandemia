@@ -18,6 +18,7 @@ void main() async {
   // Pass all uncaught errors from the framework to Crashlytics.
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
+
   // checking location permission + status before launching location gathering
   Permission.locationAlways.status.then((permissionStatus) {
     if (permissionStatus.isGranted) {
@@ -29,7 +30,7 @@ void main() async {
     }
   });
 
-  runZoned<Future<void>>(() async {
+  runZonedGuarded<Future<void>>(() async {
     runApp(
       MultiProvider (
         providers: [
@@ -39,7 +40,7 @@ void main() async {
         child: MyApp(),
       )
     );
-  }, onError: FirebaseCrashlytics.instance.recordError);
+  }, FirebaseCrashlytics.instance.recordError);
 }
 
 class MyApp extends StatelessWidget {

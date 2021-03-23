@@ -16,11 +16,12 @@ class IndicatorsComputer {
   // we need to be able to block further calls
   var generated = false;
 
-  // TODO refactor
-  void lieu() async{
-    List<L.Location> liste = await database.getLocations();
-    for (L.Location loc in liste){
-      await Geolocator().placemarkFromCoordinates(loc.lat, loc.lng);
+  // TODO what does this?
+  // TODO work only on locations from last 24h
+  Future<void> loadVisitedPlaces() async {
+    List<L.Location> locations = await database.getLocations();
+    for (L.Location location in locations){
+      await Geolocator().placemarkFromCoordinates(location.lat, location.lng);
     }
   }
 
@@ -30,8 +31,7 @@ class IndicatorsComputer {
     if (generated) return;
     print('generating report');
 
-    lieu();
-    await new Future.delayed(const Duration(milliseconds: 750), () {});
+    await loadVisitedPlaces();
 
     print("-------------------------------");
     print(DataCollect.result);

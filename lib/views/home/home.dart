@@ -6,7 +6,6 @@ import 'package:pandemia/components/home/myExpositionCard.dart';
 import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/information/InformationSheet.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:pandemia/data/database/indicatorsComputer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 

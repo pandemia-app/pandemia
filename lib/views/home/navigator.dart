@@ -6,7 +6,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/main.dart';
 import 'package:pandemia/data/database/database.dart';
-import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pandemia/views/home/home.dart';

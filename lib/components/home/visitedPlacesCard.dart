@@ -26,7 +26,7 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
   final dataCollect = DataCollect();
   String _mapStyle;
   var count = 0;
-  Set<Marker> _markers = {};
+  Set<Marker> _markers = new Set();
 
   VisitedPlacesCardState() {
     rootBundle.loadString('assets/mapstyle.txt').then((string) {

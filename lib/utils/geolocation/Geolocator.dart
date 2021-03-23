@@ -4,6 +4,7 @@ import 'package:background_locator/background_locator.dart';
 import 'package:background_locator/location_dto.dart';
 import 'package:background_locator/settings/android_settings.dart';
 import 'package:background_locator/settings/ios_settings.dart';
+import 'package:background_locator/settings/locator_settings.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/data/database/models/dataCollect.dart';
@@ -30,7 +31,9 @@ class Geolocator {
           interval: 60,
         ),
         iosSettings: IOSSettings (
-          showsBackgroundLocationIndicator: true
+          showsBackgroundLocationIndicator: true,
+          accuracy: LocationAccuracy.HIGH,
+          distanceFilter: 0
         )
       );
     });

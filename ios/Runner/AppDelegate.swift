@@ -4,7 +4,7 @@ import GoogleMaps
 import Firebase
 import background_locator
 import sqflite
-import geolocator
+import geocoding
 import flutter_local_notifications
 
 func registerPlugins(registry: FlutterPluginRegistry) -> () {
@@ -29,9 +29,9 @@ func registerPlugins(registry: FlutterPluginRegistry) -> () {
             .register(with: registrar(forPlugin: "com.tekartik.sqflite")!)
     }
     
-    if !hasPlugin("com.baseflow.geolocator") {
-        GeolocatorPlugin
-            .register(with: registrar(forPlugin: "com.baseflow.geolocator")!)
+    if !hasPlugin("com.baseflow.geocoding") {
+        GeocodingPlugin
+            .register(with: registrar(forPlugin: "com.baseflow.geocoding")!)
     }
     
     if !hasPlugin("com.dexterous.flutterlocalnotifications") {

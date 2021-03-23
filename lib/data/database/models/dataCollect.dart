@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
 import 'package:pandemia/components/home/visit.dart';
-import 'package:pandemia/data/database/models/Location.dart';
+import 'package:pandemia/data/database/models/Location.dart' as Local;
 import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 
@@ -39,18 +39,18 @@ class DataCollect {
     var IOS = new IOSInitializationSettings();
 
     // initialise settings for both Android and iOS device.
-    var settings = new InitializationSettings(android, IOS);
+    var settings = new InitializationSettings(android: android, iOS: IOS);
     flip.initialize(settings);
     // Show a notification after every 15 minute with the first
     // appearance happening a minute after invoking the method
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max, priority: Priority.High);
+        importance: Importance.max, priority: Priority.high);
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
 
     // initialise channel platform for both Android and iOS device.
     var platformChannelSpecifics = new NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
     var texte = 'Votre taux d\'exposition quotidien est de ' + taux.toString();
     await flip.show(0, 'Pandemia', texte, platformChannelSpecifics,
         payload: 'Default_Sound');
@@ -125,9 +125,9 @@ class DataCollect {
    */
   Future<List<Visit>> conv() async {
     List<Visit> listeVisite = [];
-    List<Location> liste = await db.getLocations();
+    List<Local.Location> liste = await db.getLocations();
     Placemark old;
-    Location oldLoc;
+    Local.Location oldLoc;
     int nb = 0;
     int i = liste.length - 1;
     DateTime now = new DateTime.now();
@@ -139,8 +139,8 @@ class DataCollect {
     result = 0;
 
     while (i >= 0 && now.difference(liste[i].timestamp).inDays < 1) {
-      List<Placemark> placemark = await Geolocator()
-          .placemarkFromCoordinates(liste[i].lat, liste[i].lng);
+      List<Placemark> placemark = await
+          placemarkFromCoordinates(liste[i].lat, liste[i].lng);
       n = placemark[0].name;
       r = placemark[0].thoroughfare;
       v = placemark[0].locality;

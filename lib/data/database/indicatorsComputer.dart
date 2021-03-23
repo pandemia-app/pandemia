@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
@@ -21,7 +21,7 @@ class IndicatorsComputer {
   Future<void> loadVisitedPlaces() async {
     List<L.Location> locations = await database.getLocations();
     for (L.Location location in locations){
-      await Geolocator().placemarkFromCoordinates(location.lat, location.lng);
+      await placemarkFromCoordinates(location.lat, location.lng);
     }
   }
 

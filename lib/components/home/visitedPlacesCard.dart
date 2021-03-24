@@ -125,7 +125,7 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
       AsyncSnapshot<List<Location>> snapshot) {
 
     if (!snapshot.hasData) {
-      return "";
+      return "Computing results...";
     }
 
     int locationsCount = snapshot.data.length;

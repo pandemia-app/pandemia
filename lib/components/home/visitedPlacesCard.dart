@@ -25,7 +25,6 @@ class VisitedPlacesCard extends StatefulWidget {
 class VisitedPlacesCardState extends State<VisitedPlacesCard> {
   final dataCollect = DataCollect();
   String _mapStyle;
-  var count = 0;
   Set<Marker> _markers = new Set();
 
   VisitedPlacesCardState() {
@@ -35,25 +34,18 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
   }
 
   ///methode permettant d'ajouter des marker sur la Google map de la page d'accueil
-  marker(BuildContext context) async {
+  marker (BuildContext context) async {
     List<Visit> visited = await DataCollect.conv(context);
-    count = visited.length;
 
-    rootBundle.loadString('assets/mapstyle.txt').then((string) {
-      int i = 0;
-
-      for (Visit v in visited) {
-        //Les markers sont des symboles pointant sur les localisations enregistrees
-        setState(() {
-          _markers.add(Marker(
-              markerId: MarkerId(i.toString()),
-              position: LatLng(v.visit.lat, v.visit.lng)));
-        });
-        i = i + 1;
-      }
-
-      print(_markers.length.toString() + ' markers computed');
+    visited.asMap().forEach((key, value) {
+      setState(() {
+        _markers.add(Marker(
+            markerId: MarkerId(key.toString()),
+            position: LatLng(value.visit.lat, value.visit.lng)));
+      });
     });
+
+    print(_markers.length.toString() + ' markers computed');
   }
 
   @override
@@ -134,8 +126,8 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
     return
       "$locationsCount ${FlutterI18n.translate(context, "word_location")}"
         + (locationsCount > 1 ? 's' : '') + " - "
-      "$count " + FlutterI18n.translate(context, "word_place")
-        + (count > 1 ? 's' : '');
+      "${_markers.length} " + FlutterI18n.translate(context, "word_place")
+        + (_markers.length > 1 ? 's' : '');
   }
 
   GoogleMap _buildMap (AsyncSnapshot<List<Location>> snapshot) {

@@ -46,7 +46,7 @@ class DataCollect {
     // initialise channel platform for both Android and iOS device.
     var platformChannelSpecifics = new NotificationDetails(
         android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-    var texte = FlutterI18n.translate(context, "exposition_notification_text") + ' ${taux.toString()} !';
+    var texte = FlutterI18n.translate(context, "exposition_notification_text") + ' ${taux.toString()}%!';
     await flip.show(0, FlutterI18n.translate(context, "exposition_notification_title"), texte, platformChannelSpecifics,
         payload: 'Default_Sound');
   }
@@ -172,7 +172,8 @@ class DataCollect {
     }
     if (result >= 50) {
       if (last_notif == null || now.difference(last_notif).inHours >= 2) {
-        _showNotificationWithDefaultSound(result, context);
+        _showNotificationWithDefaultSound (
+            DataCollect.result <100 ? DataCollect.result.round() : 100, context);
         last_notif = now;
       }
     }

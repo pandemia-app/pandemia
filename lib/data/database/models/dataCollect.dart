@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
@@ -12,23 +14,14 @@ import '../../populartimes/parser/parser.dart';
 import '../database.dart';
 
 class DataCollect {
-  var res;
+  static var res;
   static var result = 0.0;
   static AppDatabase db = new AppDatabase();
   // ignore: non_constant_identifier_names
-  DateTime last_notif;
-
-  static final DataCollect _singleton = DataCollect._internal();
-
-  //methode permettant de créer un singleton
-  factory DataCollect() {
-    return _singleton;
-  }
-
-  DataCollect._internal();
+  static DateTime last_notif;
 
   //methode permettant de creer une notification
-  Future _showNotificationWithDefaultSound(taux) async {
+  static Future _showNotificationWithDefaultSound(taux, BuildContext context) async {
     FlutterLocalNotificationsPlugin flip =
         new FlutterLocalNotificationsPlugin();
 
@@ -44,19 +37,21 @@ class DataCollect {
     // Show a notification after every 15 minute with the first
     // appearance happening a minute after invoking the method
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'pandemia_alerts_channel', 'Exposition alerts', 'This channel sends alerts regarding virus exposition.',
+        'pandemia_alerts_channel',
+        FlutterI18n.translate(context, "exposition_notification_channel_name"),
+        FlutterI18n.translate(context, "exposition_notification_channel_description"),
         importance: Importance.max, priority: Priority.high);
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
 
     // initialise channel platform for both Android and iOS device.
     var platformChannelSpecifics = new NotificationDetails(
         android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
-    var texte = 'Votre taux d\'exposition quotidien est de ' + taux.toString();
-    await flip.show(0, 'Pandemia', texte, platformChannelSpecifics,
+    var texte = FlutterI18n.translate(context, "exposition_notification_text") + ' ${taux.toString()} !';
+    await flip.show(0, FlutterI18n.translate(context, "exposition_notification_title"), texte, platformChannelSpecifics,
         payload: 'Default_Sound');
   }
 
-  void findPlaceFromString(String address) async {
+  static void findPlaceFromString(String address) async {
     String key = AppModel.apiKey;
     const _host =
         'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';
@@ -80,7 +75,7 @@ class DataCollect {
   *methode permettant de recuperer des donnees de flux de personnes a partir d'une adresse
   *retourne une valeur representant le taux d'exposition
    */
-  recupDonnees(liste, i, nb, n, r, v) async {
+  static recupDonnees(liste, i, nb, n, r, v) async {
     var name;
     //url permettant de recuperer ces donnees au format JSON
     String url =
@@ -123,7 +118,7 @@ class DataCollect {
   * retourne la liste des lieux visite
 
    */
-  Future<List<Visit>> conv() async {
+  static Future<List<Visit>> conv(BuildContext context) async {
     List<Visit> listeVisite = [];
     List<Local.Location> liste = await db.getLocations();
     Placemark old;
@@ -177,7 +172,7 @@ class DataCollect {
     }
     if (result >= 50) {
       if (last_notif == null || now.difference(last_notif).inHours >= 2) {
-        _showNotificationWithDefaultSound(result);
+        _showNotificationWithDefaultSound(result, context);
         last_notif = now;
       }
     }

@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
   void _onRefresh(context) async{
     await computer.forceReportRecomputing(context);
     _refreshController.refreshCompleted();
-    _key.currentState.marker();
+    _key.currentState.marker(context);
   }
 
   void _onLoading() async{

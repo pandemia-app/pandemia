@@ -65,8 +65,6 @@ class Geolocator {
             lng: locationDto.longitude,
             timestamp: timestamp));
     print('received new location at $timestamp, location : $locationDto');
-    var dataCollect = DataCollect();
-    dataCollect.conv();
   }
 
   static void stop () {

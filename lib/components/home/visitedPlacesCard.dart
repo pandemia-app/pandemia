@@ -35,8 +35,8 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
   }
 
   ///methode permettant d'ajouter des marker sur la Google map de la page d'accueil
-  marker() async {
-    List<Visit> visited = await dataCollect.conv();
+  marker(BuildContext context) async {
+    List<Visit> visited = await DataCollect.conv(context);
     count = visited.length;
 
     rootBundle.loadString('assets/mapstyle.txt').then((string) {

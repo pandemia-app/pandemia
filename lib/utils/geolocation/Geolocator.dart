@@ -5,6 +5,8 @@ import 'package:background_locator/location_dto.dart';
 import 'package:background_locator/settings/android_settings.dart';
 import 'package:background_locator/settings/ios_settings.dart';
 import 'package:background_locator/settings/locator_settings.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/data/database/models/dataCollect.dart';
@@ -14,17 +16,24 @@ class Geolocator {
   static const String _isolateName = "LocatorIsolate";
   static ReceivePort port = ReceivePort();
   static AppDatabase db = new AppDatabase();
+  static BuildContext _context;
+  static bool _initialized = false;
 
-  static void launch () {
+  static void launch (BuildContext context) {
+    if (_initialized) return;
+
+    _context = context;
+
     init().then((value) {
+      _initialized = true;
       BackgroundLocator.registerLocationUpdate(
         Geolocator.callback,
         autoStop: false,
         androidSettings: AndroidSettings (
           androidNotificationSettings: AndroidNotificationSettings(
             notificationChannelName: 'Location tracking',
-            notificationTitle: "Registering locations",
-            notificationBigMsg: "Tap to check your virus exposition.",
+            notificationTitle: FlutterI18n.translate(_context, "location_notification_title"),
+            notificationBigMsg: FlutterI18n.translate(_context, "location_notification_text"),
             notificationIcon: "ic_virus_outline_black",
           ),
           wakeLockTime: 20,

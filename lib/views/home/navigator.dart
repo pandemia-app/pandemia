@@ -7,6 +7,7 @@ import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/main.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
+import 'package:pandemia/utils/geolocation/Geolocator.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pandemia/views/home/home.dart';
 import 'package:pandemia/views/places/places.dart';
@@ -39,6 +40,8 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    initGeolocation(context);
+
     // checking location service status if permission has been granted
     Permission.locationAlways.isGranted.then((value) {
       if (!value) return;
@@ -94,5 +97,18 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
         label: FlutterI18n.translate(context, "navigator_favorites"),
       ),
     ];
+  }
+
+  // checking location permission + status before launching location gathering
+  initGeolocation (BuildContext context) {
+    Permission.locationAlways.status.then((permissionStatus) {
+      if (permissionStatus.isGranted) {
+        Permission.locationAlways.serviceStatus.then((serviceStatus) {
+          if (serviceStatus.isEnabled) {
+            Geolocator.launch(context);
+          }
+        });
+      }
+    });
   }
 }

@@ -54,7 +54,7 @@ class GeoTileState extends State<GeoTile> {
           _value = false;
         });
       } else {
-        Geolocator.launch();
+        Geolocator.launch(_context);
       }
 
     // removing the location permission

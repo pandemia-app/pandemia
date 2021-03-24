@@ -167,5 +167,10 @@
 
   "location_service_disabled": "La géolocalisation est activée, mais pas le service associé ; merci de l'activer dans les paramètres de votre smartphone.",
   "location_notification_title": "Ecoute des positions",
-  "location_notification_text": "Toucher pour ouvrir l'application."
+  "location_notification_text": "Toucher pour ouvrir l'application.",
+
+  "exposition_notification_title": "Taux d'exposition élevé",
+  "exposition_notification_text": "Votre taux d'exposition quotidien est de",
+  "exposition_notification_channel_name": "Alertes d'exposition",
+  "exposition_notification_channel_description": "Ce canal transmet des alertes pour vous prévenir d'une exposition au virus."
 }

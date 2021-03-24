@@ -167,5 +167,10 @@
 
   "location_service_disabled": "Geolocation has been activated but the location service is not running; please enable it in your smartphone's settings.",
   "location_notification_title": "Registering locations",
-  "location_notification_text": "Tap to check your virus exposition."
+  "location_notification_text": "Tap to check your virus exposition.",
+
+  "exposition_notification_title": "High exposure rate",
+  "exposition_notification_text": "Your daily exposure rate is",
+  "exposition_notification_channel_name": "Exposition alerts",
+  "exposition_notification_channel_description": "This channel sends alerts regarding virus exposition."
 }

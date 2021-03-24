@@ -22,7 +22,7 @@ class Geolocator {
         autoStop: false,
         androidSettings: AndroidSettings (
           androidNotificationSettings: AndroidNotificationSettings(
-            notificationChannelName: 'Pandemia location tracking',
+            notificationChannelName: 'Location tracking',
             notificationTitle: "Registering locations",
             notificationBigMsg: "Tap to check your virus exposition.",
             notificationIcon: "ic_virus_outline_black",
@@ -33,7 +33,7 @@ class Geolocator {
         iosSettings: IOSSettings (
           showsBackgroundLocationIndicator: true,
           accuracy: LocationAccuracy.HIGH,
-          distanceFilter: 0
+          distanceFilter: 0,
         )
       );
     });

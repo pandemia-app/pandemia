@@ -31,7 +31,7 @@ class Geolocator {
         autoStop: false,
         androidSettings: AndroidSettings (
           androidNotificationSettings: AndroidNotificationSettings(
-            notificationChannelName: 'Location tracking',
+            notificationChannelName: FlutterI18n.translate(_context, "location_notification_channel_name"),
             notificationTitle: FlutterI18n.translate(_context, "location_notification_title"),
             notificationBigMsg: FlutterI18n.translate(_context, "location_notification_text"),
             notificationIcon: "ic_virus_outline_black",

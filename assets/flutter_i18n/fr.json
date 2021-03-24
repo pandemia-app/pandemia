@@ -166,7 +166,8 @@
   "day_7": "Dimanche",
 
   "location_service_disabled": "La géolocalisation est activée, mais pas le service associé ; merci de l'activer dans les paramètres de votre smartphone.",
-  "location_notification_title": "Ecoute des positions",
+  "location_notification_channel_name": "Ecoute des positions",
+  "location_notification_title": "Enregistrement des positions",
   "location_notification_text": "Toucher pour ouvrir l'application.",
 
   "exposition_notification_title": "Taux d'exposition élevé",

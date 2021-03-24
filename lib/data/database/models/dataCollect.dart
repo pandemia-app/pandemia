@@ -34,7 +34,7 @@ class DataCollect {
 
     // app_icon needs to be a added as a drawable
     // resource to the Android head project.
-    var android = new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var android = new AndroidInitializationSettings('@mipmap/ic_virus_outline_black');
     // ignore: non_constant_identifier_names
     var IOS = new IOSInitializationSettings();
 
@@ -44,7 +44,7 @@ class DataCollect {
     // Show a notification after every 15 minute with the first
     // appearance happening a minute after invoking the method
     var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'your channel id', 'your channel name', 'your channel description',
+        'pandemia_alerts_channel', 'Exposition alerts', 'This channel sends alerts regarding virus exposition.',
         importance: Importance.max, priority: Priority.high);
     var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
 

@@ -128,7 +128,8 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
       return "Computing results...";
     }
 
-    int locationsCount = snapshot.data.length;
+    List<Location> locations = getRecentLocations(snapshot.data);
+    int locationsCount = locations.length;
 
     return
       "$locationsCount ${FlutterI18n.translate(context, "word_location")}"
@@ -163,7 +164,8 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
     }
 
     List<WeightedLatLng> points =
-      snapshot.data.map((e) => WeightedLatLng(point: e.toLatLng())).toList();
+      getRecentLocations(snapshot.data)
+        .map((e) => WeightedLatLng(point: e.toLatLng())).toList();
 
     return GoogleMap(
       initialCameraPosition: CameraPosition(
@@ -192,5 +194,14 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
         c.setMapStyle(_mapStyle);
       },
     );
+  }
+
+  /// Filters an array of locations and returns only those with a timestamp
+  /// less than 24 hours old.
+  List<Location> getRecentLocations (List<Location> locations) {
+    DateTime now = DateTime.now();
+    return locations.where(
+            (location) => now.difference(location.timestamp).inHours < 24
+    ).toList();
   }
 }

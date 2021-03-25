@@ -23,7 +23,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
   final String title;
   final AppDatabase db = new AppDatabase();
   BottomNavigationWidgetState({Key key, this.title}) : super ();
-
+  bool _computersInitialized = false;
 
   static const TextStyle optionStyle =
     TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
@@ -41,8 +41,11 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    initGeolocation(context);
-    VisitedPlacesComputer.init(context);
+    if (!_computersInitialized) {
+      initGeolocation(context);
+      VisitedPlacesComputer.init(context);
+      _computersInitialized = true;
+    }
 
     // checking location service status if permission has been granted
     Permission.locationAlways.isGranted.then((value) {

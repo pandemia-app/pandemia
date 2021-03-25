@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:pandemia/components/home/visit.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 
@@ -8,7 +8,7 @@ import 'package:pandemia/data/database/models/DailyReport.dart';
 class AppModel extends ChangeNotifier {
   int tabIndex = 0;
   List<DailyReport> reports = [];
-  List<Visit> visitedPlaces = [];
+  List<Marker> visitedPlacesMarkers = [];
   AppDatabase database = new AppDatabase();
   static String apiKey = DotEnv().env['GMAPS_PLACES_API_KEY'];
 
@@ -24,8 +24,8 @@ class AppModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  setVisitedPlaces (List<Visit> places) {
-    this.visitedPlaces = places;
+  setVisitedPlacesMarkers (List<Marker> markers) {
+    this.visitedPlacesMarkers = markers;
     notifyListeners();
   }
 }

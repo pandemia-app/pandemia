@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/components/home/visit.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/Location.dart' as Local;
@@ -11,6 +12,7 @@ import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
 import 'package:http/http.dart' as http;
 import 'package:pandemia/data/state/AppModel.dart';
+import 'package:provider/provider.dart';
 
 class VisitedPlacesComputer {
   static BuildContext _context;
@@ -29,6 +31,16 @@ class VisitedPlacesComputer {
     print("COMPUTING PLACES");
     List<Visit> visited = await conv(_context);
     print('${visited.length} visited places found.');
+
+    List<Marker> _markers = [];
+
+    visited.asMap().forEach((key, value) {
+      _markers.add(Marker(
+          markerId: MarkerId(key.toString()),
+          position: LatLng(value.visit.lat, value.visit.lng)));
+    });
+
+    Provider.of<AppModel>(_context, listen: false).setVisitedPlacesMarkers(_markers);
   }
 
   /*

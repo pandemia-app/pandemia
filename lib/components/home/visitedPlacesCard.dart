@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/database/models/Location.dart';
-import 'package:pandemia/components/home/visit.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
@@ -23,7 +22,6 @@ class VisitedPlacesCard extends StatefulWidget {
 
 class VisitedPlacesCardState extends State<VisitedPlacesCard> {
   String _mapStyle;
-  Set<Marker> _markers = new Set();
 
   VisitedPlacesCardState() {
     rootBundle.loadString('assets/mapstyle.txt').then((string) {
@@ -31,21 +29,10 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
     });
   }
 
-  setVisitedPlacesMarkers (List<Visit> visited) {
-    visited.asMap().forEach((key, value) {
-      setState(() {
-        _markers.add(Marker(
-            markerId: MarkerId(key.toString()),
-            position: LatLng(value.visit.lat, value.visit.lng)));
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<AppModel> (
       builder: (context, model, child) {
-        setVisitedPlacesMarkers(model.visitedPlaces);
         return GestureDetector(
             onTap: () => model.setTabIndex(1),
             child: Container (
@@ -67,7 +54,7 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
                                 alignment: Alignment.bottomRight,
                                 heightFactor: 0.3,
                                 widthFactor: 2.5,
-                                child: _buildMap(snapshot),
+                                child: _buildMap(snapshot, model),
                               ),
                             )
                         ),
@@ -86,7 +73,7 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
 
                         Container(
                             child: new Text(
-                              getPlacesTitle(context, snapshot),
+                              getPlacesTitle(context, snapshot, model),
                               style: TextStyle(
                                   color: CustomPalette.text[600],
                                   fontSize: 18,
@@ -108,7 +95,8 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
 
   String getPlacesTitle (
       BuildContext context,
-      AsyncSnapshot<List<Location>> snapshot) {
+      AsyncSnapshot<List<Location>> snapshot,
+      AppModel model) {
 
     if (!snapshot.hasData) {
       return "Computing results...";
@@ -120,18 +108,18 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
     return
       "$locationsCount ${FlutterI18n.translate(context, "word_location")}"
         + (locationsCount > 1 ? 's' : '') + " - "
-      "${_markers.length} " + FlutterI18n.translate(context, "word_place")
-        + (_markers.length > 1 ? 's' : '');
+      "${model.visitedPlacesMarkers.length} " + FlutterI18n.translate(context, "word_place")
+        + (model.visitedPlacesMarkers.length > 1 ? 's' : '');
   }
 
-  GoogleMap _buildMap (AsyncSnapshot<List<Location>> snapshot) {
+  GoogleMap _buildMap (AsyncSnapshot<List<Location>> snapshot, AppModel model) {
     if (!snapshot.hasData || snapshot.data.length == 0) {
       return GoogleMap(
         initialCameraPosition: CameraPosition(
           target: VisitedPlacesCard._center,
           zoom: 13.75,
         ),
-        markers: _markers,
+        markers: model.visitedPlacesMarkers.toSet(),
         myLocationButtonEnabled: false,
         buildingsEnabled: false,
         compassEnabled: false,
@@ -164,7 +152,7 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
           heatmapId: HeatmapId(DateTime.now().toIso8601String())
         )
       ].toSet(),
-      markers: _markers,
+      markers: model.visitedPlacesMarkers.toSet(),
       myLocationButtonEnabled: false,
       buildingsEnabled: false,
       compassEnabled: false,

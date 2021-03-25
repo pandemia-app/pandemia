@@ -117,7 +117,10 @@ class VisitedPlacesComputer {
   static recupDonnees(liste, i, nb, n, r, v) async {
     try {
       String address = '$n $r $v';
-      PopularTimes stats = await Parser.getPopularTimes(Favorite(name: null, id: address, address: address));
+      PopularTimes stats = await Parser.getPopularTimes(
+        Favorite(name: null, id: address, address: address),
+        ignoreCache: true
+      );
 
       var arrive = liste[i].timestamp.hour;
       var depart = liste[i + nb].timestamp.hour;

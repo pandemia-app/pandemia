@@ -12,8 +12,12 @@ class Parser {
 
   /// Returns popularity statistics associated to a given place.
   /// Main method of this parser.
-  static Future<PopularTimes> getPopularTimes(Favorite place) async {
-    if (cache.hasStatsForPlace(place)) {
+  static Future<PopularTimes> getPopularTimes(
+      Favorite place,
+      {bool ignoreCache = false}
+  ) async {
+
+    if (cache.hasStatsForPlace(place) && !ignoreCache) {
       print('returning cache data for ${place.name}');
       return cache.getStatsFromPlace(place);
     }

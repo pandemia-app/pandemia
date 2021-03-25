@@ -33,11 +33,7 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
     });
   }
 
-  ///methode permettant d'ajouter des marker sur la Google map de la page d'accueil
-  /// TODO move this + _markers outside visitedPlacesCard
-  marker (BuildContext context) async {
-    List<Visit> visited = await DataCollect.conv(context);
-
+  setVisitedPlacesMarkers (List<Visit> visited) {
     visited.asMap().forEach((key, value) {
       setState(() {
         _markers.add(Marker(
@@ -45,14 +41,13 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
             position: LatLng(value.visit.lat, value.visit.lng)));
       });
     });
-
-    print(_markers.length.toString() + ' markers computed');
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<AppModel> (
       builder: (context, model, child) {
+        setVisitedPlacesMarkers(model.visitedPlaces);
         return GestureDetector(
             onTap: () => model.setTabIndex(1),
             child: Container (

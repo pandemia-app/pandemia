@@ -34,6 +34,7 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
   }
 
   ///methode permettant d'ajouter des marker sur la Google map de la page d'accueil
+  /// TODO move this + _markers outside visitedPlacesCard
   marker (BuildContext context) async {
     List<Visit> visited = await DataCollect.conv(context);
 

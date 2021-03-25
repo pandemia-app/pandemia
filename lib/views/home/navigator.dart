@@ -8,6 +8,7 @@ import 'package:pandemia/main.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/geolocation/Geolocator.dart';
+import 'package:pandemia/utils/geolocation/VisitedPlacesComputer.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pandemia/views/home/home.dart';
 import 'package:pandemia/views/places/places.dart';
@@ -41,6 +42,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     initGeolocation(context);
+    VisitedPlacesComputer.init(context);
 
     // checking location service status if permission has been granted
     Permission.locationAlways.isGranted.then((value) {

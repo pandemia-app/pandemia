@@ -8,6 +8,7 @@ import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:pandemia/utils/geolocation/VisitedPlacesComputer.dart';
 import 'package:provider/provider.dart';
 
 /// Map card showing places the user visited today.
@@ -102,7 +103,7 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
       return "Computing results...";
     }
 
-    List<Location> locations = getRecentLocations(snapshot.data);
+    List<Location> locations = VisitedPlacesComputer.getRecentLocations(snapshot.data);
     int locationsCount = locations.length;
 
     return
@@ -138,7 +139,7 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
     }
 
     List<WeightedLatLng> points =
-      getRecentLocations(snapshot.data)
+      VisitedPlacesComputer.getRecentLocations(snapshot.data)
         .map((e) => WeightedLatLng(point: e.toLatLng())).toList();
 
     return GoogleMap(
@@ -168,14 +169,5 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
         c.setMapStyle(_mapStyle);
       },
     );
-  }
-
-  /// Filters an array of locations and returns only those with a timestamp
-  /// less than 24 hours old.
-  List<Location> getRecentLocations (List<Location> locations) {
-    DateTime now = DateTime.now();
-    return locations.where(
-            (location) => now.difference(location.timestamp).inHours < 24
-    ).toList();
   }
 }

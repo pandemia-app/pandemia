@@ -50,7 +50,7 @@ class VisitedPlacesComputer {
    */
   static Future<List<Visit>> conv (BuildContext context) async {
     List<Visit> listeVisite = [];
-    List<Local.Location> liste = await db.getLocations();
+    List<Local.Location> liste = getRecentLocations(await db.getLocations());
     Placemark old;
     Local.Location oldLoc;
     int nb = 0;
@@ -175,5 +175,22 @@ class VisitedPlacesComputer {
     var texte = FlutterI18n.translate(context, "exposition_notification_text") + ' ${taux.toString()}%!';
     await flip.show(0, FlutterI18n.translate(context, "exposition_notification_title"), texte, platformChannelSpecifics,
         payload: 'Default_Sound');
+  }
+
+
+  /// Filters an array of locations and returns only those received during the
+  /// current day.
+  static List<Local.Location> getRecentLocations (List<Local.Location> locations) {
+    DateTime now = new DateTime.now();
+    DateTime _currentDay = new DateTime(now.year, now.month, now.day);
+
+    return locations.where(
+            (location) {
+              DateTime locTime = location.timestamp;
+              return locTime.year == _currentDay.year
+                    && locTime.month == _currentDay.month
+                    && locTime.day == _currentDay.day;
+            }
+    ).toList();
   }
 }

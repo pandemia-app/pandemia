@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/components/home/visit.dart';
 import 'package:pandemia/data/database/database.dart';
+import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/database/models/Location.dart' as Local;
 import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
@@ -114,17 +115,9 @@ class VisitedPlacesComputer {
   *retourne une valeur representant le taux d'exposition
    */
   static recupDonnees(liste, i, nb, n, r, v) async {
-    var name;
-    //url permettant de recuperer ces donnees au format JSON
-    String url =
-        "https://www.google.de/search?tbm=map&ych=1&h1=en&pb=!4m12!1m3!1d4005.9771522653964!2d-122.42072974863942!3d37.8077459796541!2m3!1f0!2f0!3f0!3m2!1i1125!2i976!4f13.1!7i20!10b1!12m6!2m3!5m1!6e2!20e3!10b1!16b1!19m3!2m2!1i392!2i106!20m61!2m2!1i203!2i100!3m2!2i4!5b1!6m6!1m2!1i86!2i86!1m2!1i408!2i200!7m46!1m3!1e1!2b0!3e3!1m3!1e2!2b1!3e2!1m3!1e2!2b0!3e3!1m3!1e3!2b0!3e3!1m3!1e4!2b0!3e3!1m3!1e8!2b0!3e3!1m3!1e3!2b1!3e2!1m3!1e9!2b1!3e2!1m3!1e10!2b0!3e3!1m3!1e10!2b1!3e2!1m3!1e10!2b0!3e4!2b1!4b1!9b0!22m6!1sa9fVWea_MsX8adX8j8AE%3A1!2zMWk6Mix0OjExODg3LGU6MSxwOmE5ZlZXZWFfTXNYOGFkWDhqOEFFOjE!7e81!12e3!17sa9fVWea_MsX8adX8j8AE%3A564!18e15!24m15!2b1!5m4!2b1!3b1!5b1!6b1!10m1!8e3!17b1!24b1!25b1!26b1!30m1!2b1!36b1!26m3!2m2!1i80!2i92!30m28!1m6!1m2!1i0!2i0!2m2!1i458!2i976!1m6!1m2!1i1075!2i0!2m2!1i1125!2i976!1m6!1m2!1i0!2i0!2m2!1i1125!2i20!1m6!1m2!1i0!2i956!2m2!1i1125!2i976!37m1!1e81!42b1!47m0!49m1!3b1&q=$name $n $r $v";
-    String encodedUrl = Uri.encodeFull(url);
-
-    var response = await http.get(encodedUrl);
-    var file = response.body;
-    PopularTimes stats;
     try {
-      stats = Parser.parseResponse(file);
+      String address = '$n $r $v';
+      PopularTimes stats = await Parser.getPopularTimes(Favorite(name: null, id: address, address: address));
 
       var arrive = liste[i].timestamp.hour;
       var depart = liste[i + nb].timestamp.hour;
@@ -146,7 +139,6 @@ class VisitedPlacesComputer {
       //
       return moyenne * nb * 0.125;
     } catch (err) {
-      stats = new PopularTimes(hasData: false);
       return 0.0;
     }
   }

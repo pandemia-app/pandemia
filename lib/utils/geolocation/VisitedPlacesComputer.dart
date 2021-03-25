@@ -9,7 +9,6 @@ import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/database/models/Location.dart' as Local;
 import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
-import 'package:http/http.dart' as http;
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:provider/provider.dart';
 

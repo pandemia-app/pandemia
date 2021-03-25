@@ -1,12 +1,10 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/geolocation/VisitedPlacesComputer.dart';
 import 'package:provider/provider.dart';
-import 'package:pandemia/data/database/models/Location.dart' as L;
 var database = new AppDatabase();
 
 /// This is responsible for generating daily pandemia reports.

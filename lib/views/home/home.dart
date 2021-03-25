@@ -5,7 +5,6 @@ import 'package:pandemia/components/home/expositionProgressionCard.dart';
 import 'package:pandemia/components/home/myExpositionCard.dart';
 import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
-import 'package:pandemia/utils/geolocation/VisitedPlacesComputer.dart';
 import 'package:pandemia/utils/information/InformationSheet.dart';
 import 'package:pandemia/data/database/indicatorsComputer.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

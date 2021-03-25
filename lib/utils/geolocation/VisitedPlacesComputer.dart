@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -17,9 +15,8 @@ import 'package:provider/provider.dart';
 class VisitedPlacesComputer {
   static BuildContext _context;
   static AppDatabase db = new AppDatabase();
-  static var res;
-  static var _result = 0.0;
-  static DateTime lastNotif;
+  static double _currentExposureRate = 0.0;
+  static DateTime _lastNotificationSendingTime;
 
   static init (BuildContext context) {
     _context = context;
@@ -27,10 +24,9 @@ class VisitedPlacesComputer {
 
   static Future<num> getCurrentExposureRate () async {
     await computeVisitedPlaces();
-    return _result;
+    return _currentExposureRate;
   }
 
-  // TODO compute visited places and store them in AppModel
   static computeVisitedPlaces () async {
     print("COMPUTING PLACES");
     List<Visit> visited = await conv(_context);
@@ -65,7 +61,7 @@ class VisitedPlacesComputer {
     var n;
     var r;
     var v;
-    _result = 0;
+    _currentExposureRate = 0;
 
     while (i >= 0 && now.difference(liste[i].timestamp).inDays < 1) {
       List<Placemark> placemark = await
@@ -82,10 +78,9 @@ class VisitedPlacesComputer {
       } else {
         if (nb >= 3) {
           listeVisite.add(new Visit(liste[i + 1], nb));
-          findPlaceFromString('$n $r $v');
           moyenne = await recupDonnees(
               liste, i + 1, nb, old.name, old.thoroughfare, old.locality);
-          _result += moyenne;
+          _currentExposureRate += moyenne;
         }
         nb = 0;
       }
@@ -95,20 +90,19 @@ class VisitedPlacesComputer {
     }
     if (nb >= 3) {
       listeVisite.add(new Visit(oldLoc, nb));
-      findPlaceFromString('$n $r $v');
       i = i + 1;
       if (i == -1) {
         i = 0;
       }
 
       moyenne = await recupDonnees(liste, i, nb, n, r, v);
-      _result += moyenne;
+      _currentExposureRate += moyenne;
     }
-    if (_result >= 50) {
-      if (lastNotif == null || now.difference(lastNotif).inHours >= 2) {
+    if (_currentExposureRate >= 50) {
+      if (_lastNotificationSendingTime == null || now.difference(_lastNotificationSendingTime).inHours >= 2) {
         _showNotificationWithDefaultSound (
-            _result < 100 ? _result.round() : 100, context);
-        lastNotif = now;
+            _currentExposureRate < 100 ? _currentExposureRate.round() : 100, context);
+        _lastNotificationSendingTime = now;
       }
     }
     return listeVisite;
@@ -187,25 +181,5 @@ class VisitedPlacesComputer {
     var texte = FlutterI18n.translate(context, "exposition_notification_text") + ' ${taux.toString()}%!';
     await flip.show(0, FlutterI18n.translate(context, "exposition_notification_title"), texte, platformChannelSpecifics,
         payload: 'Default_Sound');
-  }
-
-  static void findPlaceFromString(String address) async {
-    String key = AppModel.apiKey;
-    const _host =
-        'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';
-    var encoded = Uri.encodeComponent(address);
-    // TODO filter place types (prevent registering cities, for example, for they cannot provide popular times)
-    final uri = Uri.parse('$_host?input=$encoded&inputtype=textquery'
-        '&fields=name,place_id,formatted_address,geometry'
-        '&locationbias=circle:467.0@50.68078750377484,3.2189865969121456'
-        '&key=$key');
-    print('hitting $uri');
-
-    http.Response response = await http.get(uri);
-    final responseJson = json.decode(response.body);
-    var candidates = responseJson['candidates'];
-    if (candidates.length != 0) {
-      res = candidates[0]['name'];
-    }
   }
 }

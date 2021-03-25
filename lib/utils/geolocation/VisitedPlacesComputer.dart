@@ -18,12 +18,16 @@ class VisitedPlacesComputer {
   static BuildContext _context;
   static AppDatabase db = new AppDatabase();
   static var res;
-  static var result = 0.0;
+  static var _result = 0.0;
   static DateTime lastNotif;
 
   static init (BuildContext context) {
     _context = context;
-    // computeVisitedPlaces();
+  }
+
+  static Future<num> getCurrentExposureRate () async {
+    await computeVisitedPlaces();
+    return _result;
   }
 
   // TODO compute visited places and store them in AppModel
@@ -61,7 +65,7 @@ class VisitedPlacesComputer {
     var n;
     var r;
     var v;
-    result = 0;
+    _result = 0;
 
     while (i >= 0 && now.difference(liste[i].timestamp).inDays < 1) {
       List<Placemark> placemark = await
@@ -81,7 +85,7 @@ class VisitedPlacesComputer {
           findPlaceFromString('$n $r $v');
           moyenne = await recupDonnees(
               liste, i + 1, nb, old.name, old.thoroughfare, old.locality);
-          result += moyenne;
+          _result += moyenne;
         }
         nb = 0;
       }
@@ -98,12 +102,12 @@ class VisitedPlacesComputer {
       }
 
       moyenne = await recupDonnees(liste, i, nb, n, r, v);
-      result += moyenne;
+      _result += moyenne;
     }
-    if (result >= 50) {
+    if (_result >= 50) {
       if (lastNotif == null || now.difference(lastNotif).inHours >= 2) {
         _showNotificationWithDefaultSound (
-            result < 100 ? result.round() : 100, context);
+            _result < 100 ? _result.round() : 100, context);
         lastNotif = now;
       }
     }

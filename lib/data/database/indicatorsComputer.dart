@@ -21,11 +21,9 @@ class IndicatorsComputer {
     if (generated) return;
     print('generating report');
 
-    await VisitedPlacesComputer.computeVisitedPlaces();
+    double currentExpositionRate = await VisitedPlacesComputer.getCurrentExposureRate();
+    var result = currentExpositionRate < 100 ? currentExpositionRate.round() : 100;
 
-    print("-------------------------------");
-    print(VisitedPlacesComputer.result);
-    var result = VisitedPlacesComputer.result <100 ? VisitedPlacesComputer.result.round() : 100;
     var report = new DailyReport(
         timestamp: DailyReport.getTodaysTimestamp(),
         broadcastRate: new Random().nextInt(100),

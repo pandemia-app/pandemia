@@ -6,7 +6,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/components/home/visit.dart';
 import 'package:pandemia/data/database/database.dart';
-import 'package:pandemia/data/database/models/dataCollect.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -23,7 +22,6 @@ class VisitedPlacesCard extends StatefulWidget {
 }
 
 class VisitedPlacesCardState extends State<VisitedPlacesCard> {
-  final dataCollect = DataCollect();
   String _mapStyle;
   Set<Marker> _markers = new Set();
 

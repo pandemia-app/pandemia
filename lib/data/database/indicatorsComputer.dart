@@ -4,10 +4,9 @@ import 'package:geocoding/geocoding.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
+import 'package:pandemia/utils/geolocation/VisitedPlacesComputer.dart';
 import 'package:provider/provider.dart';
 import 'package:pandemia/data/database/models/Location.dart' as L;
-
-import 'models/dataCollect.dart';
 var database = new AppDatabase();
 
 /// This is responsible for generating daily pandemia reports.
@@ -34,8 +33,8 @@ class IndicatorsComputer {
     await loadVisitedPlaces();
 
     print("-------------------------------");
-    print(DataCollect.result);
-    var result = DataCollect.result <100 ? DataCollect.result.round() : 100;
+    print(VisitedPlacesComputer.result);
+    var result = VisitedPlacesComputer.result <100 ? VisitedPlacesComputer.result.round() : 100;
     var report = new DailyReport(
         timestamp: DailyReport.getTodaysTimestamp(),
         broadcastRate: new Random().nextInt(100),

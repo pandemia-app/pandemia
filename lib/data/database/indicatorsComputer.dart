@@ -15,22 +15,13 @@ class IndicatorsComputer {
   // we need to be able to block further calls
   var generated = false;
 
-  // TODO what does this?
-  // TODO work only on locations from last 24h
-  Future<void> loadVisitedPlaces() async {
-    List<L.Location> locations = await database.getLocations();
-    for (L.Location location in locations){
-      await placemarkFromCoordinates(location.lat, location.lng);
-    }
-  }
-
   /// is called several times a day to update today's report
   /// returns the exposition rate of the day
   Future<void> generateReport (BuildContext context) async {
     if (generated) return;
     print('generating report');
 
-    await loadVisitedPlaces();
+    await VisitedPlacesComputer.computeVisitedPlaces();
 
     print("-------------------------------");
     print(VisitedPlacesComputer.result);

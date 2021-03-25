@@ -24,7 +24,6 @@ class HomeView extends StatelessWidget {
   void _onRefresh(context) async{
     await computer.forceReportRecomputing(context);
     _refreshController.refreshCompleted();
-    VisitedPlacesComputer.computeVisitedPlaces();
   }
 
   void _onLoading() async{

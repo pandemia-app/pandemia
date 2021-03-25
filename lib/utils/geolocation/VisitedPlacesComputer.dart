@@ -23,7 +23,7 @@ class VisitedPlacesComputer {
 
   static init (BuildContext context) {
     _context = context;
-    computeVisitedPlaces();
+    // computeVisitedPlaces();
   }
 
   // TODO compute visited places and store them in AppModel

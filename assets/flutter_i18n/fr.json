@@ -175,5 +175,6 @@
   "exposition_notification_channel_name": "Alertes d'exposition",
   "exposition_notification_channel_description": "Ce canal transmet des alertes pour vous prévenir d'une exposition au virus.",
 
-  "no_internet_connection": "Pas de connexion internet."
+  "no_internet_connection": "Pas de connexion internet.",
+  "no_internet_no_report_message": "Le calcul d'exposition au virus n'a pas pu aboutir car votre téléphone n'est pas connecté à Internet."
 }

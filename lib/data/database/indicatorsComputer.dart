@@ -1,5 +1,7 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
@@ -30,6 +32,10 @@ class IndicatorsComputer {
           expositionRate: result
       );
       await setTodaysReport(report);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(FlutterI18n.translate(context, "no_internet_no_report_message")))
+      );
     }
 
     // putting all reports in app model, to share them among other components

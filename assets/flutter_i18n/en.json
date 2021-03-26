@@ -173,5 +173,7 @@
   "exposition_notification_title": "High exposure rate",
   "exposition_notification_text": "Your daily exposure rate is",
   "exposition_notification_channel_name": "Exposition alerts",
-  "exposition_notification_channel_description": "This channel sends alerts regarding virus exposition."
+  "exposition_notification_channel_description": "This channel sends alerts regarding virus exposition.",
+
+  "no_internet_connection": "No internet connection."
 }

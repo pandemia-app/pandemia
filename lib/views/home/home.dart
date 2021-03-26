@@ -7,6 +7,7 @@ import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/information/InformationSheet.dart';
 import 'package:pandemia/data/database/indicatorsComputer.dart';
+import 'package:pandemia/utils/information/NetworkUtils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /// Home view of the application, showing current exposition rate, exposition
@@ -20,9 +21,14 @@ class HomeView extends StatelessWidget {
   final RefreshController _refreshController =
   RefreshController(initialRefresh: false);
 
-  void _onRefresh(context) async{
-    await computer.forceReportRecomputing(context);
-    _refreshController.refreshCompleted();
+  void _onRefresh(context) async {
+    if (await NetworkUtils.hasInternetConnection()) {
+      await computer.forceReportRecomputing(context);
+      _refreshController.refreshCompleted();
+    }
+
+    else
+    _refreshController.refreshFailed();
   }
 
   void _onLoading() async{
@@ -51,7 +57,9 @@ class HomeView extends StatelessWidget {
                 idleText: FlutterI18n.translate(context, "favorites_pullrefresh_idle"),
                 releaseText: FlutterI18n.translate(context, "favorites_pullrefresh_release"),
                 refreshingText: FlutterI18n.translate(context, "favorites_pullrefresh_refreshing"),
-                completeText: FlutterI18n.translate(context, "favorites_pullrefresh_complete")),
+                completeText: FlutterI18n.translate(context, "favorites_pullrefresh_complete"),
+                failedText: FlutterI18n.translate(context, "no_internet_connection"),
+            ),
             controller: _refreshController,
             onRefresh: () => _onRefresh(context),
             onLoading: _onLoading,

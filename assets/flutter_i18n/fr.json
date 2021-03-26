@@ -173,5 +173,7 @@
   "exposition_notification_title": "Taux d'exposition élevé",
   "exposition_notification_text": "Votre taux d'exposition quotidien est de",
   "exposition_notification_channel_name": "Alertes d'exposition",
-  "exposition_notification_channel_description": "Ce canal transmet des alertes pour vous prévenir d'une exposition au virus."
+  "exposition_notification_channel_description": "Ce canal transmet des alertes pour vous prévenir d'une exposition au virus.",
+
+  "no_internet_connection": "Pas de connexion internet."
 }

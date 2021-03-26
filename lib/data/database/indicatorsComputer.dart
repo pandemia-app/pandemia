@@ -4,6 +4,7 @@ import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/geolocation/VisitedPlacesComputer.dart';
+import 'package:pandemia/utils/information/NetworkUtils.dart';
 import 'package:provider/provider.dart';
 var database = new AppDatabase();
 
@@ -19,15 +20,17 @@ class IndicatorsComputer {
     if (generated) return;
     print('generating report');
 
-    double currentExpositionRate = await VisitedPlacesComputer.getCurrentExposureRate();
-    var result = currentExpositionRate < 100 ? currentExpositionRate.round() : 100;
+    if (await NetworkUtils.hasInternetConnection()) {
+      double currentExpositionRate = await VisitedPlacesComputer.getCurrentExposureRate();
+      var result = currentExpositionRate < 100 ? currentExpositionRate.round() : 100;
 
-    var report = new DailyReport(
-        timestamp: DailyReport.getTodaysTimestamp(),
-        broadcastRate: new Random().nextInt(100),
-        expositionRate: result
-    );
-    await setTodaysReport(report);
+      var report = new DailyReport(
+          timestamp: DailyReport.getTodaysTimestamp(),
+          broadcastRate: new Random().nextInt(100),
+          expositionRate: result
+      );
+      await setTodaysReport(report);
+    }
 
     // putting all reports in app model, to share them among other components
     List<DailyReport> reports = await database.getReports();

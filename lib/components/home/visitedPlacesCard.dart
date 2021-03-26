@@ -143,7 +143,9 @@ class VisitedPlacesCardState extends State<VisitedPlacesCard> {
         .map((e) => WeightedLatLng(point: e.toLatLng())).toList();
 
     return GoogleMap(
-      initialCameraPosition: CameraPosition(
+      initialCameraPosition: points.length == 0
+          ? VisitedPlacesCard._center
+          : CameraPosition(
         target: points[0].point,
         zoom: 13.75,
       ),

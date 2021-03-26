@@ -1,9 +1,11 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 /// Locations gathered by the user's smartphone.
 class Location {
   final int id;
   final double lat;
   final double lng;
-  final int timestamp;
+  final DateTime timestamp;
 
   Location ({this.id, this.lat, this.lng, this.timestamp});
 
@@ -11,14 +13,25 @@ class Location {
     return {
       'lat': lat,
       'lng': lng,
-      'date': timestamp
+      'date': timestamp.millisecondsSinceEpoch
     };
+  }
+
+  factory Location.fromMap(Map<String, dynamic> map) {
+    return Location (
+      id: map['id'],
+      lat: map['lat'],
+      lng: map['lng'],
+      timestamp: DateTime.fromMillisecondsSinceEpoch(map['date'])
+    );
   }
 
   @override
   String toString() {
-    return 'Location{id: $id, lat: $lat, lng: $lng, date: $timestamp}';
+    return '{lat: $lat, lng: $lng, date: $timestamp}';
   }
 
-
+  LatLng toLatLng() {
+    return LatLng(lat, lng);
+  }
 }

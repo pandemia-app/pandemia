@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
@@ -7,8 +8,8 @@ import 'package:pandemia/data/state/MapModel.dart';
 import 'package:pandemia/views/home/navigator.dart';
 import 'package:provider/provider.dart';
 import 'data/state/AppModel.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
 
 void main() async {
   await DotEnv().load('lib/.env.generated');
@@ -30,7 +31,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting();
@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: [
         FlutterI18nDelegate(
           translationLoader: FileTranslationLoader(
-            useCountryCode: false
-          )
+            useCountryCode: false,
+          ),
         )
       ],
     );

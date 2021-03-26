@@ -14,6 +14,10 @@
   "home_info_data_title": "Personal data",
   "home_info_data_text1": "Pandemia is a standalone application; it does not send your data to third parties",
   "home_info_data_text2": "If you activate your smartphone's geolocation, we use locations to improve our calculations' results; these locations are stored on your smartphone, and nowhere else.",
+  "home_info_location_title": "Location",
+  "home_info_location_text": "If you activate your smartphone's geolocation, we use locations to improve our calculations' results.",
+  "home_info_location_permanentlydenied": "You permanently denied location permission to Pandemia; to fix it, update the app settings.",
+  "home_info_location_removepermission": "Location permission needs to be revoked in the app settings.",
   "home_info_disclaimer_title": "Disclaimer",
   "home_info_disclaimer_text": "Pandemia-computed information does not replace screening tests, but can help you decide whether to be tested by health services.",
   "home_info_source_title": "Source code",
@@ -28,6 +32,7 @@
   "home_ratemsg_stayhome": "I certainly have been exposed today, I must stay home",
 
   "word_place": "place",
+  "word_location": "location",
 
   "places_searchbar_label": "Search place...",
   "places_place_added_toast":  "Place added to favorites.",
@@ -158,5 +163,18 @@
   "day_4": "Thursday",
   "day_5": "Friday",
   "day_6": "Saturday",
-  "day_7": "Sunday"
+  "day_7": "Sunday",
+
+  "location_service_disabled": "Geolocation has been activated but the location service is not running; please enable it in your smartphone's settings.",
+  "location_notification_channel_name": "Location tracking",
+  "location_notification_title": "Registering locations",
+  "location_notification_text": "Tap to check your virus exposition.",
+
+  "exposition_notification_title": "High exposure rate",
+  "exposition_notification_text": "Your daily exposure rate is",
+  "exposition_notification_channel_name": "Exposition alerts",
+  "exposition_notification_channel_description": "This channel sends alerts regarding virus exposition.",
+
+  "no_internet_connection": "No internet connection.",
+  "no_internet_no_report_message": "Exposition report hasn't been computed because your phone is not connected to the Internet."
 }

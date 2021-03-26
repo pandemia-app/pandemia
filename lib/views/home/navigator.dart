@@ -2,12 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pandemia/data/state/AppModel.dart';
+import 'package:pandemia/main.dart';
 import 'package:pandemia/data/database/database.dart';
-import 'package:pandemia/data/database/models/Location.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
+import 'package:pandemia/utils/geolocation/Geolocator.dart';
+import 'package:pandemia/utils/geolocation/VisitedPlacesComputer.dart';
 import 'package:pandemia/views/favorites/view.dart';
 import 'package:pandemia/views/home/home.dart';
 import 'package:pandemia/views/places/places.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import '../../data/state/AppModel.dart';
 import '../../main.dart';
@@ -18,6 +23,7 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
   final String title;
   final AppDatabase db = new AppDatabase();
   BottomNavigationWidgetState({Key key, this.title}) : super ();
+  bool _computersInitialized = false;
 
   static const TextStyle optionStyle =
     TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
@@ -30,18 +36,33 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
 
   /// Changes the displayed view when a menu item is tapped.
   void _onItemTapped(int index) {
-    db.open().then((erg) async {
-      var loc = new Location(id: 0, lat: 3.14, lng: 55.42, timestamp: DateTime.now().millisecondsSinceEpoch);
-      await db.insertLocation(loc);
-      print (await db.getLocations());
-      return print("db opened");
-    });
-
     Provider.of<AppModel>(context, listen: false).setTabIndex(index);
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!_computersInitialized) {
+      initGeolocation(context);
+      VisitedPlacesComputer.init(context);
+      _computersInitialized = true;
+    }
+
+    // checking location service status if permission has been granted
+    Permission.locationAlways.isGranted.then((value) {
+      if (!value) return;
+      Permission.locationAlways.serviceStatus.then((value) {
+        if (value.isDisabled) {
+          Fluttertoast.showToast(
+              msg: FlutterI18n.translate(context, "location_service_disabled"),
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIosWeb: 4,
+              fontSize: 16.0
+          );
+        }
+      });
+    });
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Consumer<AppModel>(
@@ -50,7 +71,6 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
               body: Center(
                 child: _widgetOptions.elementAt(model.tabIndex),
               ),
-
               backgroundColor: CustomPalette.background[700],
               bottomNavigationBar: BottomNavigationBar(
                 items: getNavigationItems(),
@@ -82,5 +102,18 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
         label: FlutterI18n.translate(context, "navigator_favorites"),
       ),
     ];
+  }
+
+  // checking location permission + status before launching location gathering
+  initGeolocation (BuildContext context) {
+    Permission.locationAlways.status.then((permissionStatus) {
+      if (permissionStatus.isGranted) {
+        Permission.locationAlways.serviceStatus.then((serviceStatus) {
+          if (serviceStatus.isEnabled) {
+            Geolocator.launch(context);
+          }
+        });
+      }
+    });
   }
 }

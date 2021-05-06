@@ -1,19 +1,22 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:fuzzylogic/fuzzylogic.dart';
+import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:provider/provider.dart';
-
+import '../populartimes/parser/parser.dart';
 import 'Exposition.dart';
 import 'Incidence.dart';
 import 'PlaceVisited.dart';
 import 'Popularity.dart';
 import 'TimeOfVisite.dart';
+import 'models/Favorite.dart';
+import 'models/UserLocation.dart';
+
 var database = new AppDatabase();
-
-
+var locationOfUser = new UserLocation();
 /// This is responsible for generating daily pandemia reports.
 class IndicatorsComputer {
   // since generateRandomReport is called several times (because of builds),
@@ -33,7 +36,7 @@ class IndicatorsComputer {
       (popularity.strong & placevisited.medium) >> (exposition.medium),
       (popularity.strong & placevisited.strong) >> (exposition.strong),
 
-      (popularity.medium & placevisited.low) >> (exposition.strong),
+      (popularity.medium & placevisited.low) >> (exposition.low),
       (popularity.medium & placevisited.medium) >> (exposition.medium),
       (popularity.medium & placevisited.strong) >> (exposition.strong),
 
@@ -52,13 +55,13 @@ class IndicatorsComputer {
       (popularity.medium & incidence.strong) >> (exposition.strong),
 
       (popularity.low & incidence.low) >> (exposition.low),
-      (popularity.low & incidence.medium) >> (exposition.medium),
-      (popularity.low & incidence.strong) >> (exposition.strong),
+      (popularity.low & incidence.medium) >> (exposition.low),
+      (popularity.low & incidence.strong) >> (exposition.medium),
 
       ////////////////////////////////////////////////////////////
 
       (popularity.strong & timeofvisit.low) >> (exposition.low),
-      (popularity.strong & timeofvisit.medium) >> (exposition.strong),
+      (popularity.strong & timeofvisit.medium) >> (exposition.medium),
       (popularity.strong & timeofvisit.strong) >> (exposition.strong),
 
       (popularity.medium & timeofvisit.low) >> (exposition.low),
@@ -66,8 +69,8 @@ class IndicatorsComputer {
       (popularity.medium & timeofvisit.strong) >> (exposition.strong),
 
       (popularity.low & timeofvisit.low) >> (exposition.low),
-      (popularity.low & timeofvisit.medium) >> (exposition.medium),
-      (popularity.low & timeofvisit.strong) >> (exposition.strong),
+      (popularity.low & timeofvisit.medium) >> (exposition.low),
+      (popularity.low & timeofvisit.strong) >> (exposition.medium),
 
       ////////////////////////////////////////////////////////
       /////////////////////INCIDENCE//////////////////////////
@@ -92,7 +95,7 @@ class IndicatorsComputer {
 
       (incidence.medium & placevisited.low) >> (exposition.low),
       (incidence.medium & placevisited.medium) >> (exposition.medium),
-      (incidence.medium & placevisited.strong) >> (exposition.medium),
+      (incidence.medium & placevisited.strong) >> (exposition.strong),
 
       (incidence.low & placevisited.low) >> (exposition.low),
       (incidence.low & placevisited.medium) >> (exposition.low),
@@ -108,7 +111,7 @@ class IndicatorsComputer {
 
       (placevisited.medium & timeofvisit.low) >> (exposition.low),
       (placevisited.medium & timeofvisit.medium) >> (exposition.medium),
-      (placevisited.medium & timeofvisit.strong) >> (exposition.medium),
+      (placevisited.medium & timeofvisit.strong) >> (exposition.strong),
 
       (placevisited.low & timeofvisit.low) >> (exposition.low),
       (placevisited.low & timeofvisit.medium) >> (exposition.low),
@@ -121,11 +124,38 @@ class IndicatorsComputer {
   int resolve(){
     var outPut = exposition.createOutputPlaceholder();
     myRules.resolve(
-        inputs: [popularity.assign(50), placevisited.assign(60),incidence.assign(53),timeofvisit.assign(63)],
+        inputs: [popularity.assign(10), placevisited.assign(0),incidence.assign(53),timeofvisit.assign(9)],
         outputs: [outPut]);
 
     return outPut.crispValue;
   }
+
+
+
+  double parser(String s){
+  var data = new List(1000);
+  int i = 0;
+  int j = 0;
+  double res = 0;
+  while(int.tryParse(s[i]) is int){
+    data[i] = int.tryParse(s[i]);
+    i++;
+  }
+  int lastElement = data.last;
+  int len = data.indexOf(lastElement);
+  //print(len);
+  int deg = len-1;
+  while(j<len){
+    res = res + pow(10,deg)*data[j];
+    j++;
+    deg--;
+  }
+  return res;
+
+}
+
+
+
 
 
 
@@ -137,6 +167,33 @@ class IndicatorsComputer {
     addMyRules();
     int i = resolve();
     // TODO rates computing
+
+   // var p = new VisitedPlacesCard();
+    print("+++++++++++++++++++++++++");
+    //var p = await _determinePosition();
+    //print(p.longitude);
+     //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
+    print(await locationOfUser.getAdress());
+
+    //Favorite placeWithStats = new Favorite(name: "tour eiffel", address: "Paris, 75006, France");
+    //var stats = await Parser.getPopularTimes(placeWithStats);
+   // print(adress);
+    //print(position.longitude);
+    //print(position.latitude);
+
+    //String z = "102366cvf";
+    //print(parser(z)+2);
+    //print(int.parse(p.getPlacesTitle(context)[0])+7);
+    ////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////
+
+    //print("currentPopularityOf eiffel Tower");
+    //print(stats.currentPopularity);
+
+
+   //print(stats.stats.values.first.containsData);
+    print("+++++++++++++++++++++++++");
     await new Future.delayed(const Duration(milliseconds: 750), () {});
 
     var report = new DailyReport(

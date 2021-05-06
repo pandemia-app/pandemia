@@ -14,6 +14,7 @@ class Parser {
   /// Main method of this parser.
   static Future<PopularTimes> getPopularTimes(Favorite place) async {
     if (cache.hasStatsForPlace(place)) {
+
       print('returning cache data for ${place.name}');
       return cache.getStatsFromPlace(place);
     }

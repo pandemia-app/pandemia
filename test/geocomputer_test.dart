@@ -86,6 +86,7 @@ void main() {
     test('should generate 0 locations', () {
       List<LatLng> points = computer.createRandomPoints(LatLng(50.605181, 3.149249), 40, 0);
       expect(points.length, 0);
+
     });
 
     test('should generate 420 locations precisely', () {

@@ -7,136 +7,24 @@ import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:provider/provider.dart';
 import '../populartimes/parser/parser.dart';
-import 'Exposition.dart';
-import 'Incidence.dart';
-import 'PlaceVisited.dart';
-import 'Popularity.dart';
-import 'TimeOfVisite.dart';
 import 'models/Favorite.dart';
 import 'models/UserLocation.dart';
+import 'FuzzyCalculations.dart';
 
 var database = new AppDatabase();
 var locationOfUser = new UserLocation();
+var fuzzyCalculations=new FuzzyCalculations();
+var visitedpalces = new VisitedPlacesCard();
 /// This is responsible for generating daily pandemia reports.
 class IndicatorsComputer {
   // since generateRandomReport is called several times (because of builds),
   // we need to be able to block further calls
   var generated = false;
-  /// initialisation of variables
-  var popularity = new Popularity();
-  var timeofvisit = new TimeOfVisit();
-  var placevisited = new PlaceVisited();
-  var incidence = new Incidence();
-  var exposition = new Exposition();
-  var myRules = new FuzzyRuleBase();
-  ///define our fuzzy rules
-    void addMyRules() {
-    myRules.addRules([
-      (popularity.strong & placevisited.low) >> (exposition.low),
-      (popularity.strong & placevisited.medium) >> (exposition.medium),
-      (popularity.strong & placevisited.strong) >> (exposition.strong),
-
-      (popularity.medium & placevisited.low) >> (exposition.low),
-      (popularity.medium & placevisited.medium) >> (exposition.medium),
-      (popularity.medium & placevisited.strong) >> (exposition.strong),
-
-      (popularity.low & placevisited.low) >> (exposition.low),
-      (popularity.low & placevisited.medium) >> (exposition.low),
-      (popularity.low & placevisited.strong) >> (exposition.low),
-
-      //////////////////////////////////////////////////////////
-
-      (popularity.strong & incidence.low) >> (exposition.low),
-      (popularity.strong & incidence.medium) >> (exposition.strong),
-      (popularity.strong & incidence.strong) >> (exposition.strong),
-
-      (popularity.medium & incidence.low) >> (exposition.low),
-      (popularity.medium & incidence.medium) >> (exposition.medium),
-      (popularity.medium & incidence.strong) >> (exposition.strong),
-
-      (popularity.low & incidence.low) >> (exposition.low),
-      (popularity.low & incidence.medium) >> (exposition.low),
-      (popularity.low & incidence.strong) >> (exposition.medium),
-
-      ////////////////////////////////////////////////////////////
-
-      (popularity.strong & timeofvisit.low) >> (exposition.low),
-      (popularity.strong & timeofvisit.medium) >> (exposition.medium),
-      (popularity.strong & timeofvisit.strong) >> (exposition.strong),
-
-      (popularity.medium & timeofvisit.low) >> (exposition.low),
-      (popularity.medium & timeofvisit.medium) >> (exposition.medium),
-      (popularity.medium & timeofvisit.strong) >> (exposition.strong),
-
-      (popularity.low & timeofvisit.low) >> (exposition.low),
-      (popularity.low & timeofvisit.medium) >> (exposition.low),
-      (popularity.low & timeofvisit.strong) >> (exposition.medium),
-
-      ////////////////////////////////////////////////////////
-      /////////////////////INCIDENCE//////////////////////////
-      ////////////////////////////////////////////////////////
-      (incidence.strong & timeofvisit.low) >> (exposition.low),
-      (incidence.strong & timeofvisit.medium) >> (exposition.strong),
-      (incidence.strong & timeofvisit.strong) >> (exposition.strong),
-
-      (incidence.medium & timeofvisit.low) >> (exposition.low),
-      (incidence.medium & timeofvisit.medium) >> (exposition.medium),
-      (incidence.medium & timeofvisit.strong) >> (exposition.strong),
-
-      (incidence.low & timeofvisit.low) >> (exposition.low),
-      (incidence.low & timeofvisit.medium) >> (exposition.low),
-      (incidence.low & timeofvisit.strong) >> (exposition.medium),
-
-      ///////////////////////////////////////////////////////////
-
-      (incidence.strong & placevisited.low) >> (exposition.low),
-      (incidence.strong & placevisited.medium) >> (exposition.strong),
-      (incidence.strong & placevisited.strong) >> (exposition.strong),
-
-      (incidence.medium & placevisited.low) >> (exposition.low),
-      (incidence.medium & placevisited.medium) >> (exposition.medium),
-      (incidence.medium & placevisited.strong) >> (exposition.strong),
-
-      (incidence.low & placevisited.low) >> (exposition.low),
-      (incidence.low & placevisited.medium) >> (exposition.low),
-      (incidence.low & placevisited.strong) >> (exposition.medium),
-
-      ////////////////////////////////////////////////////////
-      /////////////////////timeOfVisite//////////////////////////
-      ////////////////////////////////////////////////////////
-
-      (placevisited.strong & timeofvisit.low) >> (exposition.low),
-      (placevisited.strong & timeofvisit.medium) >> (exposition.medium),
-      (placevisited.strong & timeofvisit.strong) >> (exposition.strong),
-
-      (placevisited.medium & timeofvisit.low) >> (exposition.low),
-      (placevisited.medium & timeofvisit.medium) >> (exposition.medium),
-      (placevisited.medium & timeofvisit.strong) >> (exposition.strong),
-
-      (placevisited.low & timeofvisit.low) >> (exposition.low),
-      (placevisited.low & timeofvisit.medium) >> (exposition.low),
-      (placevisited.low & timeofvisit.strong) >> (exposition.medium),
-
-    ]);
-  }
-
- /// aggregation and return final result
-  int resolve(){
-    var outPut = exposition.createOutputPlaceholder();
-    myRules.resolve(
-        inputs: [popularity.assign(10), placevisited.assign(0),incidence.assign(53),timeofvisit.assign(9)],
-        outputs: [outPut]);
-
-    return outPut.crispValue;
-  }
-
-
-
-  double parser(String s){
+  int parser(String s){
   var data = new List(1000);
   int i = 0;
   int j = 0;
-  double res = 0;
+  int res = 0;
   while(int.tryParse(s[i]) is int){
     data[i] = int.tryParse(s[i]);
     i++;
@@ -153,30 +41,66 @@ class IndicatorsComputer {
   return res;
 
 }
+  Future<int> caculateExposition(BuildContext context) async {
+    /// this function collects data and uses it as input for our fuzzy algorithm
 
 
+    ///get the popularity of the currente place
+  String AddressOfUser = await locationOfUser.getAdress();
+  String name = await locationOfUser.toString();
+  int PopularityOfCurrentPlace = 0;
+  /// icidence fixed to 51
+  int incidence = 51;
+  /// timeOfVisite fixed to 77
+  int timeOfVisite = 77;
+  Favorite placeWithStats = new Favorite(name: AddressOfUser, address: AddressOfUser);
+  var stats = await Parser.getPopularTimes(placeWithStats);
+  if(stats.currentPopularity != null){
+    PopularityOfCurrentPlace = stats.currentPopularity;
+  }
 
-
-
+    /// get number of places visited
+  int numberOfPlacesVisited = parser(visitedpalces.getPlacesTitle(context));
+  print(numberOfPlacesVisited);
+  /// use our algorithm
+  fuzzyCalculations.addMyRules();
+  int expositionRate = fuzzyCalculations.resolve(PopularityOfCurrentPlace,numberOfPlacesVisited,incidence,timeOfVisite);
+  return expositionRate;
+}
 
   /// is called several times a day to update today's report
   /// returns the exposition rate of the day
   Future<void> generateRandomReport (BuildContext context) async {
     if (generated) return;
     print('generating report');
-    addMyRules();
-    int i = resolve();
+    /*
+    fuzzyCalculations.addMyRules();
+    int i = fuzzyCalculations.resolve(96,69,63,25);
+    ///récuperation de la population d'un lieu
+    String AddressOfUser = await locationOfUser.getAdress();
+    String name = await locationOfUser.toString();
+    Favorite placeWithStats = new Favorite(name: AddressOfUser, address: AddressOfUser);
+    var stats = await Parser.getPopularTimes(placeWithStats);
+    /// nombre de places visitées
+    print('----------------');
+    int numberOfPlacesVisited = parser(visitedpalces.getPlacesTitle(context));
+    print(numberOfPlacesVisited);
+    print('----------------');
+*/
+
+    //int resolve(int _popularity , int _placevisited ,int _incidence,int _timeOfvisit)
     // TODO rates computing
 
    // var p = new VisitedPlacesCard();
-    print("+++++++++++++++++++++++++");
+    //print("+++++++++++++++++++++++++");
     //var p = await _determinePosition();
     //print(p.longitude);
      //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    //print('----------------');
+    //print(await locationOfUser.getAdress());
+    //print('----------------');
 
-    print(await locationOfUser.getAdress());
-
-    //Favorite placeWithStats = new Favorite(name: "tour eiffel", address: "Paris, 75006, France");
+    //Favorite placeWithStats = new Favorite(name: "jardin du luxembourg", address: "Paris, 75006, France");
     //var stats = await Parser.getPopularTimes(placeWithStats);
    // print(adress);
     //print(position.longitude);
@@ -189,17 +113,19 @@ class IndicatorsComputer {
     ////////////////////////////////////////////////////////////////////////////////
 
     //print("currentPopularityOf eiffel Tower");
-    //print(stats.currentPopularity);
+   // print('----------------');
+   // print(stats.currentPopularity);
+   // print('----------------');
 
 
    //print(stats.stats.values.first.containsData);
-    print("+++++++++++++++++++++++++");
+    //print("+++++++++++++++++++++++++");
     await new Future.delayed(const Duration(milliseconds: 750), () {});
 
     var report = new DailyReport(
         timestamp: DailyReport.getTodaysTimestamp(),
         broadcastRate: new Random().nextInt(100),
-        expositionRate: i//new Random().nextInt(100)
+        expositionRate: await caculateExposition(context)//new Random().nextInt(100)
     );
     await setTodaysReport(report);
 

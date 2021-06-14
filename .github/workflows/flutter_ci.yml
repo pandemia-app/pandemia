@@ -38,7 +38,8 @@ jobs:
       - run: flutter pub get
 
       - name: Generating .env file
-        # No need to inject GMAPS_PLACES_API_KEY key for tests
+        env: # set secret as an environment variable
+          GMAPS_PLACES_API_KEY: ${{ secrets.GMAPS_PLACES_API_KEY }}
         run: dart tools/env.dart
 
       - name: Give tests script execution rights

@@ -1,6 +1,6 @@
 # Pandemia
 ![Flutter CI](https://github.com/pandemia-app/pandemia/workflows/Flutter%20CI/badge.svg)
-![Coverage badge](coverage_badge.svg)
+![Coverage badge](coverage/coverage_badge.svg)
 
 
 Pandemia is an open source initiative to build a mobile app to fight against pandemia.

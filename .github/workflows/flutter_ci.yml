@@ -51,6 +51,12 @@ jobs:
       - name: Running tests
         run: bash ./tools/run_tests.sh
 
+      - uses: actions/checkout@master
+      - uses: codecov/codecov-action@v1
+        with:
+          fail_ci_if_error: true
+          verbose: true
+
   build-android:
     name: "Build Android apk"
     runs-on: ubuntu-latest

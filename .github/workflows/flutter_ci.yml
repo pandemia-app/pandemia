@@ -51,11 +51,12 @@ jobs:
       - name: Running tests
         run: bash ./tools/run_tests.sh
 
-      - uses: actions/checkout@master
-      - uses: codecov/codecov-action@v1
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
         with:
-          fail_ci_if_error: true
-          verbose: true
+          name: code-coverage-report
+          path: coverage
+
 
   build-android:
     name: "Build Android apk"

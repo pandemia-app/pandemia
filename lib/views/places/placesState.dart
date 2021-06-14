@@ -111,7 +111,7 @@ class PlacesState extends State<PlacesView> {
       print('aborting');
       return;
     } else
-      Provider.of<MapModel>(context).currentZone = viewport;
+      Provider.of<MapModel>(context, listen: false).currentZone = viewport;
 
     // checking maximum distance
     if (viewport.radius > 50000) {
@@ -182,7 +182,6 @@ class PlacesState extends State<PlacesView> {
     return MaterialApp(
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-        resizeToAvoidBottomPadding: false,
         body: Stack (
           fit: StackFit.passthrough,
           children: <Widget>[

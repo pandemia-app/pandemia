@@ -71,15 +71,15 @@ class BottomNavigationWidgetState extends State<MyHomePage> {
     return [
       BottomNavigationBarItem(
         icon: Icon(Icons.home),
-        title: Text(FlutterI18n.translate(context, "navigator_home")),
+        label: FlutterI18n.translate(context, "navigator_home"),
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.search),
-        title: Text(FlutterI18n.translate(context, "navigator_places")),
+        label: FlutterI18n.translate(context, "navigator_places"),
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.star),
-        title: Text(FlutterI18n.translate(context, "navigator_favorites")),
+        label: FlutterI18n.translate(context, "navigator_favorites"),
       ),
     ];
   }

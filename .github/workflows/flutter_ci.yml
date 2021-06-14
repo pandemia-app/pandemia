@@ -37,6 +37,9 @@ jobs:
           flutter-version: '2.0.3'
       - run: flutter pub get
 
+      - name: Install lcov
+        run: sudo apt install lcov
+
       - name: Generating .env file
         env: # set secret as an environment variable
           GMAPS_PLACES_API_KEY: ${{ secrets.GMAPS_PLACES_API_KEY }}

@@ -54,8 +54,8 @@ jobs:
       - name: Archive code coverage results
         uses: actions/upload-artifact@v2
         with:
-          name: code-coverage-report
-          path: coverage
+          name: Code coverage report
+          path: coverage/html
 
 
   build-android:

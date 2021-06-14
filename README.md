@@ -33,6 +33,6 @@ translations from being loaded and displayed.
 ## Run tests
 
 ```shell script
-chmod +x ./tool/run_tests.sh
-./tool/run_tests.sh
+chmod +x ./tools/run_tests.sh
+./tools/run_tests.sh
 ```

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Running tests..."
-if flutter test --coverage test;
+if flutter test --coverage
 then
     echo "Tests done."
 else

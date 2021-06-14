@@ -36,7 +36,7 @@ jobs:
       - run: flutter pub get
 
       - name: Give tests script execution rights
-        run: +x chmod tools/run_tests.sh
+        run: chmod +x tools/run_tests.sh
 
       - name: Running tests
         run: bash ./tools/run_tests.sh

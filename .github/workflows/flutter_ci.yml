@@ -1,8 +1,12 @@
 name: Flutter CI
-
 on: [push, pull_request]
+env:
+  FLUTTER_VERSION: '2.0.3'
+
+
 
 jobs:
+
   lint:
     name: "Static code analysis"
     runs-on: ubuntu-latest
@@ -14,12 +18,13 @@ jobs:
         java-version: '12.x'
     - uses: subosito/flutter-action@v1
       with:
-        flutter-version: '2.0.3'
+        flutter-version: ${{ env.FLUTTER_VERSION }}
     - name: Generating .env file
       run: dart tools/env.dart
     - run: flutter pub get
     - name: Lint analysis
       run: flutter analyze
+
 
   run-tests:
     name: "Application tests"
@@ -34,7 +39,7 @@ jobs:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.0.3'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
       - run: flutter pub get
 
       - name: Install lcov
@@ -71,7 +76,7 @@ jobs:
         java-version: '12.x'
     - uses: subosito/flutter-action@v1
       with:
-        flutter-version: '2.0.3'
+        flutter-version: ${{ env.FLUTTER_VERSION }}
     - run: flutter pub get
 
     - name: Generating .env file
@@ -86,6 +91,7 @@ jobs:
         name: Pandemia.apk
         path: build/app/outputs/apk/release/app-release.apk
 
+
   build-iOS:
     name: Build iOS package
     runs-on: macos-latest
@@ -99,7 +105,7 @@ jobs:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.0.3'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
       - name: Generating .env file
         env: # set secret as an environment variable
           GMAPS_PLACES_API_KEY: ${{ secrets.GMAPS_PLACES_API_KEY }}

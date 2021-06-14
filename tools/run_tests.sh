@@ -1,7 +1,12 @@
 #!/bin/bash
 
 echo "Running tests..."
-flutter test --coverage test
+if flutter test --coverage test;
+then
+    echo "Tests done."
+else
+    exit $?
+fi
 
 echo "Generating coverage badge..."
 flutter pub run flutter_coverage_badge

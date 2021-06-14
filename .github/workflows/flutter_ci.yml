@@ -35,6 +35,10 @@ jobs:
           flutter-version: '2.0.3'
       - run: flutter pub get
 
+      - name: Generating .env file
+        # No need to inject GMAPS_PLACES_API_KEY key for tests
+        run: dart tools/env.dart
+
       - name: Give tests script execution rights
         run: chmod +x tools/run_tests.sh
 

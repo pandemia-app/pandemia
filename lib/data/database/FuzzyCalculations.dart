@@ -1,6 +1,6 @@
 import 'Exposition.dart';
 import 'Incidence.dart';
-import 'PlaceVisited.dart';
+import 'NumberOfPlacesVisited.dart';
 import 'Popularity.dart';
 import 'TimeOfVisite.dart';
 import 'models/Favorite.dart';
@@ -14,7 +14,7 @@ class FuzzyCalculations {
   /// initialisation of variables
   var popularity = new Popularity();
   var timeofvisit = new TimeOfVisit();
-  var placevisited = new PlaceVisited();
+  var placevisited = new NumberOfPlacesVisited();
   var incidence = new Incidence();
   var exposition = new Exposition();
   var myRules = new FuzzyRuleBase();

@@ -20,7 +20,10 @@ class IndicatorsComputer {
   // since generateRandomReport is called several times (because of builds),
   // we need to be able to block further calls
   var generated = false;
-  int parser(String s){
+
+  /// cast a string sentence into an integer
+  /// exemple "12 places " => int 12
+  int cast(String s){
   var data = new List(1000);
   int i = 0;
   int j = 0;
@@ -31,7 +34,6 @@ class IndicatorsComputer {
   }
   int lastElement = data.last;
   int len = data.indexOf(lastElement);
-  //print(len);
   int deg = len-1;
   while(j<len){
     res = res + pow(10,deg)*data[j];
@@ -41,10 +43,8 @@ class IndicatorsComputer {
   return res;
 
 }
+  /// this function collects data and uses it as input for our fuzzy algorithm
   Future<int> caculateExposition(BuildContext context) async {
-    /// this function collects data and uses it as input for our fuzzy algorithm
-
-
     ///get the popularity of the currente place
   String AddressOfUser = await locationOfUser.getAdress();
   String name = await locationOfUser.toString();
@@ -55,13 +55,13 @@ class IndicatorsComputer {
   int timeOfVisite = 77;
   Favorite placeWithStats = new Favorite(name: AddressOfUser, address: AddressOfUser);
   var stats = await Parser.getPopularTimes(placeWithStats);
+  /// if the popularity is null it means that the place is closed we return 0
   if(stats.currentPopularity != null){
     PopularityOfCurrentPlace = stats.currentPopularity;
   }
 
     /// get number of places visited
-  int numberOfPlacesVisited = parser(visitedpalces.getPlacesTitle(context));
-  print(numberOfPlacesVisited);
+  int numberOfPlacesVisited = cast(visitedpalces.getPlacesTitle(context));
   /// use our algorithm
   fuzzyCalculations.addMyRules();
   int expositionRate = fuzzyCalculations.resolve(PopularityOfCurrentPlace,numberOfPlacesVisited,incidence,timeOfVisite);
@@ -73,59 +73,12 @@ class IndicatorsComputer {
   Future<void> generateRandomReport (BuildContext context) async {
     if (generated) return;
     print('generating report');
-    /*
-    fuzzyCalculations.addMyRules();
-    int i = fuzzyCalculations.resolve(96,69,63,25);
-    ///récuperation de la population d'un lieu
-    String AddressOfUser = await locationOfUser.getAdress();
-    String name = await locationOfUser.toString();
-    Favorite placeWithStats = new Favorite(name: AddressOfUser, address: AddressOfUser);
-    var stats = await Parser.getPopularTimes(placeWithStats);
-    /// nombre de places visitées
-    print('----------------');
-    int numberOfPlacesVisited = parser(visitedpalces.getPlacesTitle(context));
-    print(numberOfPlacesVisited);
-    print('----------------');
-*/
-
-    //int resolve(int _popularity , int _placevisited ,int _incidence,int _timeOfvisit)
-    // TODO rates computing
-
-   // var p = new VisitedPlacesCard();
-    //print("+++++++++++++++++++++++++");
-    //var p = await _determinePosition();
-    //print(p.longitude);
-     //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    //print('----------------');
-    //print(await locationOfUser.getAdress());
-    //print('----------------');
-
-    //Favorite placeWithStats = new Favorite(name: "jardin du luxembourg", address: "Paris, 75006, France");
-    //var stats = await Parser.getPopularTimes(placeWithStats);
-   // print(adress);
-    //print(position.longitude);
-    //print(position.latitude);
-
-    //String z = "102366cvf";
-    //print(parser(z)+2);
-    //print(int.parse(p.getPlacesTitle(context)[0])+7);
-    ////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////
-
-    //print("currentPopularityOf eiffel Tower");
-   // print('----------------');
-   // print(stats.currentPopularity);
-   // print('----------------');
-
-
-   //print(stats.stats.values.first.containsData);
-    //print("+++++++++++++++++++++++++");
     await new Future.delayed(const Duration(milliseconds: 750), () {});
 
     var report = new DailyReport(
         timestamp: DailyReport.getTodaysTimestamp(),
         broadcastRate: new Random().nextInt(100),
-        expositionRate: await caculateExposition(context)//new Random().nextInt(100)
+        expositionRate: await caculateExposition(context)
     );
     await setTodaysReport(report);
 

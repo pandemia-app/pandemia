@@ -28,6 +28,19 @@ void main() {
   test('a must be greater than b', () {
     ///order of entries : (int _popularity , int _placevisited ,int _incidence,int _timeOfvisit)
     int a = fuzzyCalculations.resolve(90,70,80,30);
+    int b = fuzzyCalculations.resolve(40,50,80,10);
+    expect(a>b,true);
+  });
+  test('a must be greater than b', () {
+    ///order of entries : (int _popularity , int _placevisited ,int _incidence,int _timeOfvisit)
+    int a = fuzzyCalculations.resolve(60,70,80,30);
+    int b = fuzzyCalculations.resolve(50,10,50,30);
+    expect(a>b,true);
+  });
+
+  test('a must be greater than b', () {
+    ///order of entries : (int _popularity , int _placevisited ,int _incidence,int _timeOfvisit)
+    int a = fuzzyCalculations.resolve(90,70,80,30);
     int b = fuzzyCalculations.resolve(75,70,80,30);
     expect(a>b,true);
   });

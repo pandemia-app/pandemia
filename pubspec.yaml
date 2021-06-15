@@ -1,7 +1,6 @@
 name: pandemia
 description: Pandemia is an app to fight against pandemia by monitoring popular places.
 publish_to: none
-
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
@@ -44,7 +43,7 @@ dependencies:
   flutter_i18n: ^0.22.3
   html: ^0.14.0+3
   fluttertoast: ^8.0.3
-  url_launcher: ^6.0.2
+  url_launcher: ^5.4.11
   carousel_slider: ^3.0.0
   shared_preferences: ^0.5.10
 

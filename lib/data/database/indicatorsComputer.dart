@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
-import 'package:fuzzylogic/fuzzylogic.dart';
 import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
@@ -24,7 +23,7 @@ class IndicatorsComputer {
   /// cast a string sentence into an integer
   /// exemple "12 places " => int 12
   int cast(String s){
-  var data = new List(1000);
+  var data = [];
   int i = 0;
   int j = 0;
   int res = 0;
@@ -46,8 +45,10 @@ class IndicatorsComputer {
   /// this function collects data and uses it as input for our fuzzy algorithm
   Future<int> caculateExposition(BuildContext context) async {
     ///get the popularity of the currente place
+  // ignore: non_constant_identifier_names
   String AddressOfUser = await locationOfUser.getAdress();
-  String name = await locationOfUser.toString();
+  //String name = await locationOfUser.toString();
+  // ignore: non_constant_identifier_names
   int PopularityOfCurrentPlace = 0;
   /// icidence fixed to 51
   int incidence = 51;

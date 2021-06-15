@@ -3,7 +3,6 @@ import 'Incidence.dart';
 import 'NumberOfPlacesVisited.dart';
 import 'Popularity.dart';
 import 'TimeOfVisite.dart';
-import 'models/Favorite.dart';
 import 'package:fuzzylogic/fuzzylogic.dart';
 
 class FuzzyCalculations {

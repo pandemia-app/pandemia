@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
 
 /// This entity allows the user to store favorite places.
@@ -6,10 +7,19 @@ class Favorite {
   final String id;
   final String name;
   final String address;
-  final Map<int, int> attendance;
   bool isExpanded;
 
-  Favorite ({this.id, this.name, this.address, this.attendance, this.isExpanded = true});
+  Favorite ({
+    @required this.id,
+    @required this.name,
+    @required this.address,
+    this.isExpanded = true
+  }) :  assert(id != null),
+        assert(id.length > 0),
+        assert(name != null),
+        assert(name.length > 0),
+        assert(address != null),
+        assert(address.length > 0);
 
   Map<String, dynamic> toMap() {
     return {
@@ -21,7 +31,7 @@ class Favorite {
 
   @override
   String toString() {
-    return 'Favorite{name: $name, address: $address}';
+    return 'Favorite[name: $name, address: $address]';
   }
 
   String getIdentifier() {

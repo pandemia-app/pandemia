@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
-import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/populartimes/payloads/populartimes.dart';
+import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/utils/CustomPalette.dart';
 import 'package:pandemia/utils/charts/barChart.dart';
 import 'package:pandemia/utils/charts/popularityChart.dart';
@@ -32,7 +32,7 @@ class FavoritePanelState extends State<FavoritePanel> {
   /// component needs to be rebuilt.
   @override
   void initState () {
-    future = Parser.getPopularTimes(place);
+    future = AppModel.parser.getPopularTimes(place);
     super.initState();
   }
 
@@ -58,7 +58,7 @@ class FavoritePanelState extends State<FavoritePanel> {
   Widget build (BuildContext context) {
     // fetching data when pulling-to-refresh
     if (FavoritesState.isRefreshing) {
-      future = Parser.getPopularTimes(place);
+      future = AppModel.parser.getPopularTimes(place);
     }
 
     // is called again when the parser returns data

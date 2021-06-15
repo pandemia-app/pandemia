@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - data/database/indicatorsComputer.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title">LCOV - code coverage report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">data/database</a> - indicatorsComputer.dart<span style="font-size: 80%;"> (source / <a href="indicatorsComputer.dart.func-sort-c.html">functions</a>)</span></td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">12</td>
+            <td class="headerCovTableEntry">29</td>
+            <td class="headerCovTableEntryLo">41.4 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-09-25 16:15:27</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryHi">-</td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span>            : import 'dart:math';</a>
+<span class="lineNum">       2 </span>            : import 'package:flutter/cupertino.dart';
+<span class="lineNum">       3 </span>            : import 'package:pandemia/data/database/database.dart';
+<span class="lineNum">       4 </span>            : import 'package:pandemia/data/database/models/DailyReport.dart';
+<span class="lineNum">       5 </span>            : import 'package:pandemia/data/state/AppModel.dart';
+<span class="lineNum">       6 </span>            : import 'package:provider/provider.dart';
+<span class="lineNum">       7 </span>            : 
+<span class="lineNum">       8 </span>            : /// This is responsible for generating daily pandemia reports.
+<span class="lineNum">       9 </span>            : class IndicatorsComputer {
+<span class="lineNum">      10 </span>            :   // since generateRandomReport is called several times (because of builds),
+<span class="lineNum">      11 </span>            :   // we need to be able to block further calls
+<span class="lineNum">      12 </span>            :   var generated = false;
+<span class="lineNum">      13 </span>            :   AppDatabase _db;
+<span class="lineNum">      14 </span><span class="lineCov">          1 :   IndicatorsComputer({AppDatabase database}) {</span>
+<span class="lineNum">      15 </span><span class="lineCov">          2 :     this._db = database ?? AppDatabase();</span>
+<span class="lineNum">      16 </span>            :   }
+<span class="lineNum">      17 </span>            : 
+<span class="lineNum">      18 </span>            :   /// is called several times a day to update today's report
+<span class="lineNum">      19 </span>            :   /// returns the exposition rate of the day
+<span class="lineNum">      20 </span><span class="lineNoCov">          0 :   Future&lt;void&gt; generateRandomReport (BuildContext context) async {</span>
+<span class="lineNum">      21 </span><span class="lineNoCov">          0 :     if (generated) return;</span>
+<span class="lineNum">      22 </span><span class="lineNoCov">          0 :     print('generating report');</span>
+<span class="lineNum">      23 </span>            : 
+<span class="lineNum">      24 </span>            :     // TODO rates computing
+<span class="lineNum">      25 </span><span class="lineNoCov">          0 :     await new Future.delayed(const Duration(milliseconds: 750), () {});</span>
+<span class="lineNum">      26 </span>            : 
+<span class="lineNum">      27 </span><span class="lineNoCov">          0 :     var report = new DailyReport(</span>
+<span class="lineNum">      28 </span><span class="lineNoCov">          0 :         timestamp: DailyReport.getTodaysTimestamp(),</span>
+<span class="lineNum">      29 </span><span class="lineNoCov">          0 :         broadcastRate: new Random().nextInt(100),</span>
+<span class="lineNum">      30 </span><span class="lineNoCov">          0 :         expositionRate: new Random().nextInt(100)</span>
+<span class="lineNum">      31 </span>            :     );
+<span class="lineNum">      32 </span><span class="lineNoCov">          0 :     await setTodaysReport(report);</span>
+<span class="lineNum">      33 </span>            : 
+<span class="lineNum">      34 </span><span class="lineNoCov">          0 :     loadDailyReports(context);</span>
+<span class="lineNum">      35 </span><span class="lineNoCov">          0 :     generated = true;</span>
+<span class="lineNum">      36 </span>            :   }
+<span class="lineNum">      37 </span>            : 
+<span class="lineNum">      38 </span><span class="lineNoCov">          0 :   Future&lt;void&gt; forceReportRecomputing (BuildContext context) async {</span>
+<span class="lineNum">      39 </span><span class="lineNoCov">          0 :     generated = false;</span>
+<span class="lineNum">      40 </span><span class="lineNoCov">          0 :     await generateRandomReport(context);</span>
+<span class="lineNum">      41 </span>            :   }
+<span class="lineNum">      42 </span>            : 
+<span class="lineNum">      43 </span><span class="lineCov">          1 :   Future&lt;void&gt; setTodaysReport (DailyReport report) async {</span>
+<span class="lineNum">      44 </span>            :     // check if today's report exists
+<span class="lineNum">      45 </span><span class="lineCov">          4 :     var exists = await _db.isReportRegistered(report.timestamp);</span>
+<span class="lineNum">      46 </span>            : 
+<span class="lineNum">      47 </span>            :     // if not, insert the argument in db
+<span class="lineNum">      48 </span>            :     if (!exists) {
+<span class="lineNum">      49 </span><span class="lineCov">          3 :       await _db.insertReport(report);</span>
+<span class="lineNum">      50 </span>            :     }
+<span class="lineNum">      51 </span>            : 
+<span class="lineNum">      52 </span>            :     // if yes, update the report
+<span class="lineNum">      53 </span>            :     else {
+<span class="lineNum">      54 </span><span class="lineCov">          3 :       await _db.updateExpositionRate(report);</span>
+<span class="lineNum">      55 </span>            :     }
+<span class="lineNum">      56 </span>            :   }
+<span class="lineNum">      57 </span>            : 
+<span class="lineNum">      58 </span><span class="lineCov">          1 :   Future&lt;bool&gt; updateTodaysExpositionRate (int rate) async {</span>
+<span class="lineNum">      59 </span>            :     // check if today's report exists
+<span class="lineNum">      60 </span><span class="lineCov">          4 :     var exists = await _db.isReportRegistered(DailyReport.getTodaysTimestamp());</span>
+<span class="lineNum">      61 </span>            :     if (!exists) return false;
+<span class="lineNum">      62 </span>            : 
+<span class="lineNum">      63 </span>            :     // if yes, update it
+<span class="lineNum">      64 </span><span class="lineCov">          3 :     await _db.updateTodaysExpositionRate(rate);</span>
+<span class="lineNum">      65 </span>            :     return true;
+<span class="lineNum">      66 </span>            :   }
+<span class="lineNum">      67 </span>            : 
+<span class="lineNum">      68 </span><span class="lineCov">          1 :   Future&lt;bool&gt; updateTodaysBroadcastRate (int rate) async {</span>
+<span class="lineNum">      69 </span>            :     // check if today's report exists
+<span class="lineNum">      70 </span><span class="lineCov">          4 :     var exists = await _db.isReportRegistered(DailyReport.getTodaysTimestamp());</span>
+<span class="lineNum">      71 </span>            :     if (!exists) return false;
+<span class="lineNum">      72 </span>            : 
+<span class="lineNum">      73 </span>            :     // if yes, update it
+<span class="lineNum">      74 </span><span class="lineCov">          3 :     await _db.updateTodaysBroadcastRate(rate);</span>
+<span class="lineNum">      75 </span>            :     return true;
+<span class="lineNum">      76 </span>            :   }
+<span class="lineNum">      77 </span>            :   
+<span class="lineNum">      78 </span>            :   /// putting all reports in app model, to share them among other components
+<span class="lineNum">      79 </span><span class="lineNoCov">          0 :   Future&lt;List&lt;DailyReport&gt;&gt; loadDailyReports (BuildContext context) async {</span>
+<span class="lineNum">      80 </span><span class="lineNoCov">          0 :     List&lt;DailyReport&gt; reports = await _db.getReports();</span>
+<span class="lineNum">      81 </span><span class="lineNoCov">          0 :     Provider.of&lt;AppModel&gt;(context, listen: false).storeReports(reports);</span>
+<span class="lineNum">      82 </span>            :     return reports;
+<span class="lineNum">      83 </span>            :   }
+<span class="lineNum">      84 </span>            : }
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.13</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

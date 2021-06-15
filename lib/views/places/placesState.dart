@@ -12,7 +12,6 @@ import 'package:pandemia/components/places/search/searchBar.dart';
 import 'package:pandemia/components/places/type/PlaceTypeSheet.dart';
 import 'package:pandemia/data/database/models/Favorite.dart';
 import 'package:pandemia/data/populartimes/cache/PopularityPointsCache.dart';
-import 'package:pandemia/data/populartimes/parser/parser.dart';
 import 'package:pandemia/data/populartimes/payloads/PlacesAPIResult.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:pandemia/data/state/MapModel.dart';
@@ -136,8 +135,7 @@ class PlacesState extends State<PlacesView> {
   void createHeatmapPoints (List<PlacesAPIResult> results) {
     // this counter allows to adds all points at once, when all places data have
     // been loaded.
-    PlacesCounter counter = new PlacesCounter();
-    counter.setPlacesCount(results.length);
+    PlacesCounter counter = new PlacesCounter(placesCountTarget: results.length);
     Map<String, WeightedLatLng> pointsCache = <String, WeightedLatLng>{};
 
     // adds a marker for each place
@@ -146,7 +144,7 @@ class PlacesState extends State<PlacesView> {
           WeightedLatLng( point: result.location );
 
       // refresh data with popularity stats
-      Parser.getPopularTimes(Favorite.fromPlacesAPIResult(result)).then((value) {
+      AppModel.parser.getPopularTimes(Favorite.fromPlacesAPIResult(result)).then((value) {
         if (value.hasData) {
           pointsCache.addAll(
               cache.getPoints(result, value.currentPopularity, zoomLevel)

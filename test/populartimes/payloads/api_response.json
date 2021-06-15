@@ -1,0 +1,167 @@
+{
+  "html_attributions" : [],
+  "results" : [
+    {
+      "business_status" : "OPERATIONAL",
+      "geometry" : {
+        "location" : {
+          "lat" : 51.03259119999999,
+          "lng" : 2.3758071
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 51.0338254802915,
+            "lng" : 2.376962880291502
+          },
+          "southwest" : {
+            "lat" : 51.0311275197085,
+            "lng" : 2.374264919708498
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+      "name" : "MONOPRIX",
+      "opening_hours" : {
+        "open_now" : true
+      },
+      "photos" : [
+        {
+          "height" : 3264,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/108059770169254169936\"\u003ePierre Yves mas\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAP3LUUQ-HUKHPiXBMP0QgJJ6eODWqsIkjRUHhxVBi0vt4Ihr3ugA6YiWRuWlf0lB-evi10go0RdwLgNpp8yzlRjR7SCz4oK7HVKQikwk772Us0n6mSE1ThDIemE_nE0DTEhCq4dkUzPYe-O3nFhk3ZcA2GhRHKAeajeXrw9mhGz_BC8EnFk_M8g",
+          "width" : 2448
+        }
+      ],
+      "place_id" : "ChIJJf4E2GKM3EcRx2iWXnyL8mQ",
+      "plus_code" : {
+        "compound_code" : "29MG+28 Dunkerque, France",
+        "global_code" : "9F3429MG+28"
+      },
+      "rating" : 3.8,
+      "reference" : "ChIJJf4E2GKM3EcRx2iWXnyL8mQ",
+      "scope" : "GOOGLE",
+      "types" : [
+        "supermarket",
+        "grocery_or_supermarket",
+        "food",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total" : 622,
+      "vicinity" : "9 Place de la République, Dunkerque"
+    },
+    {
+      "business_status" : "OPERATIONAL",
+      "geometry" : {
+        "location" : {
+          "lat" : 51.0344004,
+          "lng" : 2.3749177
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 51.0359277302915,
+            "lng" : 2.376255730291502
+          },
+          "southwest" : {
+            "lat" : 51.0332297697085,
+            "lng" : 2.373557769708498
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+      "name" : "E.Leclerc Hyper Dunkerque",
+      "opening_hours" : {
+        "open_now" : true
+      },
+      "photos" : [
+        {
+          "height" : 1080,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/106018874752118555693\"\u003eRyu Shijou\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAAGnPOSO2bGLNbVhL7diTf0QHN1Pkl6Z7XyM-8KwlE8zKAGiNJS502RRUIJahfw51tCBz_qiLy4PEgbacVUD-yd0RLVy8nn6dRBmn4Bep5ZIG42PmASKymlCh9uCsg3ykVEhC5x0cgOj2jeaAHE_ZLitPXGhQ7YunIf5T063E9TyH9xXeIet51Fg",
+          "width" : 1920
+        }
+      ],
+      "place_id" : "ChIJGduJjHyM3EcR5RK7wEN-rN8",
+      "plus_code" : {
+        "compound_code" : "29MF+QX Dunkerque, France",
+        "global_code" : "9F3429MF+QX"
+      },
+      "rating" : 3.8,
+      "reference" : "ChIJGduJjHyM3EcR5RK7wEN-rN8",
+      "scope" : "GOOGLE",
+      "types" : [
+        "bakery",
+        "supermarket",
+        "grocery_or_supermarket",
+        "home_goods_store",
+        "food",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total" : 661,
+      "vicinity" : "24 Rue des Fusiliers Marins, Dunkerque"
+    },
+    {
+      "business_status" : "OPERATIONAL",
+      "geometry" : {
+        "location" : {
+          "lat" : 51.033276,
+          "lng" : 2.356499
+        },
+        "viewport" : {
+          "northeast" : {
+            "lat" : 51.0346692802915,
+            "lng" : 2.358119330291502
+          },
+          "southwest" : {
+            "lat" : 51.0319713197085,
+            "lng" : 2.355421369708498
+          }
+        }
+      },
+      "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+      "name" : "ALDI Saint-Pol-sur-Mer",
+      "opening_hours" : {
+        "open_now" : true
+      },
+      "photos" : [
+        {
+          "height" : 1192,
+          "html_attributions" : [
+            "\u003ca href=\"https://maps.google.com/maps/contrib/100953832145977775632\"\u003eALDI\u003c/a\u003e"
+          ],
+          "photo_reference" : "CmRaAAAANEjLpD-XfkG3ljehHphSaGZa9n6wshU6qp5UNado3490NOVy8gYmv2eFDlXgObUXOrcz6tbwIrpkpah1YGWSnYw9GnVsZVzXHQZOqmjympa5Fk3K6E9FpC38iznSPg4iEhB-_UVOLVeon_qqqbCjtn8_GhSklGE2M2RBenu_rBanpg8u_KTjIg",
+          "width" : 2119
+        }
+      ],
+      "place_id" : "ChIJ5Zk31YOL3EcRiDK4wKLVGrg",
+      "plus_code" : {
+        "compound_code" : "29M4+8H Dunkerque, France",
+        "global_code" : "9F3429M4+8H"
+      },
+      "price_level" : 1,
+      "rating" : 3.7,
+      "reference" : "ChIJ5Zk31YOL3EcRiDK4wKLVGrg",
+      "scope" : "GOOGLE",
+      "types" : [
+        "supermarket",
+        "bakery",
+        "grocery_or_supermarket",
+        "liquor_store",
+        "food",
+        "point_of_interest",
+        "store",
+        "establishment"
+      ],
+      "user_ratings_total" : 292,
+      "vicinity" : "159 Rue Jean-Baptiste Trystram, Dunkerque"
+    }
+  ],
+  "status" : "OK"
+}

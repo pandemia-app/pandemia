@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
@@ -99,12 +101,16 @@ void main() {
     expect(callCounts, 1);
   });
 
-  test("should have API key", () async {
-    TestWidgetsFlutterBinding.ensureInitialized();
-    await DotEnv().load("lib/.env.generated");
-    expect(AppModel.apiKey is String, true);
-    expect(AppModel.apiKey.length, 39);
-  });
+  // CI does not have access to gmaps key from fork
+  bool isRunningOnCI = Platform.environment.keys.contains('CI') && Platform.environment['CI'] == 'true';
+  if (!isRunningOnCI) {
+    test("should have API key", () async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      await DotEnv().load("lib/.env.generated");
+      expect(AppModel.apiKey is String, true);
+      expect(AppModel.apiKey.length, 39);
+    });
+  }
 
   test("should have parser", () {
     expect(AppModel.parser.toString(), "Instance of 'PopularTimesParser'");

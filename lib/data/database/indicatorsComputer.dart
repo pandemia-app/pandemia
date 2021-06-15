@@ -23,7 +23,8 @@ class IndicatorsComputer {
   /// cast a string sentence into an integer
   /// exemple "12 places " => int 12
   int cast(String s){
-  var data = [];
+  // ignore: deprecated_member_use
+  var data = new List(1000);
   int i = 0;
   int j = 0;
   int res = 0;

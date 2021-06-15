@@ -1,30 +1,86 @@
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
+import 'package:pandemia/components/home/visitedPlacesCard.dart';
 import 'package:pandemia/data/database/database.dart';
 import 'package:pandemia/data/database/models/DailyReport.dart';
 import 'package:pandemia/data/state/AppModel.dart';
 import 'package:provider/provider.dart';
-var database = new AppDatabase();
+import '../populartimes/parser/parser.dart';
+import 'models/Favorite.dart';
+import 'models/UserLocation.dart';
+import 'FuzzyCalculations.dart';
 
+var database = new AppDatabase();
+var locationOfUser = new UserLocation();
+var fuzzyCalculations=new FuzzyCalculations();
+var visitedpalces = new VisitedPlacesCard();
 /// This is responsible for generating daily pandemia reports.
 class IndicatorsComputer {
   // since generateRandomReport is called several times (because of builds),
   // we need to be able to block further calls
   var generated = false;
 
+  /// cast a string sentence into an integer
+  /// exemple "12 places " => int 12
+  int cast(String s){
+  // ignore: deprecated_member_use
+  var data = new List(1000);
+  int i = 0;
+  int j = 0;
+  int res = 0;
+  while(int.tryParse(s[i]) is int){
+    data[i] = int.tryParse(s[i]);
+    i++;
+  }
+  int lastElement = data.last;
+  int len = data.indexOf(lastElement);
+  int deg = len-1;
+  while(j<len){
+    res = res + pow(10,deg)*data[j];
+    j++;
+    deg--;
+  }
+  return res;
+
+}
+  /// this function collects data and uses it as input for our fuzzy algorithm
+  Future<int> caculateExposition(BuildContext context) async {
+    ///get the popularity of the currente place
+  // ignore: non_constant_identifier_names
+  String AddressOfUser = await locationOfUser.getAdress();
+  //String name = await locationOfUser.toString();
+  // ignore: non_constant_identifier_names
+  int PopularityOfCurrentPlace = 0;
+  /// icidence fixed to 51
+  int incidence = 51;
+  /// timeOfVisite fixed to 77
+  int timeOfVisite = 77;
+  Favorite placeWithStats = new Favorite(name: AddressOfUser, address: AddressOfUser);
+  var stats = await Parser.getPopularTimes(placeWithStats);
+  /// if the popularity is null it means that the place is closed we return 0
+  if(stats.currentPopularity != null){
+    PopularityOfCurrentPlace = stats.currentPopularity;
+  }
+
+    /// get number of places visited
+  int numberOfPlacesVisited = cast(visitedpalces.getPlacesTitle(context));
+  /// use our algorithm
+  fuzzyCalculations.addMyRules();
+  int expositionRate = fuzzyCalculations.resolve(PopularityOfCurrentPlace,numberOfPlacesVisited,incidence,timeOfVisite);
+  return expositionRate;
+}
+
   /// is called several times a day to update today's report
   /// returns the exposition rate of the day
   Future<void> generateRandomReport (BuildContext context) async {
     if (generated) return;
     print('generating report');
-
-    // TODO rates computing
     await new Future.delayed(const Duration(milliseconds: 750), () {});
 
     var report = new DailyReport(
         timestamp: DailyReport.getTodaysTimestamp(),
         broadcastRate: new Random().nextInt(100),
-        expositionRate: new Random().nextInt(100)
+        expositionRate: await caculateExposition(context)
     );
     await setTodaysReport(report);
 
